@@ -12,7 +12,7 @@
   VEHICLES_HTML, DISCOUNTS_HTML, AUDIO_SECTION_HTML.
   ============================================================ -->
 
-<title>{{CLIENT_NAME}} — Auto Quote Explained | Bill Layne Insurance</title>
+<title>Parker McConville — Auto Quote Explained | Bill Layne Insurance</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="A clear, mobile-friendly auto insurance quote summary prepared by Bill Layne Insurance Agency, Elkin NC.">
 <link rel="icon" href="https://i.imgur.com/lxu9nfT.png">
@@ -313,18 +313,18 @@ footer a{font-weight:700}
 
 <!-- ACCEPT BUTTON DATA — populated by the renderer; the script encodes them safely -->
 <body
-  data-client="{{CLIENT_NAME}}"
-  data-email="{{CLIENT_EMAIL}}"
-  data-carrier="{{CARRIER_NAME}}"
-  data-quote="{{QUOTE_NUMBER}}"
-  data-premium="{{PREMIUM_PARAM}}"
+  data-client="Parker McConville"
+  data-email="tina.myers@example.com"
+  data-carrier="Progressive"
+  data-quote="QT-PRG-2026-0317"
+  data-premium="$70.69/mo"
 >
 
 <!-- ================= VERIFY BAR ================= -->
 <div class="verify">
   <div class="wrap">
     <span><span class="dot"></span>Rates Verified</span>
-    <span class="gold">{{CARRIER_NAME}} Quote Review</span>
+    <span class="gold">Progressive Quote Review</span>
   </div>
 </div>
 
@@ -335,7 +335,7 @@ footer a{font-weight:700}
       <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo">
     </div>
     <div class="carrier">
-      <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" loading="lazy">
+      <img src="https://i.imgur.com/7N1vfo0.png" alt="Progressive logo" loading="lazy">
     </div>
   </div>
 </header>
@@ -343,38 +343,38 @@ footer a{font-weight:700}
 <main class="wrap">
 
   <!-- ================= HERO ================= -->
-  <div class="hero" style="--hero-img:url('{{HERO_IMAGE_URL}}')">
+  <div class="hero" style="--hero-img:url('https://i.imgur.com/UDvUctJ.png')">
     <div class="hero-inner">
       <div class="hero-copy">
         <div class="chips">
-          <span class="chip gold">Prepared {{PREPARED_DATE}}</span>
-          <span class="chip">Rate locked through {{VALID_THROUGH}}</span>
-          <span class="chip">{{TERM_LENGTH}} Term</span>
-          <span class="chip">Quote #{{QUOTE_NUMBER}}</span>
+          <span class="chip gold">Prepared March 17, 2026</span>
+          <span class="chip">Rate locked through May 15, 2026</span>
+          <span class="chip">6-Month Term</span>
+          <span class="chip">Quote #QT-PRG-2026-0317</span>
         </div>
         <h1>Your auto quote,<br><span class="accent">explained clearly.</span></h1>
         <div class="gold-rule"></div>
-        <p>Prepared for <strong>{{CLIENT_NAME}}</strong> in {{CLIENT_CITY}}. This page turns your {{CARRIER_NAME}} quote into a simple review: your price first, then every driver, every vehicle, and every coverage mapped out in plain English.</p>
+        <p>Prepared for <strong>Parker McConville</strong> in the 28621 area. This page turns your Progressive quote into a simple review: your price first, then every driver, every vehicle, and every coverage mapped out in plain English.</p>
       </div>
 
       <div class="price-card">
         <div class="label"><span class="dot" style="background:var(--green)"></span>Recommended Payment Option</div>
-        <div class="price">{{MONTHLY_PREMIUM}}<small> / mo</small></div>
-        <p class="note">{{PAYMENT_NOTE}}</p>
+        <div class="price">$70.69<small> / mo</small></div>
+        <p class="note">Starts with $67.11 down today, then 5 automatic monthly payments of $70.69. Pay-in-full and other billing options are available.</p>
         <div class="term">
-          <div class="label">Total {{TERM_LENGTH}} Term Premium</div>
-          <strong>{{TERM_PREMIUM}}</strong><br>
+          <div class="label">Total 6-Month Term Premium</div>
+          <strong>$420.54</strong><br>
           <span class="pill">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            {{SAVINGS_LINE}}
+            Includes $24.00 Pay-In-Full Savings
           </span>
-          <p class="note" style="margin:12px 0 0">This rate is locked through <strong>{{VALID_THROUGH}}</strong>.</p>
+          <p class="note" style="margin:12px 0 0">This rate is locked through <strong>May 15, 2026</strong>.</p>
         </div>
       </div>
     </div>
   </div>
 
-{{AUDIO_SECTION_HTML}}
+
 
   <!-- ================= INDEPENDENT ADVANTAGE ================= -->
   <section id="shopped">
@@ -384,7 +384,7 @@ footer a{font-weight:700}
       </div>
       <div>
         <h3>We shopped this for you — <span class="gold-text">that's the independent advantage.</span></h3>
-        <p>As an independent agency, we don't work for one carrier — we work for you. We compared rates from <strong>{{CARRIERS_COMPARED}} carriers</strong> we represent, and <strong>{{CARRIER_NAME}}</strong> came out best for your drivers, your vehicles, and your budget.</p>
+        <p>As an independent agency, we don't work for one carrier — we work for you. We compared rates from <strong>4 carriers</strong> we represent, and <strong>Progressive</strong> came out best for your drivers, your vehicles, and your budget.</p>
       </div>
     </div>
   </section>
@@ -396,7 +396,13 @@ footer a{font-weight:700}
     <p class="lede">Everyone listed here is a rated driver on this quote. If anyone in your household with a license is missing, tell us before we bind — it protects you at claim time.</p>
 
     <div class="drivers">
-{{DRIVERS_HTML}}
+      <div class="driver">
+        <div class="driver-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div>
+          <strong>Tina Myers</strong>
+          <span>Named Insured &bull; Licensed 45 yrs</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -408,7 +414,54 @@ footer a{font-weight:700}
 
     <div class="ledger">
       <div class="ledger-head"><span>Coverage</span><span>Your Limit</span></div>
-{{POLICY_COVERAGE_ROWS_HTML}}
+      <details class="cov">
+        <summary aria-label="Bodily Injury Liability, 100/300">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="cov-name"><strong>Bodily Injury Liability</strong><span>If you injure someone in an accident</span></span>
+          <span class="cov-limit">100/300<small>per person / per accident</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>If you&#39;re at fault in an accident and someone is hurt, this pays their medical bills, lost wages, and legal claims against you — including your legal defense — up to your limits.</p>
+          <p class="means"><strong>What this means for you:</strong> your 100/300 limits are the coverage that stands between a serious accident and your savings, your home, and your future paychecks.</p>
+        </div>
+      </details>
+      <details class="cov">
+        <summary aria-label="Property Damage Liability, 100">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>
+          <span class="cov-name"><strong>Property Damage Liability</strong><span>If you damage someone else&#39;s property</span></span>
+          <span class="cov-limit">100<small>per accident</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>Pays to repair or replace other people&#39;s property you damage in an at-fault accident — their vehicle, a fence, a mailbox, a storefront.</p>
+          <p class="means"><strong>What this means for you:</strong> with new trucks and SUVs commonly costing $60,000+, your 100 limit means one bad day doesn&#39;t come out of your pocket.</p>
+        </div>
+      </details>
+      <details class="cov">
+        <summary aria-label="Uninsured / Underinsured Motorist, 100/300">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></span>
+          <span class="cov-name"><strong>Uninsured / Underinsured Motorist</strong><span>When the other driver can&#39;t pay</span></span>
+          <span class="cov-limit">100/300<small>bodily injury</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>If you or your passengers are injured by a driver who has no insurance — or not enough — this steps in and pays what their policy can&#39;t.</p>
+          <p class="means"><strong>What this means for you:</strong> you can&#39;t control whether the other driver bought good insurance. This makes sure your family is protected even when they didn&#39;t.</p>
+        </div>
+      </details>
+      <details class="cov">
+        <summary aria-label="Medical Payments, $1,000">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+          <span class="cov-name"><strong>Medical Payments</strong><span>Quick medical help, no fault required</span></span>
+          <span class="cov-limit">$1,000<small>per person</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>Pays medical expenses for you and your passengers after an accident, regardless of who was at fault — ambulance rides, ER visits, follow-up care, up to your limit per person.</p>
+          <p class="means"><strong>What this means for you:</strong> it fills the gap fast — copays and deductibles get handled while fault is still being sorted out.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -418,12 +471,84 @@ footer a{font-weight:700}
     <h2>Your vehicles &amp; their coverages</h2>
     <p class="lede">Each vehicle carries its own physical-damage protection and deductibles. Tap any coverage to see exactly how it works for that vehicle.</p>
 
-{{VEHICLES_HTML}}
+    <article class="vehicle">
+      <div class="veh-head">
+        <div class="veh-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>
+        <div class="veh-title">
+          <span class="eyebrow">Vehicle 1</span>
+          <strong>2000 GMC Sierra C2500</strong>
+        </div>
+        <div class="veh-chips">
+          <span class="chip">VIN ending 2345</span>
+          <span class="chip">Liability-Only Protection</span>
+          <span class="chip">$129.90 / 6-mo term</span>
+        </div>
+      </div>
+
+      <div class="ledger">
+        <div class="ledger-head"><span>Coverage on this vehicle</span><span>Deductible / Limit</span></div>
+      <details class="cov">
+        <summary aria-label="Liability-Only Protection, See policy-wide">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="cov-name"><strong>Liability-Only Protection</strong><span>No physical-damage coverage on this vehicle</span></span>
+          <span class="cov-limit">See policy-wide<small>coverages above</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>This vehicle carries the policy-wide liability and uninsured motorist protection, but no collision or comprehensive coverage. Damage to this vehicle itself — accident, theft, hail, deer — would not be covered.</p>
+          <p class="means"><strong>What this means for you:</strong> that&#39;s often the right call for an older vehicle, but if 2000 GMC Sierra C2500 would be expensive to replace out of pocket, ask us what adding physical-damage coverage costs.</p>
+        </div>
+      </details>
+      </div>
+    </article>
+
+    <article class="vehicle">
+      <div class="veh-head">
+        <div class="veh-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>
+        <div class="veh-title">
+          <span class="eyebrow">Vehicle 2</span>
+          <strong>2011 Toyota Corolla</strong>
+        </div>
+        <div class="veh-chips">
+          <span class="chip">VIN ending 8765</span>
+          <span class="chip">Collision &amp; Comprehensive</span>
+          <span class="chip">$290.64 / 6-mo term</span>
+        </div>
+      </div>
+
+      <div class="ledger">
+        <div class="ledger-head"><span>Coverage on this vehicle</span><span>Deductible / Limit</span></div>
+      <details class="cov">
+        <summary aria-label="Comprehensive, $100">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+          <span class="cov-name"><strong>Comprehensive</strong><span>Theft, hail, fire, animals, glass</span></span>
+          <span class="cov-limit">$100<small>deductible</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>Covers damage that isn&#39;t a collision: theft, vandalism, hail, fire, flood, falling tree limbs, broken glass, and hitting a deer. Here in the foothills, deer strikes and hailstorms are the two claims we see most.</p>
+          <p class="means"><strong>What this means for you:</strong> when an October deer jumps out on a back road, that&#39;s a comprehensive claim — $100, not a collision surcharge.</p>
+        </div>
+      </details>
+      <details class="cov">
+        <summary aria-label="Collision, $500">
+          <span class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m6.3 6.3 2.8 2.8"/><path d="M2 12h4"/><path d="m6.3 17.7 2.8-2.8"/><path d="M12 22v-4"/><path d="m17.7 17.7-2.8-2.8"/><path d="M22 12h-4"/><path d="m17.7 6.3-2.8 2.8"/></svg></span>
+          <span class="cov-name"><strong>Collision</strong><span>Damage from an accident</span></span>
+          <span class="cov-limit">$500<small>deductible</small></span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="cov-body">
+          <p>Pays to repair or replace this vehicle when it&#39;s damaged in a collision — with another car, a guardrail, a deer you couldn&#39;t avoid swerving for — no matter who&#39;s at fault. You pay the deductible; the policy pays the rest up to the vehicle&#39;s value.</p>
+          <p class="means"><strong>What this means for you:</strong> fender-bender or total loss, your 2011 Toyota Corolla gets repaired or replaced for $500 out of pocket.</p>
+        </div>
+      </details>
+      </div>
+    </article>
 
     <!-- Deductible callout -->
     <div class="callout">
       <h3>How your deductibles work</h3>
-      <p>{{DEDUCTIBLE_EXPLANATION}}</p>
+      <p>Your deductible only applies to damage to your own vehicle — collision and comprehensive claims. Liability claims, meaning injuries or damage you cause to others, have no deductible at all. And glass-only repairs may qualify for a reduced or waived deductible — ask us before you pay out of pocket.</p>
     </div>
   </section>
 
@@ -432,7 +557,11 @@ footer a{font-weight:700}
     <span class="eyebrow">Already Working For You</span>
     <h2>Discounts applied to this quote</h2>
     <div class="disc">
-{{DISCOUNTS_HTML}}
+      <div>✓&nbsp; Continuous</div>
+      <div>✓&nbsp; Paid in Full</div>
+      <div>✓&nbsp; Multi-Car</div>
+      <div>✓&nbsp; Paperless</div>
+      <div>✓&nbsp; Home Owner</div>
     </div>
   </section>
 
@@ -457,10 +586,10 @@ footer a{font-weight:700}
       </div>
       <div class="tcard">
         <div class="pad">
-          <h3>Google Rating &nbsp;<span class="stars">★★★★★</span> {{GOOGLE_RATING}}</h3>
+          <h3>Google Rating &nbsp;<span class="stars">★★★★★</span> 4.9</h3>
           <p class="review">"Bill Layne Insurance saved us money on our bundle and made the transition seamless. We love having a local agent we can actually call!"<b>— Sarah K., Elkin, NC</b></p>
           <p class="review">"After my accident, Bill walked me through the whole claim. I never talked to a robot once. Exceptional service."<b>— Mark T., Surry County, NC</b></p>
-          <p style="margin-top:12px"><a href="https://g.page/r/CXGq9B7-jzu7EAE/review" target="_blank" rel="noopener">Read all {{REVIEW_COUNT}} verified local reviews →</a></p>
+          <p style="margin-top:12px"><a href="https://g.page/r/CXGq9B7-jzu7EAE/review" target="_blank" rel="noopener">Read all 100+ verified local reviews →</a></p>
         </div>
       </div>
     </div>
@@ -473,7 +602,7 @@ footer a{font-weight:700}
     <div class="steps">
       <div class="step"><div class="n">1</div><h3>Review your quote</h3><p>Check your drivers, vehicles, and coverages above. Questions? Call or text — that's what we're here for.</p></div>
       <div class="step"><div class="n">2</div><h3>Tap "Accept Quote"</h3><p>One tap starts your application review. No paperwork marathon, no phone trees.</p></div>
-      <div class="step"><div class="n">3</div><h3>We handle the rest</h3><p>We finalize details with {{CARRIER_NAME}}, confirm your effective date, and send your ID cards and documents.</p></div>
+      <div class="step"><div class="n">3</div><h3>We handle the rest</h3><p>We finalize details with Progressive, confirm your effective date, and send your ID cards and documents.</p></div>
     </div>
   </section>
 
@@ -511,7 +640,7 @@ footer a{font-weight:700}
           <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <div class="qa-body">
-          <p>Your effective date is <strong>{{EFFECTIVE_DATE}}</strong>. Once you tap Accept, we confirm everything with {{CARRIER_NAME}} and send your documents — usually the same business day.</p>
+          <p>Your effective date is <strong>April 1, 2026</strong>. Once you tap Accept, we confirm everything with Progressive and send your documents — usually the same business day.</p>
         </div>
       </details>
     </div>
