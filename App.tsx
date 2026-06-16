@@ -11,6 +11,7 @@ import {
   Mail,
   Monitor,
   RefreshCw,
+  Receipt,
   Bike,
   Building2,
   Building,
@@ -26,6 +27,7 @@ import {
 import './index.css';
 import { CARRIERS, type CarrierId } from './config/carriers';
 import { autoSample, dwellingSample, homeSample, motorcycleSample, rentersSample } from './data/samples';
+import { receiptSample } from './data/receipts';
 import { autoAudioReviewScript, renderAutoWebPageHtml } from './lib/autoWebPageHtml';
 import { renderCommercialAutoWebPageHtml } from './lib/commercialAutoWebPageHtml';
 import { homeAudioReviewScript, renderHomeWebPageHtml } from './lib/homeWebPageHtml';
@@ -36,12 +38,14 @@ import { buildPdfVerificationEmail } from './lib/pdfVerificationEmail';
 import { generatePlainText } from './lib/plainTextCompanion';
 import { validateQuoteData } from './lib/validation';
 import type { GeneratedAudioReview } from './lib/webAudioReview';
-import { parseInsuranceQuote } from './services/geminiService';
+import { parseInsuranceQuote, parseReceiptText } from './services/geminiService';
+import { renderReceiptHtml, validateReceiptData, receiptPlainText } from './lib/receiptHtml';
 import type { AutoQuoteData } from './types/auto';
 import type { DwellingQuoteData } from './types/dwelling';
 import type { HomeQuoteData } from './types/home';
 import type { MotorcycleQuoteData } from './types/motorcycle';
 import type { QuoteData, QuoteTemplateType } from './types/quote';
+import type { ReceiptData } from './types/receipt';
 import type { RentersQuoteData } from './types/renters';
 
 const carrierOptions = Object.values(CARRIERS);
@@ -230,8 +234,16 @@ function App() {
   const [recentQuotes, setRecentQuotes] = useState<RecentQuote[]>([]);
   const [audioReview, setAudioReview] = useState<WebAudioReviewState | null>(null);
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [category, setCategory] = useState<'quotes' | 'receipts'>('quotes');
+  const [receiptData, setReceiptData] = useState<ReceiptData>(() => clone(receiptSample));
+  const [receiptText, setReceiptText] = useState('');
+  const [isReceiptParsing, setIsReceiptParsing] = useState(false);
+  const isReceipt = category === 'receipts';
 
   const rendered = useMemo(() => renderQuoteHtml(data, emailMode), [data, emailMode]);
+  const receiptRendered = useMemo(() => renderReceiptHtml(receiptData), [receiptData]);
+  const receiptIntegrity = useMemo(() => runIntegrityChecks(receiptRendered.html), [receiptRendered.html]);
+  const receiptErrors = useMemo(() => validateReceiptData(receiptData), [receiptData]);
   const webAudioScript = useMemo(() => {
     if (data.templateType === 'auto') return autoAudioReviewScript(data);
     if (data.templateType === 'home') return homeAudioReviewScript(data);
@@ -250,23 +262,29 @@ function App() {
     if (data.templateType === 'home') return renderHomeWebPageHtml(data, activeAudioReview);
     return null;
   }, [activeAudioReview, data, outputMode]);
-  const isWebOutput = outputMode === 'webpage' || outputMode === 'commercialWebpage';
-  const previewHtml = isWebOutput && renderedWebPage ? renderedWebPage.html : rendered.html;
-  const previewTitle = isWebOutput && renderedWebPage ? renderedWebPage.title : rendered.subject;
-  const previewSubhead = isWebOutput
-    ? outputMode === 'commercialWebpage'
-      ? 'Responsive commercial auto quote webpage preview'
-      : `Responsive ${data.templateType} quote webpage preview`
-    : rendered.preheader;
+  const isWebOutput = !isReceipt && (outputMode === 'webpage' || outputMode === 'commercialWebpage');
+  const previewHtml = isReceipt ? receiptRendered.html : isWebOutput && renderedWebPage ? renderedWebPage.html : rendered.html;
+  const previewTitle = isReceipt ? receiptRendered.subject : isWebOutput && renderedWebPage ? renderedWebPage.title : rendered.subject;
+  const previewSubhead = isReceipt
+    ? receiptRendered.preheader
+    : isWebOutput
+      ? outputMode === 'commercialWebpage'
+        ? 'Responsive commercial auto quote webpage preview'
+        : `Responsive ${data.templateType} quote webpage preview`
+      : rendered.preheader;
   const previewByteCount = new Blob([previewHtml]).size;
   const integrity = useMemo(() => runIntegrityChecks(rendered.html), [rendered.html]);
   const dataErrors = useMemo(() => validateQuoteData(data), [data]);
   const textCompanion = useMemo(() => generatePlainText(data), [data]);
+  const activeEmail = isReceipt ? receiptRendered : rendered;
+  const activePlainText = isReceipt ? receiptPlainText(receiptData) : textCompanion;
+  const activeIntegrity = isReceipt ? receiptIntegrity : integrity;
+  const activeErrors = isReceipt ? receiptErrors : dataErrors;
   const reviewItems = useMemo(() => reviewItemsForQuote(data), [data]);
   const reviewedKeySet = useMemo(() => new Set(reviewedKeys), [reviewedKeys]);
   const reviewComplete = reviewItems.every((item) => !item.required || reviewedKeySet.has(item.key));
   const readiness = useMemo(() => readinessItems(data, integrity.passed, dataErrors, reviewComplete, integrity.byteCount), [data, dataErrors, integrity.byteCount, integrity.passed, reviewComplete]);
-  const canExport = integrity.passed && dataErrors.length === 0;
+  const canExport = activeIntegrity.passed && activeErrors.length === 0;
   const canUseWebAudio = outputMode === 'webpage' && Boolean(renderedWebPage) && ['auto', 'home'].includes(data.templateType) && dataErrors.length === 0;
   const templateSuggestion = useMemo(() => suggestTemplateType(`${file?.name || ''} ${instructions}`), [file, instructions]);
 
@@ -297,8 +315,16 @@ function App() {
     }
   }, [data.templateType, emailMode, outputMode]);
 
+  useEffect(() => {
+    if (isReceipt && outputMode !== 'email') setOutputMode('email');
+  }, [isReceipt, outputMode]);
+
   const update = (patch: Partial<QuoteData>) => {
     setData((current) => ({ ...current, ...patch }) as QuoteData);
+  };
+
+  const updateReceipt = (patch: Partial<ReceiptData>) => {
+    setReceiptData((current) => ({ ...current, ...patch }));
   };
 
   const loadSample = (type: QuoteTemplateType) => {
@@ -309,6 +335,12 @@ function App() {
   };
 
   const startNewQuote = () => {
+    if (isReceipt) {
+      setReceiptData(clone(receiptSample));
+      setReceiptText('');
+      setMessage('Ready for a new receipt.');
+      return;
+    }
     setData(templateData(quoteType));
     setFile(null);
     setInstructions('');
@@ -352,6 +384,24 @@ function App() {
     }
   };
 
+  const handleParseReceipt = async () => {
+    if (!receiptText.trim()) {
+      setMessage('Paste the receipt / payment details first.');
+      return;
+    }
+    setIsReceiptParsing(true);
+    setMessage(null);
+    try {
+      const parsed = await parseReceiptText(receiptText, instructions);
+      setReceiptData(parsed);
+      setMessage('Receipt parsed. Review every field before sending.');
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Could not parse the receipt.');
+    } finally {
+      setIsReceiptParsing(false);
+    }
+  };
+
   const fallbackCopyText = (text: string) => {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -374,7 +424,7 @@ function App() {
     }
   };
 
-  const copyRichHtml = async (html = rendered.html, plainText = textCompanion) => {
+  const copyRichHtml = async (html = activeEmail.html, plainText = activePlainText) => {
     try {
       if (typeof ClipboardItem !== 'undefined' && navigator.clipboard.write) {
         await navigator.clipboard.write([
@@ -407,7 +457,7 @@ function App() {
   };
 
   const copyText = async () => {
-    await copyPlainText(textCompanion);
+    await copyPlainText(activePlainText);
     setMessage('Plain-text companion copied.');
   };
 
@@ -463,11 +513,13 @@ function App() {
   };
 
   const downloadHtml = () => {
-    const blob = new Blob([rendered.html], { type: 'text/html;charset=utf-8' });
+    const blob = new Blob([activeEmail.html], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${data.clientFullName.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}_${data.templateType}_quote.html`;
+    a.download = isReceipt
+      ? `${[receiptData.clientFirstName, receiptData.clientLastName].filter(Boolean).join('_').replace(/[^a-z0-9]+/gi, '_').toLowerCase() || 'receipt'}_receipt.html`
+      : `${data.clientFullName.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}_${data.templateType}_quote.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -496,9 +548,9 @@ function App() {
     const params = new URLSearchParams({
       view: 'cm',
       fs: '1',
-      to: data.clientEmail || '',
+      to: isReceipt ? '' : data.clientEmail || '',
       bcc: 'Save@BillLayneInsurance.com',
-      su: rendered.subject,
+      su: activeEmail.subject,
     });
     window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank', 'noopener,noreferrer');
     recordRecentQuote('Synced Gmail');
@@ -513,9 +565,9 @@ function App() {
     try {
       setMessage('Opening Google authorization for Gmail…');
       const { url } = await createGmailDraft({
-        subject: rendered.subject,
-        html: rendered.html,
-        to: data.clientEmail || undefined,
+        subject: activeEmail.subject,
+        html: activeEmail.html,
+        to: isReceipt ? undefined : data.clientEmail || undefined,
         bcc: 'Save@BillLayneInsurance.com',
       });
       recordRecentQuote('Created Gmail Draft');
@@ -590,7 +642,7 @@ function App() {
         </div>
         <div className="header-meta">
           <span className={`status-pill ${canExport ? 'ok' : 'hold'}`}>{canExport ? 'Ready to send' : 'Needs review'}</span>
-          <span className="header-context">{CARRIERS[data.carrierId]?.displayName || data.carrierId} · {data.clientFullName || 'New client'}</span>
+          <span className="header-context">{isReceipt ? `Receipt · ${[receiptData.clientFirstName, receiptData.clientLastName].filter(Boolean).join(' ') || 'New receipt'}` : `${CARRIERS[data.carrierId]?.displayName || data.carrierId} · ${data.clientFullName || 'New client'}`}</span>
         </div>
         <div className="export-actions">
           <button onClick={startNewQuote}><RefreshCw size={16} /> New Quote</button>
@@ -598,8 +650,12 @@ function App() {
             <>
               <button onClick={copyText}><Clipboard size={16} /> Copy Text</button>
               <button onClick={copyHtml} disabled={!canExport}><Clipboard size={16} /> Copy HTML</button>
-              <button onClick={syncPdfVerificationToGmail} disabled={!canExport}><Mail size={16} /> PDF Email</button>
-              <button onClick={downloadPdfVerificationEmail} disabled={!canExport}><FileText size={16} /> PDF HTML</button>
+              {!isReceipt && (
+                <>
+                  <button onClick={syncPdfVerificationToGmail} disabled={!canExport}><Mail size={16} /> PDF Email</button>
+                  <button onClick={downloadPdfVerificationEmail} disabled={!canExport}><FileText size={16} /> PDF HTML</button>
+                </>
+              )}
               <button onClick={downloadHtml} disabled={!canExport}><Download size={16} /> Download</button>
               <button onClick={syncToGmail} disabled={!canExport} title="Legacy: copies HTML and opens Gmail compose to paste (Gmail may font-boost on mobile)."><Mail size={16} /> Sync Gmail</button>
               <button className="accent" onClick={createGmailDraftHandler} disabled={!canExport} title="Creates a real Gmail draft with the full HTML preserved — renders correctly on mobile."><Mail size={16} /> Gmail Draft</button>
@@ -615,58 +671,94 @@ function App() {
 
       <div className="app-body">
         <aside className="sidebar">
+          <div className="category-toggle" role="group" aria-label="Document category">
+            <button className={!isReceipt ? 'active' : ''} onClick={() => setCategory('quotes')}><FileText size={14} /> Quotes</button>
+            <button className={isReceipt ? 'active' : ''} onClick={() => setCategory('receipts')}><Receipt size={14} /> Receipts</button>
+          </div>
           <section className="panel step-panel">
             <div className="step-head">
               <span className="step-num">1</span>
               <div>
-                <h2>Pick the quote type</h2>
-                <p>Sets the form, parser, and templates</p>
+                <h2>{isReceipt ? 'Pick the document' : 'Pick the quote type'}</h2>
+                <p>{isReceipt ? 'Receipt → Gmail-ready email' : 'Sets the form, parser, and templates'}</p>
               </div>
             </div>
-            <div className="type-grid" role="group" aria-label="Template type">
-              {QUOTE_TYPE_OPTIONS.map(({ id, label, hint, Icon }) => (
-                <button key={id} className={`type-card ${quoteType === id ? 'active' : ''}`} onClick={() => loadSample(id)}>
-                  <span className="type-icon"><Icon size={18} /></span>
-                  <strong>{label}</strong>
-                  <span className="type-hint">{hint}</span>
+            {isReceipt ? (
+              <div className="type-grid" role="group" aria-label="Receipt type">
+                <button className="type-card active">
+                  <span className="type-icon"><Receipt size={18} /></span>
+                  <strong>Default Receipt</strong>
+                  <span className="type-hint">Payment confirmation</span>
                 </button>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="type-grid" role="group" aria-label="Template type">
+                {QUOTE_TYPE_OPTIONS.map(({ id, label, hint, Icon }) => (
+                  <button key={id} className={`type-card ${quoteType === id ? 'active' : ''}`} onClick={() => loadSample(id)}>
+                    <span className="type-icon"><Icon size={18} /></span>
+                    <strong>{label}</strong>
+                    <span className="type-hint">{hint}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="panel step-panel">
             <div className="step-head">
               <span className="step-num">2</span>
               <div>
-                <h2>Upload &amp; parse the carrier PDF</h2>
-                <p>Gemini fills the quote form for you</p>
+                <h2>{isReceipt ? 'Paste the receipt details' : 'Upload & parse the carrier PDF'}</h2>
+                <p>{isReceipt ? 'Gemini fills the receipt fields for you' : 'Gemini fills the quote form for you'}</p>
               </div>
             </div>
-            <label className="drop-zone">
-              <input
-                type="file"
-                accept=".pdf,application/pdf,image/*"
-                onChange={(event) => handleFileSelected(event.target.files?.[0] || null)}
-              />
-              <span className="drop-icon"><Upload size={20} /></span>
-              <strong>{file ? file.name : 'Choose PDF or image'}</strong>
-              <span>{file ? `${(file.size / 1024 / 1024).toFixed(2)} MB` : 'Drop it here or click to browse'}</span>
-            </label>
-            {templateSuggestion && templateSuggestion !== quoteType && (
-              <div className="suggestion-box">
-                <span>This file looks like a <strong>{templateSuggestion}</strong> quote.</span>
-                <button onClick={applyTemplateSuggestion}>Switch</button>
-              </div>
+            {isReceipt ? (
+              <>
+                <textarea
+                  className="textarea receipt-paste-box"
+                  value={receiptText}
+                  onChange={(event) => setReceiptText(event.target.value)}
+                  placeholder="Paste the payment confirmation / receipt details here — the carrier payment screen, billing portal text, or the amount, date, payment method, confirmation #, policy #, and carrier."
+                />
+                <textarea
+                  className="textarea"
+                  value={instructions}
+                  onChange={(event) => setInstructions(event.target.value)}
+                  placeholder="Optional notes, e.g. carrier legal entity, coverage dates."
+                />
+                <button className="primary-button" onClick={handleParseReceipt} disabled={isReceiptParsing}>
+                  <Wand2 size={16} /> {isReceiptParsing ? 'Parsing...' : 'Parse with Gemini'}
+                </button>
+              </>
+            ) : (
+              <>
+                <label className="drop-zone">
+                  <input
+                    type="file"
+                    accept=".pdf,application/pdf,image/*"
+                    onChange={(event) => handleFileSelected(event.target.files?.[0] || null)}
+                  />
+                  <span className="drop-icon"><Upload size={20} /></span>
+                  <strong>{file ? file.name : 'Choose PDF or image'}</strong>
+                  <span>{file ? `${(file.size / 1024 / 1024).toFixed(2)} MB` : 'Drop it here or click to browse'}</span>
+                </label>
+                {templateSuggestion && templateSuggestion !== quoteType && (
+                  <div className="suggestion-box">
+                    <span>This file looks like a <strong>{templateSuggestion}</strong> quote.</span>
+                    <button onClick={applyTemplateSuggestion}>Switch</button>
+                  </div>
+                )}
+                <textarea
+                  className="textarea"
+                  value={instructions}
+                  onChange={(event) => setInstructions(event.target.value)}
+                  placeholder="Optional parsing notes, e.g. carrier quoted multiple plans; use EFT option."
+                />
+                <button className="primary-button" onClick={handleParse} disabled={isProcessing}>
+                  <Wand2 size={16} /> {isProcessing ? 'Parsing...' : 'Parse with Gemini'}
+                </button>
+              </>
             )}
-            <textarea
-              className="textarea"
-              value={instructions}
-              onChange={(event) => setInstructions(event.target.value)}
-              placeholder="Optional parsing notes, e.g. carrier quoted multiple plans; use EFT option."
-            />
-            <button className="primary-button" onClick={handleParse} disabled={isProcessing}>
-              <Wand2 size={16} /> {isProcessing ? 'Parsing...' : 'Parse with Gemini'}
-            </button>
           </section>
 
           <section className="panel step-panel">
@@ -682,9 +774,11 @@ function App() {
                 <span className="output-icon"><Mail size={18} /></span>
                 <span className="output-copy">
                   <strong>Gmail Email</strong>
-                  <span>Paste-ready, Gmail-safe quote email</span>
+                  <span>{isReceipt ? 'Paste-ready, Gmail-safe receipt email' : 'Paste-ready, Gmail-safe quote email'}</span>
                 </span>
               </button>
+              {!isReceipt && (
+              <>
               <button
                 className={`output-card ${outputMode === 'webpage' ? 'active' : ''}`}
                 onClick={() => setOutputMode('webpage')}
@@ -707,9 +801,11 @@ function App() {
                   <span>{data.templateType === 'auto' ? 'Business vehicles, drivers & liability' : 'Available for auto quotes'}</span>
                 </span>
               </button>
+              </>
+              )}
             </div>
 
-            {outputMode === 'email' && (
+            {outputMode === 'email' && !isReceipt && (
               <div className="sub-block">
                 <div className="sub-block-title"><Scissors size={14} /> Email style</div>
                 <div className="chip-row" role="group" aria-label="Email mode">
@@ -755,7 +851,11 @@ function App() {
             )}
           </section>
 
-          <QuoteEditor data={data} setData={setData} update={update} />
+          {isReceipt ? (
+            <ReceiptEditor receiptData={receiptData} updateReceipt={updateReceipt} />
+          ) : (
+            <QuoteEditor data={data} setData={setData} update={update} />
+          )}
         </aside>
 
         <main className="workspace">
@@ -786,17 +886,21 @@ function App() {
               </div>
             </section>
 
-            <IntegrityPanel
-              integrity={integrity}
-              dataErrors={dataErrors}
-              data={data}
-              reviewItems={reviewItems}
-              reviewedKeys={reviewedKeySet}
-              setReviewedKeys={setReviewedKeys}
-              readiness={readiness}
-              canExport={canExport}
-              recentQuotes={recentQuotes}
-            />
+            {isReceipt ? (
+              <ReceiptStatusPanel integrity={receiptIntegrity} errors={receiptErrors} canExport={canExport} />
+            ) : (
+              <IntegrityPanel
+                integrity={integrity}
+                dataErrors={dataErrors}
+                data={data}
+                reviewItems={reviewItems}
+                reviewedKeys={reviewedKeySet}
+                setReviewedKeys={setReviewedKeys}
+                readiness={readiness}
+                canExport={canExport}
+                recentQuotes={recentQuotes}
+              />
+            )}
           </div>
         </main>
       </div>
@@ -860,6 +964,77 @@ function QuoteEditor({
         <RentersFields data={data} setData={setData} />
       ) : (
         <DwellingFields data={data} setData={setData} />
+      )}
+    </section>
+  );
+}
+
+function ReceiptEditor({
+  receiptData,
+  updateReceipt,
+}: {
+  receiptData: ReceiptData;
+  updateReceipt: (patch: Partial<ReceiptData>) => void;
+}) {
+  return (
+    <section className="panel step-panel editor-panel">
+      <div className="step-head">
+        <span className="step-num">4</span>
+        <div>
+          <h2>Review &amp; edit the receipt</h2>
+          <p>Every change updates the live preview instantly</p>
+        </div>
+      </div>
+
+      <div className="form-grid">
+        <Field label="First Name" value={receiptData.clientFirstName} onChange={(v) => updateReceipt({ clientFirstName: v })} />
+        <Field label="Last Name" value={receiptData.clientLastName} onChange={(v) => updateReceipt({ clientLastName: v })} />
+        <Field label="Carrier (short)" value={receiptData.carrierName} placeholder="e.g. Progressive" onChange={(v) => updateReceipt({ carrierName: v })} />
+        <Field label="Carrier Legal Entity" value={receiptData.carrierLegal} placeholder="e.g. Progressive Casualty Insurance Company" onChange={(v) => updateReceipt({ carrierLegal: v })} />
+        <Field label="Policy Number" value={receiptData.policyNumber} onChange={(v) => updateReceipt({ policyNumber: v })} />
+        <Field label="Policy / Coverage Type" value={receiptData.policyType} placeholder="e.g. NC Personal Auto" onChange={(v) => updateReceipt({ policyType: v })} />
+        <Field label="Coverage Start" value={receiptData.coverageStart} placeholder="e.g. June 16, 2026" onChange={(v) => updateReceipt({ coverageStart: v })} />
+        <Field label="Coverage End" value={receiptData.coverageEnd} placeholder="e.g. December 16, 2026" onChange={(v) => updateReceipt({ coverageEnd: v })} />
+        <Field label="Payment Amount" value={String(receiptData.paymentAmount ?? '')} placeholder="154.69" onChange={(v) => updateReceipt({ paymentAmount: numberValue(v) })} />
+        <Field label="Payment Date" value={receiptData.paymentDate} placeholder="e.g. June 16, 2026" onChange={(v) => updateReceipt({ paymentDate: v })} />
+        <Field label="Payment Time" value={receiptData.paymentTime} placeholder="e.g. 2:14 PM ET" onChange={(v) => updateReceipt({ paymentTime: v })} />
+        <Field label="Payment Method" value={receiptData.paymentMethod} placeholder="e.g. Visa credit card ending in 4242" onChange={(v) => updateReceipt({ paymentMethod: v })} />
+        <Field label="Confirmation Number" value={receiptData.confirmationNumber} onChange={(v) => updateReceipt({ confirmationNumber: v })} />
+        <Field label="Transaction ID" value={receiptData.transactionId} onChange={(v) => updateReceipt({ transactionId: v })} />
+      </div>
+    </section>
+  );
+}
+
+function ReceiptStatusPanel({
+  integrity,
+  errors,
+  canExport,
+}: {
+  integrity: ReturnType<typeof runIntegrityChecks>;
+  errors: string[];
+  canExport: boolean;
+}) {
+  return (
+    <section className="panel receipt-status">
+      <div className="step-head">
+        <span className={`status-pill ${canExport ? 'ok' : 'hold'}`}>{canExport ? 'Ready to send' : 'Needs review'}</span>
+        <div>
+          <h2>Receipt readiness</h2>
+          <p>{integrity.byteCount.toLocaleString()} bytes · Gmail integrity {integrity.passed ? 'passed' : 'failed'}</p>
+        </div>
+      </div>
+      {errors.length === 0 && integrity.passed ? (
+        <p className="helper-copy">All required fields present and the receipt passes the Gmail-safe checks. Use Gmail Draft to send it with full mobile formatting.</p>
+      ) : (
+        <div className="receipt-issues">
+          {errors.map((issue) => (
+            <p key={issue}>• {issue}</p>
+          ))}
+          {!integrity.passed && integrity.errors.map((issue) => (
+            <p key={issue}>• {issue}</p>
+          ))}
+        </div>
       )}
     </section>
   );

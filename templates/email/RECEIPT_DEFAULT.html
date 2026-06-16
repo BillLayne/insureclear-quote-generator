@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Payment Receipt &mdash; {{CARRIER_NAME}} &mdash; {{FIRST_NAME}} {{LAST_NAME}}</title>
+
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+html,body,table,td,a,p,span,div{-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important}
+table,td{mso-table-lspace:0;mso-table-rspace:0}
+img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
+body{margin:0;padding:0;width:100%!important;background-color:#f1f5f9}
+@media only screen and (max-width:620px){
+.email-container{width:100%!important}
+.hero-pad{padding:28px 20px!important}
+.card-pad{padding:20px 16px!important}
+.card-pad-top{padding:20px 16px 6px 16px!important}
+.amount-num{font-size:42px!important}
+.receipt-label{font-size:11px!important}
+.receipt-value{font-size:13px!important}
+.meta-cell{display:block!important;width:100%!important;padding-right:0!important;padding-left:0!important;border-right:none!important;padding-bottom:10px!important;margin-bottom:10px!important;border-bottom:1px solid rgba(255,255,255,0.18)!important;}
+}
+</style>
+
+<!-- SCHEMA.ORG JSON-LD — Gmail Rich Card + Gemini AI -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Invoice",
+  "accountId": "{{POLICY_NUMBER}}",
+  "description": "{{CARRIER_NAME}} {{POLICY_TYPE}} payment confirmed — {{FIRST_NAME}} {{LAST_NAME}}",
+  "provider": {
+    "@type": "Organization",
+    "name": "{{CARRIER_LEGAL}}"
+  },
+  "broker": {
+    "@type": "Organization",
+    "name": "Bill Layne Insurance Agency",
+    "telephone": "+13368351993"
+  },
+  "totalPaymentDue": {
+    "@type": "PriceSpecification",
+    "price": "{{PAYMENT_AMOUNT_RAW}}",
+    "priceCurrency": "USD"
+  },
+  "paymentDue": "{{PAYMENT_DATE_ISO}}",
+  "paymentStatus": "http://schema.org/PaymentComplete",
+  "confirmationNumber": "{{CONFIRMATION_NUMBER}}"
+}
+</script>
+
+</head>
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+<!-- 600px ANTI-FIT SPACER -->
+<div style="display:none;white-space:nowrap;font:15px courier;color:#ffffff;line-height:0;width:600px!important;min-width:600px!important;max-width:600px!important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<!-- PREHEADER -->
+<div style="display:none;font-size:1px;color:#f1f5f9;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+${{PAYMENT_AMOUNT}} received &mdash; {{CARRIER_NAME}} &mdash; your receipt is enclosed for your records.&nbsp;&#847;&nbsp;&#847;&nbsp;&#847;&nbsp;&#847;&nbsp;&#847;&nbsp;&#847;&nbsp;&#847;
+</div>
+
+<!-- OUTER WRAPPER -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f1f5f9" style="background-color:#f1f5f9;">
+<tr><td align="center" style="padding:24px 16px;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+<!--[if mso]>
+<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;"><tr><td width="600" style="width:600px;">
+<![endif]-->
+
+<!-- EMAIL CONTAINER -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="email-container" style="width:100%;max-width:600px;margin:0 auto;">
+
+<!-- ============================================================ -->
+<!-- CARD 1: HERO IMAGE — full-bleed banner (no logo header)       -->
+<!-- ============================================================ -->
+<tr>
+<td width="100%" bgcolor="#0a1428" align="center" style="background-color:#0a1428;border-radius:16px 16px 0 0;font-size:0;line-height:0;">
+<img src="https://i.imgur.com/Jw0jhgW.png" width="600" alt="Bill Layne Insurance &mdash; Payment Receipt" style="display:block;width:100%;max-width:100%;min-width:100%;height:auto;border:0;outline:none;text-decoration:none;border-radius:16px 16px 0 0;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:18px;font-weight:700;text-align:center;line-height:1.4;">
+</td>
+</tr>
+
+<!-- ============================================================ -->
+<!-- CARD 2: CONFIRMATION — payment amount on green                -->
+<!-- ============================================================ -->
+<tr>
+<td style="padding-bottom:4px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e2e8f0;border-top:none;border-bottom:none;">
+<tr>
+<td class="hero-pad" style="padding:34px 32px;background:linear-gradient(135deg,#0a1a33 0%,#11233f 50%,#0a1428 100%);background-color:#0a1428;text-align:center;">
+
+<!-- Confirmed Badge -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 16px auto;">
+<tr>
+<td style="background-color:rgba(255,255,255,0.15);border-radius:20px;padding:5px 18px;">
+<span style="font-size:11px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:1.5px;text-transform:uppercase;">&#9989; Payment Confirmed &bull; {{CARRIER_NAME}}</span>
+</td>
+</tr>
+</table>
+
+<!-- Greeting -->
+<p style="margin:0 0 20px 0;font-size:22px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Hi {{FIRST_NAME}}, we&rsquo;ve received your payment.</p>
+
+<!-- Payment Amount Box -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px auto;">
+<tr>
+<td style="background-color:rgba(255,255,255,0.15);border-radius:16px;padding:20px 36px;border:1px solid rgba(255,255,255,0.3);text-align:center;">
+<p style="margin:0 0 4px 0;font-size:11px;font-weight:700;color:#C8A84E;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:1.5px;text-transform:uppercase;">Payment Received</p>
+<p class="amount-num" style="margin:0 0 8px 0;font-size:48px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;line-height:1.1;">${{PAYMENT_AMOUNT}}</p>
+<p style="margin:0;font-size:13px;color:rgba(255,255,255,0.9);font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{PAYMENT_DATE}} &bull; {{POLICY_TYPE}}</p>
+</td>
+</tr>
+</table>
+
+<!-- Meta Row -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+<tr>
+<td style="background-color:rgba(255,255,255,0.12);border-radius:10px;padding:10px 16px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td class="meta-cell" style="padding-right:16px;border-right:1px solid rgba(255,255,255,0.2);">
+<p style="margin:0;font-size:10px;color:rgba(255,255,255,0.65);font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:0.5px;text-transform:uppercase;">Policy #</p>
+<p style="margin:2px 0 0 0;font-size:13px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{POLICY_NUMBER_LAST4}}</p>
+</td>
+<td class="meta-cell" style="padding:0 16px;border-right:1px solid rgba(255,255,255,0.2);">
+<p style="margin:0;font-size:10px;color:rgba(255,255,255,0.65);font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:0.5px;text-transform:uppercase;">Method</p>
+<p style="margin:2px 0 0 0;font-size:13px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{PAYMENT_METHOD_SHORT}}</p>
+</td>
+<td class="meta-cell" style="padding-left:16px;">
+<p style="margin:0;font-size:10px;color:rgba(255,255,255,0.65);font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:0.5px;text-transform:uppercase;">Confirmation</p>
+<p style="margin:2px 0 0 0;font-size:13px;font-weight:700;color:#ffffff;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{CONFIRMATION_NUMBER}}</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- ============================================================ -->
+<!-- CARD 3: OFFICIAL RECEIPT — NC 11 NCAC 04.0121 COMPLIANT      -->
+<!-- ============================================================ -->
+<tr>
+<td style="padding-bottom:4px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" style="background-color:#ffffff;border:1px solid #e2e8f0;">
+<tr>
+<td style="padding:24px 24px 8px 24px;" class="card-pad-top">
+<p style="margin:0 0 2px 0;font-size:10px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;letter-spacing:1.5px;text-transform:uppercase;">Official Receipt</p>
+<p style="margin:0;font-size:20px;font-weight:700;color:#0f172a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Transaction Details</p>
+</td>
+</tr>
+<tr>
+<td style="padding:8px 24px 24px 24px;" class="card-pad">
+
+<!-- Receipt Table — alternating rows -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;">
+
+<!-- Row 1 — shaded — Payment Amount -->
+<tr>
+<td width="45%" bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Payment Amount</p>
+</td>
+<td width="55%" bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;font-weight:700;color:#97712a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">${{PAYMENT_AMOUNT}}</p>
+</td>
+</tr>
+
+<!-- Row 2 — white — Payment Date & Time -->
+<tr>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Payment Date &amp; Time</p>
+</td>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{PAYMENT_DATE}} &bull; {{PAYMENT_TIME}}</p>
+</td>
+</tr>
+
+<!-- Row 3 — shaded — Payment Method -->
+<tr>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Payment Method</p>
+</td>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{PAYMENT_METHOD}}</p>
+</td>
+</tr>
+
+<!-- Row 4 — white — Confirmation # -->
+<tr>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Confirmation #</p>
+</td>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;font-weight:700;color:#0f172a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{CONFIRMATION_NUMBER}}</p>
+</td>
+</tr>
+
+<!-- Row 5 — shaded — Carrier -->
+<tr>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Carrier</p>
+</td>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{CARRIER_LEGAL}}</p>
+</td>
+</tr>
+
+<!-- Row 6 — white — Policy Number -->
+<tr>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Policy Number</p>
+</td>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p style="margin:0;font-size:14px;font-weight:700;color:#0f172a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;word-break:break-word;">{{POLICY_NUMBER}}</p>
+</td>
+</tr>
+
+<!-- Row 7 — shaded — Coverage Type -->
+<tr>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Coverage Type</p>
+</td>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{POLICY_TYPE}}</p>
+</td>
+</tr>
+
+<!-- Row 8 — white — Coverage Period -->
+<tr>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Coverage Period</p>
+</td>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:12px 16px;border-bottom:1px solid #e2e8f0;">
+<p class="receipt-value" style="margin:0;font-size:14px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">{{COVERAGE_START}} &mdash; {{COVERAGE_END}}</p>
+</td>
+</tr>
+
+<!-- Row 9 — shaded — Accepted By (NC compliance) -->
+<tr>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;">
+<p class="receipt-label" style="margin:0;font-size:12px;font-weight:700;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Accepted By</p>
+</td>
+<td bgcolor="#faf7ed" style="background-color:#faf7ed;padding:12px 16px;">
+<p class="receipt-value" style="margin:0;font-size:13px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;line-height:1.5;"><strong style="color:#0f172a;">Bill Layne Insurance Agency</strong><br>1283 N Bridge St &bull; Elkin, NC 28621</p>
+</td>
+</tr>
+
+</table>
+
+<!-- Electronic signature line (satisfies NC signature requirement) -->
+<p style="margin:12px 0 0 0;font-size:11px;color:#94a3b8;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;font-style:italic;text-align:center;">Electronically processed by Bill Layne Insurance Agency &mdash; Licensed NC Independent Agent &bull; Transaction ID: {{TRANSACTION_ID}}</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- ============================================================ -->
+<!-- CARD 5: THANK YOU / RETENTION                                 -->
+<!-- ============================================================ -->
+<tr>
+<td style="padding-bottom:4px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" style="background-color:#ffffff;border:1px solid #e2e8f0;">
+<tr>
+<td style="padding:28px 24px;" class="card-pad" align="center">
+
+<p style="margin:0 0 14px 0;font-size:16px;color:#334155;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;line-height:1.6;">Questions about your payment or coverage?<br>Just reply to this email &mdash;<br>we review every message personally.</p>
+<p style="margin:0;font-size:14px;font-weight:700;color:#0f172a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Thanks for trusting us with your coverage, {{FIRST_NAME}}.<br>&mdash; Bill Layne Insurance Team</p>
+
+<!-- Messenger Link (inline — receipt style) -->
+<p style="margin:14px 0 0 0;font-size:12px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">
+&#128172; Prefer to reach us on Messenger?
+<a href="https://m.me/dollarbillagency" style="color:#003f87;font-weight:700;text-decoration:none;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Chat with Bill &rarr;</a>
+</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- ============================================================ -->
+<!-- CARD 6: DISCLAIMER                                            -->
+<!-- ============================================================ -->
+<tr>
+<td style="padding-bottom:4px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#fafafa" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;border-bottom:none;">
+<tr>
+<td style="padding:16px 24px;" class="card-pad">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f1f5f9;border-radius:8px;">
+<tr>
+<td style="padding:12px 16px;">
+<p style="margin:0;font-size:11px;color:#94a3b8;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;line-height:1.6;">This receipt confirms payment received by Bill Layne Insurance Agency on behalf of {{CARRIER_LEGAL}}. Coverage is subject to the terms and conditions of your policy. This receipt is issued in compliance with 11 NCAC 04.0121. Keep this email for your records.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- ============================================================ -->
+<!-- FOOTER: Gold line → Logo → Address → Social → Google → Unsub -->
+<!-- ============================================================ -->
+<tr>
+<td>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#fafafa" style="background-color:#fafafa;border-radius:0 0 16px 16px;border:1px solid #e2e8f0;border-top:none;">
+<tr>
+<td style="padding:28px 24px;text-align:center;" class="card-pad">
+
+<!-- Gold accent line -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="80" style="margin:0 auto 20px auto;">
+<tr><td height="3" style="height:3px;background:linear-gradient(90deg,#003f87,#C8A84E);font-size:0;line-height:0;">&nbsp;</td></tr>
+</table>
+
+<!-- Agency Logo in white wrapper -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px auto;">
+<tr>
+<td bgcolor="#ffffff" style="background-color:#ffffff;padding:10px 20px;border-radius:10px;border:1px solid #e2e8f0;">
+<img src="https://i.imgur.com/lxu9nfT.png" width="140" alt="Bill Layne Insurance Agency" style="display:block;width:140px;height:auto;">
+</td>
+</tr>
+</table>
+
+<!-- Agency info -->
+<p style="margin:0 0 4px 0;font-size:14px;font-weight:700;color:#0f172a;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Bill Layne Insurance Agency</p>
+<p style="margin:0 0 2px 0;font-size:12px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">1283 N Bridge St &bull; Elkin, NC 28621</p>
+<p style="margin:0 0 2px 0;font-size:12px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">(336) 835-1993 &bull; <a href="mailto:Save@BillLayneInsurance.com" style="color:#003f87;text-decoration:none;">Save@BillLayneInsurance.com</a></p>
+<p style="margin:0 0 14px 0;font-size:12px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;"><a href="https://www.BillLayneInsurance.com" style="color:#003f87;text-decoration:none;">www.BillLayneInsurance.com</a> &bull; Est. 2005</p>
+
+<!-- Social Row -->
+<p style="margin:0 0 14px 0;font-size:12px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">
+<a href="https://www.facebook.com/dollarbillagency" style="color:#003f87;text-decoration:none;font-weight:700;">Facebook</a>
+&nbsp;|&nbsp;
+<a href="https://www.youtube.com/@ncautoandhome" style="color:#003f87;text-decoration:none;font-weight:700;">YouTube</a>
+&nbsp;|&nbsp;
+<a href="https://www.instagram.com/ncautoandhome" style="color:#003f87;text-decoration:none;font-weight:700;">Instagram</a>
+&nbsp;|&nbsp;
+<a href="https://x.com/shopsavecompare" style="color:#003f87;text-decoration:none;font-weight:700;">X</a>
+</p>
+
+<!-- Google Badge -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px auto;">
+<tr>
+<td bgcolor="#ffffff" align="center" style="background-color:#ffffff;padding:8px 14px;border-radius:20px;border:1px solid #e2e8f0;">
+<img src="https://i.imgur.com/nDFmjxh.png" width="16" height="16" alt="Google" style="display:inline-block;vertical-align:middle;width:16px;height:16px;margin-right:6px;">
+<span style="font-size:11px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;vertical-align:middle;font-weight:600;">&#11088; 4.9 Stars on Google &bull; 100+ Reviews</span>
+</td>
+</tr>
+</table>
+
+<!-- Follow on Facebook + Messenger opt-in -->
+<p style="margin:0 0 6px 0;font-size:11px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Follow us on <a href="https://www.facebook.com/dollarbillagency" style="color:#003f87;text-decoration:none;font-weight:700;">Facebook</a> for insurance tips &amp; local updates.</p>
+<p style="margin:0 0 14px 0;font-size:11px;color:#64748b;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;">Prefer to chat? Reach us on <a href="https://m.me/dollarbillagency" style="color:#003f87;text-decoration:none;font-weight:700;">Facebook Messenger</a> anytime.</p>
+
+<!-- Unsubscribe -->
+<p style="margin:0;font-size:10px;color:#94a3b8;font-family:'Inter',Arial,'Helvetica Neue',Helvetica,sans-serif;line-height:1.6;">You&rsquo;re receiving this because you have an active policy with Bill Layne Insurance Agency.<br>To stop receiving these emails, reply with &quot;unsubscribe&quot; or call (336) 835-1993.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+<!-- END EMAIL CONTAINER -->
+<!--[if mso]>
+</td></tr></table>
+<![endif]-->
+
+</td></tr>
+</table>
+<!-- END OUTER WRAPPER -->
+
+</body>
+</html>

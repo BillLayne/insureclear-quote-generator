@@ -1,4 +1,5 @@
 import type { QuoteData, QuoteTemplateType } from '../types/quote';
+import type { ReceiptData } from '../types/receipt';
 
 const fileToBase64 = (file: File): Promise<string> =>
   new Promise<string>((resolve, reject) => {
@@ -32,7 +33,7 @@ export async function parseInsuranceQuote(
   if (!response.ok) {
     let message = `Request failed with status ${response.status}.`;
     try {
-      const err = await response.json();
+      const err = (await response.json()) as { error?: unknown };
       if (err && typeof err.error === 'string') message = err.error;
     } catch {
       // Keep the default message.
@@ -41,4 +42,25 @@ export async function parseInsuranceQuote(
   }
 
   return (await response.json()) as QuoteData;
+}
+
+export async function parseReceiptText(text: string, instructions: string): Promise<ReceiptData> {
+  const response = await fetch('/api/parse-receipt', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, instructions }),
+  });
+
+  if (!response.ok) {
+    let message = `Request failed with status ${response.status}.`;
+    try {
+      const err = (await response.json()) as { error?: unknown };
+      if (err && typeof err.error === 'string') message = err.error;
+    } catch {
+      // Keep the default message.
+    }
+    throw new Error(message);
+  }
+
+  return (await response.json()) as ReceiptData;
 }
