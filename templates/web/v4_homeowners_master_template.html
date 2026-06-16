@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>{{CUSTOMER_FIRST_NAME}} {{CUSTOMER_LAST_NAME}} Home Quote Explained | Bill Layne Insurance</title>
+  <meta name="description" content="A clear, mobile-friendly homeowners insurance quote summary prepared by Bill Layne Insurance Agency." />
+  <meta property="og:title" content="{{CUSTOMER_FIRST_NAME}} {{CUSTOMER_LAST_NAME}} Home Quote Explained | Bill Layne Insurance" />
+  <meta property="og:description" content="A simple, mobile-friendly homeowners quote review experience prepared by Bill Layne Insurance Agency." />
+  <meta property="og:image" content="{{HERO_IMAGE_URL}}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            modernBg: '#f1f5f9',
+            surface: '#ffffff',
+            darkText: '#0f172a',
+            midText: '#334155',
+            mutedText: '#64748b',
+            modernBorder: '#cbd5e1',
+            accentTeal: '#0284c7',
+            accentTealDark: '#0369a1',
+            modernSuccess: '#16a34a',
+            darkSlate: '#0f172a',
+            greenCustom: '#166534',
+            containerBlue: '#f0fdf4',
+            panelTeal: '#f0f9ff',
+            premiumAmber: '#fffbeb',
+            borderAmber: '#fef3c7',
+            badgeGreen: '#dcfce7'
+          },
+          fontFamily: {
+            sans: ['Outfit', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Outfit', -apple-system, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .accordion-open .accordion-content {
+      max-height: 1200px;
+    }
+    .accordion-open .toggle-icon {
+      transform: rotate(180deg);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .accordion-content { transition: none; }
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-36 text-base md:text-lg">
+
+  <!-- Top Rates Verification Sticky Header -->
+  <div class="w-full bg-white border-b border-modernBorder py-3.5 px-4 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-[1120px] mx-auto flex justify-between items-center text-xs md:text-sm font-black tracking-widest uppercase text-mutedText">
+      <span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-modernSuccess animate-pulse"></span> Rates Verified</span>
+      <span class="text-accentTeal font-extrabold">{{CARRIER_SHORT_NAME}} Portfolio Review</span>
+    </div>
+  </div>
+
+  <main class="max-w-[1120px] mx-auto px-4 pt-6 space-y-12">
+    
+    <!-- Agency & Carrier Branding -->
+    <div class="flex justify-between items-center pb-5 border-b border-modernBorder">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-darkSlate to-accentTeal text-white font-black text-base flex items-center justify-center shadow-sm">BL</div>
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
+          <div class="text-base md:text-lg font-black text-darkText tracking-tight">Bill Layne Insurance</div>
+          <div class="text-xs md:text-sm text-mutedText font-bold">Your Neighbor. Your Agent.</div>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center space-x-3 text-right">
+        <div>
+          <p class="text-xs font-black uppercase tracking-wider text-mutedText">Insurance Carrier</p>
+          <p class="text-sm font-bold text-darkText">{{CARRIER_LONG_NAME}}</p>
+        </div>
+        <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_SHORT_NAME}} Logo" class="h-9 object-contain pl-2">
+      </div>
+    </div>
+
+    <!-- Hero block utilizing single recommended white card system -->
+    <section class="w-full rounded-[34px] overflow-hidden bg-gradient-to-r from-slate-950/90 via-slate-950/80 to-slate-950/30 relative shadow-xl min-h-[540px] lg:h-[calc(100vh-180px)] lg:min-h-[580px] lg:max-h-[640px] flex items-center mt-2" style="background-image: linear-gradient(90deg, rgba(9,27,43,0.91) 0%, rgba(9,27,43,0.79) 48%, rgba(9,27,43,0.32) 100%), url('{{HERO_IMAGE_URL}}'); background-size: cover; background-position: 58% center;">
+      <div class="p-6 sm:p-12 flex flex-col md:flex-row justify-between items-center w-full gap-6 md:gap-8 max-w-[1120px] mx-auto text-white">
+        <div class="space-y-4 sm:space-y-6 max-w-[640px] text-left">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+            <span class="inline-flex items-center gap-2 bg-white text-darkText rounded-full px-3 py-1.5 sm:px-4 sm:py-2.5 font-black text-xs shadow-md">
+              <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_SHORT_NAME}} Logo" class="w-20 sm:w-28 object-contain">
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-white/30 rounded-full bg-slate-900/60 text-white font-bold text-[10px] sm:text-xs md:text-sm backdrop-blur-sm">
+              Prepared {{QUOTE_DATE}}
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-white/30 rounded-full bg-slate-900/60 text-white font-bold text-[10px] sm:text-xs md:text-sm backdrop-blur-sm">
+              {{POLICY_TERM_LABEL}} Term
+            </span>
+          </div>
+          <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-tight sm:leading-none">
+            Your home quote, explained clearly.
+          </h1>
+          <p class="hidden md:block text-base sm:text-lg text-white/90 font-medium leading-relaxed">
+            Prepared for {{CUSTOMER_FIRST_NAME}} {{CUSTOMER_LAST_NAME}} in {{CUSTOMER_CITY}}, NC. This page turns the raw {{CARRIER_SHORT_NAME}} quote into a simple mobile review experience: price first, payment choices next, then every coverage and deductible option mapped out in plain English.
+          </p>
+        </div>
+
+        <!-- Premium Estimator Glassmorphic Card -->
+        <div class="w-full max-w-[420px] md:max-w-[440px] text-left flex-shrink-0">
+          <div class="border border-white/20 rounded-3xl bg-white text-darkText p-5 sm:p-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-accentTeal/5 rounded-full blur-2xl"></div>
+            <div class="text-[10px] sm:text-xs font-black uppercase tracking-widest text-mutedText flex items-center gap-1.5">
+              <span class="h-2 w-2 rounded-full bg-modernSuccess"></span> Recommended Payment Option
+            </div>
+            
+            <div class="text-4xl sm:text-5xl font-black tracking-tighter leading-none my-2 text-darkText">
+              ${{RECOMMENDED_PLAN_AMOUNT}}<span class="text-sm sm:text-base font-bold text-mutedText tracking-normal"> / mo</span>
+            </div>
+            
+            <p class="text-[11px] sm:text-sm text-midText font-bold mb-3">
+              {{PAYMENT_PLAN_EXPLANATION}}
+            </p>
+            
+            <div class="pt-3 border-t border-modernBorder/80">
+              <div class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-mutedText">Total Policy Term Premium</div>
+              <div class="text-lg sm:text-xl font-extrabold text-darkSlate mt-0.5">${{PAID_IN_FULL_PRICE}}</div>
+              {{PAID_IN_FULL_SAVINGS_BADGE}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: PROPERTY SPECS -->
+    <section id="property-details" class="w-full rounded-[28px] border border-modernBorder bg-white p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="border-b border-modernBorder pb-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-panelTeal text-accentTeal flex items-center justify-center text-lg">
+          <i class="fa-solid fa-house-laptop"></i>
+        </div>
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-accentTeal">Property Specs</span>
+          <h2 class="text-2xl font-extrabold text-darkText leading-none mt-1">Property Details.</h2>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Visual Address Panel -->
+        <div class="lg:col-span-1 rounded-2xl bg-gradient-to-br from-darkSlate to-slate-800 p-6 text-white flex flex-col justify-between relative overflow-hidden min-h-[220px]">
+          <div class="absolute right-4 bottom-4 opacity-5 text-[100px] pointer-events-none">
+            <i class="fa-solid fa-house-chimney"></i>
+          </div>
+          <div class="space-y-2">
+            <span class="text-[10px] font-black uppercase tracking-widest text-accentTeal bg-white/10 px-2.5 py-1 rounded-full">Quoted Location</span>
+            <h3 class="text-xl font-bold tracking-tight">Property Address</h3>
+            <p class="text-sm text-white/80 leading-relaxed">{{PROPERTY_ADDRESS}}</p>
+          </div>
+          <div class="pt-4 border-t border-white/15 mt-4 flex items-center gap-2 text-xs text-white/95 font-semibold">
+            <i class="fa-solid fa-map-pin text-accentTeal"></i> Verified via NC GIS databases.
+          </div>
+        </div>
+
+        <!-- Property Grid details -->
+        <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Year Built</span>
+            <span class="text-base sm:text-lg font-black text-darkText">{{YEAR_BUILT}}</span>
+            <p class="text-xs text-midText mt-1">Eligibility factor.</p>
+          </div>
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Square Footage</span>
+            <span class="text-base sm:text-lg font-black text-darkText">{{SQFT}}</span>
+            <p class="text-xs text-midText mt-1">Total finished living area.</p>
+          </div>
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Stories</span>
+            <span class="text-base sm:text-lg font-black text-darkText">{{STORIES}}</span>
+            <p class="text-xs text-midText mt-1">Standard structural rating.</p>
+          </div>
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Construction</span>
+            <span class="text-base sm:text-lg font-black text-darkText">{{CONSTRUCTION}}</span>
+            <p class="text-xs text-midText mt-1">Framing specification.</p>
+          </div>
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Roof Details</span>
+            <span class="text-base sm:text-lg font-black text-darkText">{{ROOF}}</span>
+            <p class="text-xs text-midText mt-1">Roof age and styling.</p>
+          </div>
+          <div class="bg-modernBg/50 border border-modernBorder/60 rounded-xl p-4">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-mutedText block">Protection Class</span>
+            <span class="text-base sm:text-lg font-black text-darkText">Class {{PROTECTION_CLASS}}</span>
+            <p class="text-xs text-midText mt-1">Distance to nearest fire station is {{FIRE_DIST}}.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: COVERAGE BREAKDOWN ACCORDIONS -->
+    <section id="coverage-limits" class="space-y-6">
+      <div class="border-b border-modernBorder pb-4 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-accentTeal">Coverage Details</span>
+          <h2 class="text-3xl font-extrabold tracking-tight text-darkText mt-1">Your Coverage Levels.</h2>
+        </div>
+        <div class="text-xs text-mutedText font-bold hidden sm:block">Click any coverage to learn more</div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Accordion Stack (Left 2 columns) -->
+        <div class="lg:col-span-2 space-y-3">
+          
+          <!-- Coverage A: Dwelling -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">A</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Dwelling Coverage</h3>
+                  <p class="text-xs text-mutedText">Protects your home's structure</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_A}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-3">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  Dwelling coverage pays to repair or rebuild the physical structure of your home (including the roof, walls, foundation, and fixtures) if it is damaged by a covered disaster like a fire, windstorm, lightning, or vandalism. 
+                </p>
+                <div class="p-3.5 bg-badgeGreen/60 text-greenCustom font-bold text-xs rounded-xl flex items-center gap-2">
+                  <i class="fa-solid fa-circle-check"></i> Calculated replacement cost to ensure full structural protection.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coverage B: Other Structures -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">B</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Other Structures</h3>
+                  <p class="text-xs text-mutedText">Detached sheds, garages, fences</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_B}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-3">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  This coverage pays for damage to unattached structures on your property. This includes items such as a detached garden shed, property line fences, detached garages, or guest cottages. Standard policies set this at 10% of your Coverage A limit.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coverage C: Personal Property -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">C</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Personal Property</h3>
+                  <p class="text-xs text-mutedText">Your belongings, clothes, electronics</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_C}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-3">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  Personal Property coverage reimburses you for the value of your furniture, clothes, electronics, appliances, and other personal items if they are damaged, stolen, or destroyed by a covered loss.
+                </p>
+                <div class="p-3 bg-amber-50 border border-borderAmber text-amber-800 text-xs font-bold rounded-xl flex items-center gap-2">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Note: High-value personal items like jewelry or fine art may require scheduled coverage riders. Ask us for details.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coverage D: Loss of Use -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">D</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Loss of Use</h3>
+                  <p class="text-xs text-mutedText">Rent & meals if forced out during rebuild</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_D}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-2">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  If your home is rendered uninhabitable due to a covered claim, Loss of Use pays for additional living expenses. This covers hotel costs, rental homes of equivalent size, and restaurant meal expenses while your home is being repaired.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coverage E: Personal Liability -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">E</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Personal Liability</h3>
+                  <p class="text-xs text-mutedText">Legal protection against lawsuits</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_E}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-2">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  Personal Liability protects you and members of your household against lawsuits for bodily injury or property damage caused to other people. It covers legal defense bills, court judgments, and settlements up to your policy limit.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coverage F: Medical Payments -->
+          <div class="accordion-item bg-white border border-modernBorder rounded-2xl overflow-hidden shadow-sm">
+            <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-panelTeal text-accentTeal flex items-center justify-center font-bold text-sm">F</span>
+                <div>
+                  <h3 class="text-base font-bold text-darkSlate tracking-tight">Medical Payments</h3>
+                  <p class="text-xs text-mutedText">Small medical claims for guests</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <strong class="text-base sm:text-lg font-black text-darkSlate">${{COV_F}}</strong>
+                <i class="fa-solid fa-chevron-down toggle-icon text-mutedText text-sm transition-transform duration-200"></i>
+              </div>
+            </button>
+            <div class="accordion-content">
+              <div class="p-5 border-t border-modernBorder bg-slate-50 space-y-2">
+                <p class="text-sm sm:text-base text-midText leading-relaxed">
+                  This pays for necessary medical expenses for guests who are accidentally injured on your property, regardless of who is legally at fault for the accident.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Special Endorsements & Discounts Applied (Right 1 column) -->
+        <div class="space-y-4">
+          <!-- Endorsements panel -->
+          <div class="rounded-2xl border border-modernBorder bg-white p-5 shadow-sm">
+            <h3 class="text-base font-bold text-darkSlate tracking-tight mb-3 pb-2 border-b border-modernBorder flex items-center gap-2">
+              <i class="fa-solid fa-plus-circle text-accentTeal"></i> Policy Endorsements
+            </h3>
+            <ul class="space-y-3.5">
+              {{ENDORSEMENTS_HTML}}
+            </ul>
+          </div>
+
+          <!-- Verified Savings discounts -->
+          <div class="rounded-2xl border border-emerald-500/20 bg-containerBlue p-5 shadow-sm">
+            <h3 class="text-base font-bold text-greenCustom tracking-tight mb-3 pb-2 border-b border-emerald-500/10 flex items-center justify-between">
+              <span>Discounts Applied</span>
+              <i class="fa-solid fa-circle-check text-modernSuccess"></i>
+            </h3>
+            <ul class="space-y-2.5">
+              {{DISCOUNTS_HTML}}
+            </ul>
+            {{DISCOUNTS_TOTAL_HTML}}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: DEDUCTIBLES DETAIL -->
+    <section id="deductibles-section" class="w-full rounded-[28px] border border-modernBorder bg-white p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="border-b border-modernBorder pb-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-panelTeal text-accentTeal flex items-center justify-center text-lg">
+          <i class="fa-solid fa-percent"></i>
+        </div>
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-accentTeal">Deductible Details</span>
+          <h2 class="text-2xl font-extrabold text-darkText leading-none mt-1">Your Deductibles.</h2>
+        </div>
+      </div>
+
+      <p class="text-sm sm:text-base text-midText leading-relaxed">
+        Your deductibles are the amounts you are responsible for paying out of pocket before {{CARRIER_SHORT_NAME}} begins paying for a covered loss. Home insurance policies utilize two distinct categories:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- AOP Deductible Accordion -->
+        <div class="accordion-item border border-modernBorder rounded-2xl overflow-hidden bg-slate-50">
+          <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+            <div class="space-y-0.5">
+              <span class="text-[10px] font-black uppercase tracking-wider text-mutedText block">Standard Deductible</span>
+              <strong class="text-base font-bold text-darkSlate">All Other Perils (AOP)</strong>
+            </div>
+            <strong class="text-base sm:text-lg font-black text-darkSlate">${{AOP_DED}}</strong>
+          </button>
+          <div class="accordion-content">
+            <div class="p-5 border-t border-modernBorder bg-white text-sm text-midText leading-relaxed space-y-2">
+              <p>This deductible applies to standard homeowner claims, such as fire, smoke, lightning, water damage from burst pipes, theft, or vandalism.</p>
+              <p>For example, if a fire causes $10,000 in kitchen damage, you pay the first ${{AOP_DED}}, and your policy covers the remaining balance.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wind/Hail Deductible Accordion -->
+        <div class="accordion-item border border-modernBorder rounded-2xl overflow-hidden bg-slate-50">
+          <button class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none">
+            <div class="space-y-0.5">
+              <span class="text-[10px] font-black uppercase tracking-wider text-mutedText block">Storm Deductible</span>
+              <strong class="text-base font-bold text-darkSlate">Wind / Hail (Percentage)</strong>
+            </div>
+            <strong class="text-base sm:text-lg font-black text-darkSlate">{{WIND_DED}}</strong>
+          </button>
+          <div class="accordion-content">
+            <div class="p-5 border-t border-modernBorder bg-white text-sm text-midText leading-relaxed space-y-3">
+              <p>Percentage storm deductibles are calculated as a percentage of your Coverage A (Dwelling) limit.</p>
+              <div class="bg-premiumAmber border border-borderAmber p-3 rounded-xl space-y-1">
+                <span class="text-[10px] font-black uppercase tracking-wider text-amber-800 block">Deductible Formula</span>
+                <span class="font-extrabold text-amber-950 text-xs">Coverage A (${{COV_A}}) &times; {{WIND_DED_PERCENT}}% = ${{WIND_DED_MATH}} Storm Deductible</span>
+              </div>
+              <p>This amount applies specifically to claims caused by wind, hail, hurricanes, or severe storms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PAYMENT OPTIONS -->
+    <section id="payment-plans" class="space-y-6">
+      <div class="border-b border-modernBorder pb-4">
+        <span class="text-xs font-black uppercase tracking-widest text-accentTeal">Payment Options</span>
+        <h2 class="text-3xl font-extrabold tracking-tight text-darkText mt-1">Choose your billing method.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Option 1: Escrow -->
+        <div class="bg-white border border-modernBorder rounded-3xl p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="text-[10px] font-black uppercase tracking-widest text-mutedText">Option 1</div>
+            <h3 class="text-xl font-bold text-darkSlate tracking-tight">Mortgage Escrow</h3>
+            <p class="text-sm text-midText leading-relaxed">
+              We bill your mortgage lender directly. The lender pays the annual premium out of your escrow account, and the cost is included in your monthly mortgage payment.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-modernBorder/60">
+            <span class="text-2xl font-black text-darkSlate">${{ESCROW_PREMIUM}} <span class="text-xs font-bold text-mutedText">/ yr</span></span>
+            <span class="text-xs text-mutedText block mt-1">Paid automatically by lender.</span>
+          </div>
+        </div>
+
+        <!-- Option 2: Monthly EFT -->
+        <div class="bg-white border-2 border-accentTeal rounded-3xl p-6 shadow-md flex flex-col justify-between space-y-4 relative">
+          <span class="absolute top-0 right-6 -translate-y-1/2 bg-accentTeal text-white font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">Popular</span>
+          <div class="space-y-2">
+            <div class="text-[10px] font-black uppercase tracking-widest text-accentTeal">Option 2</div>
+            <h3 class="text-xl font-bold text-darkSlate tracking-tight">Monthly EFT Plan</h3>
+            <p class="text-sm text-midText leading-relaxed">
+              Convenient monthly billing automatically drafted from your checking account or debit card.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-modernBorder/60">
+            <span class="text-2xl font-black text-darkSlate">${{MONTHLY_EFT_AMOUNT}} <span class="text-xs font-bold text-mutedText">/ mo</span></span>
+            <span class="text-xs text-mutedText block mt-1">Requires bank details or credit card draft.</span>
+          </div>
+        </div>
+
+        <!-- Option 3: Pay-In-Full -->
+        <div class="bg-premiumAmber border border-borderAmber rounded-3xl p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="text-[10px] font-black uppercase tracking-widest text-greenCustom">Option 3</div>
+            <h3 class="text-xl font-bold text-darkSlate tracking-tight">Pay in Full (Savings)</h3>
+            <p class="text-sm text-midText leading-relaxed">
+              Pay the policy term in full upfront. This waives all carrier installment fees and unlocks your maximum pay-in-full discount.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-borderAmber">
+            <span class="text-2xl font-black text-greenCustom">${{PAID_IN_FULL_PRICE_OPTION}} <span class="text-xs font-bold text-greenCustom/70">/ yr</span></span>
+            {{PAID_IN_FULL_SAVINGS_LINE}}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: LOCAL TRUST & AGENT ADVOCACY -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6">
+      
+      <!-- Agent Take (Left 2 columns) -->
+      <div class="lg:col-span-2 rounded-[28px] border border-modernBorder bg-white p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="flex items-center gap-4 border-b border-modernBorder pb-5">
+          <img src="https://i.imgur.com/dPA8slE.jpeg" alt="Bill Layne Headshot" class="w-16 h-16 rounded-full object-cover border-2 border-accentTeal">
+          <div>
+            <h3 class="text-lg font-black text-darkText leading-none">Agent's Personal Take</h3>
+            <p class="text-xs text-mutedText mt-1.5 font-bold">Your Neighbor. Your Agent.</p>
+          </div>
+        </div>
+
+        <div class="text-sm sm:text-base text-midText leading-relaxed space-y-4">
+          <p>Hi {{CUSTOMER_FIRST_NAME}},</p>
+          {{AGENT_TAKE_TEXT}}
+          <div class="pt-4 flex flex-col items-start">
+            <span class="font-bold text-darkSlate text-sm">Best regards,</span>
+            <span class="font-black text-accentTeal text-base mt-1">{{AGENT_NAME}}</span>
+            <span class="text-xs text-mutedText font-semibold">{{AGENT_TITLE}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Local Agency Office & Google Reviews (Right 1 column) -->
+      <div class="space-y-4">
+        <!-- Family Protection Card -->
+        <div class="rounded-2xl border border-modernBorder bg-white overflow-hidden shadow-sm">
+          <img src="https://i.imgur.com/OHt9rdf.jpeg" alt="Protected Family" class="w-full h-56 sm:h-60 object-cover object-[center_38%]">
+          <div class="p-5 space-y-2">
+            <h4 class="text-sm font-bold text-darkSlate tracking-tight">Our Goal: Protect Your Family</h4>
+            <p class="text-sm text-midText leading-relaxed">
+              We don't just insure houses; we protect the families inside them. This policy is customized to keep your family safe in any storm.
+            </p>
+          </div>
+        </div>
+
+        <!-- Office photo panel -->
+        <div class="rounded-2xl border border-modernBorder bg-white overflow-hidden shadow-sm">
+          <img src="https://i.imgur.com/Dh1BFrk.jpeg" alt="Bill Layne Insurance Office" class="w-full h-44 object-cover">
+          <div class="p-5 space-y-2">
+            <h4 class="text-sm font-bold text-darkSlate tracking-tight">Our Elkin Office</h4>
+            <p class="text-sm text-midText leading-relaxed">
+              1283 N Bridge St, Elkin, NC 28621<br>
+              Stop by or call anytime. We are right down the street.
+            </p>
+          </div>
+        </div>
+
+        <!-- Google reviews card -->
+        <div class="rounded-2xl border border-modernBorder bg-white p-5 shadow-sm space-y-4">
+          <div class="flex justify-between items-center pb-2 border-b border-modernBorder/60">
+            <span class="text-xs font-black uppercase tracking-wider text-mutedText">Google Rating</span>
+            <div class="flex items-center text-amber-500 gap-0.5 text-xs">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span class="text-darkSlate font-bold ml-1.5 text-sm">4.9 / 5</span>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="text-xs text-midText leading-relaxed font-normal italic">
+              "Bill Layne Insurance saved us money on our bundle and made the transition seamless. We love having a local agent we can actually call!"
+              <span class="block font-bold text-darkSlate mt-1 not-italic">— Sarah K., Elkin, NC</span>
+            </div>
+            <div class="text-xs text-midText leading-relaxed font-normal italic border-t border-modernBorder/60 pt-2">
+              "When hail damaged our roof, Bill explained the deductible and helped us file the claim. Exceptional service."
+              <span class="block font-bold text-darkSlate mt-1 not-italic">— Mark T., Surry County, NC</span>
+            </div>
+          </div>
+          
+          <a href="https://g.page/r/CXGq9B7-jzu7EAE/review" target="_blank" rel="noopener" class="block text-center text-xs font-extrabold text-accentTeal hover:underline">
+            Read all 120+ verified local reviews <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FOOTER SOCIAL & LEGAL -->
+    <footer class="w-full pt-12 pb-24 border-t border-modernBorder/80 text-center space-y-6 text-sm text-mutedText">
+      <!-- Standard Social Row Markup (Footer) -->
+      <div class="flex justify-center gap-4 pt-4 max-w-[400px] mx-auto">
+        <a href="https://www.facebook.com/dollarbillagency/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-[#1877F2] flex items-center justify-center transition-all shadow-sm" title="Facebook">
+          <i class="fa-brands fa-facebook-f text-sm"></i>
+        </a>
+        <a href="https://www.instagram.com/ncautoandhome/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] flex items-center justify-center transition-all shadow-sm" title="Instagram">
+          <i class="fa-brands fa-instagram text-sm"></i>
+        </a>
+        <a href="https://x.com/shopsavecompare" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-black flex items-center justify-center transition-all shadow-sm" title="X (Twitter)">
+          <i class="fa-brands fa-x-twitter text-sm"></i>
+        </a>
+        <a href="https://www.youtube.com/@ncautoandhome" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-[#FF0000] flex items-center justify-center transition-all shadow-sm" title="YouTube">
+          <i class="fa-brands fa-youtube text-sm"></i>
+        </a>
+        <a href="https://ncautoandhomeinsurance.blogspot.com/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-[#f57c00] flex items-center justify-center transition-all shadow-sm" title="Blogger">
+          <i class="fa-solid fa-blog text-sm"></i>
+        </a>
+      </div>
+
+      <div class="space-y-2">
+        <p class="font-bold text-darkSlate text-sm">&copy; 2026 Bill Layne Insurance Agency. All Rights Reserved.</p>
+        <p class="text-xs">Licensed in North Carolina &bull; Professional Advocacy Since 2005</p>
+        <p class="text-xs max-w-[800px] mx-auto leading-relaxed">
+          <strong>Important Disclaimer:</strong> This quote illustration is for explanation purposes only and does not constitute a binder of insurance coverage or a contract. Premium rates and coverages are subject to final details review, location verification, and final carrier approval.
+        </p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Footer for Mobile Screens -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-modernBorder px-4 py-3 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] md:hidden">
+    <div class="max-w-[1120px] mx-auto flex items-center justify-between gap-3">
+      <a href="tel:3368351993" class="flex-1 bg-darkSlate text-white text-sm font-black py-3 rounded-xl text-center shadow-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+        <i class="fa-solid fa-phone"></i> Call Agent
+      </a>
+      <a href="sms:3368279065?body=Hi%20Bill,%20I'm%20reviewing%20my%20home%20quote%20and%20had%20a%20question%20about..." class="flex-1 bg-white border border-modernBorder text-darkSlate text-sm font-black py-3 rounded-xl text-center shadow-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+        <i class="fa-solid fa-message"></i> Text Us
+      </a>
+      <a href="https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName={{CUSTOMER_FIRST_NAME}}%20{{CUSTOMER_LAST_NAME}}&templateType=home&carrier={{CARRIER_SHORT_NAME}}&quoteNumber={{QUOTE_NUMBER}}&premium=%24{{RECOMMENDED_PLAN_AMOUNT}}&subject={{CARRIER_SHORT_NAME}}%20Homeowners%20Quote%20Review" target="_blank" rel="noopener" class="flex-1 bg-accentTeal text-white text-sm font-black py-3 rounded-xl text-center shadow-sm hover:bg-accentTealDark transition-colors flex items-center justify-center gap-2">
+        <i class="fa-solid fa-check-circle"></i> Accept
+      </a>
+    </div>
+  </div>
+
+  <!-- Sticky Bar for Desktop (Right-anchored panel or quick action) -->
+  <div class="hidden md:block fixed bottom-6 right-6 z-40">
+    <a href="https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName={{CUSTOMER_FIRST_NAME}}%20{{CUSTOMER_LAST_NAME}}&templateType=home&carrier={{CARRIER_SHORT_NAME}}&quoteNumber={{QUOTE_NUMBER}}&premium=%24{{RECOMMENDED_PLAN_AMOUNT}}&subject={{CARRIER_SHORT_NAME}}%20Homeowners%20Quote%20Review" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 bg-accentTeal hover:bg-accentTealDark text-white font-black px-6 py-4 rounded-full shadow-2xl transition-all duration-200 hover:-translate-y-1">
+      <i class="fa-solid fa-circle-check text-lg"></i> Lock in Rate & Bind Policy
+    </a>
+  </div>
+
+  <!-- JavaScript Behavior Logic -->
+  <script>
+    // Toggle Accordion Content
+    document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.accordion-item');
+        const isOpen = item.classList.contains('accordion-open');
+        
+        // Close other open accordions in the same section
+        const section = item.parentElement;
+        section.querySelectorAll('.accordion-item').forEach(sibling => {
+          sibling.classList.remove('accordion-open');
+        });
+        
+        if (!isOpen) {
+          item.classList.add('accordion-open');
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>

@@ -1,3 +1,13 @@
 # Copy this file to `.dev.vars` and fill in your real key.
 # `.dev.vars` is read by `wrangler pages dev` and is gitignored.
 GEMINI_API_KEY=your-gemini-api-key-here
+OPENAI_API_KEY=your-openai-api-key-here
+RESEND_API_KEY=your-resend-api-key-here
+QUOTE_NOTICE_TO=docs@billlayneinsurance.com
+QUOTE_NOTICE_FROM=Quote Template Studio <quotes@your-verified-domain.com>
+
+# Optional SMS notification through Twilio.
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_FROM_NUMBER=
+TWILIO_TO_NUMBER=

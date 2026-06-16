@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Controls Commercial Auto Quote | Progressive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b2234;
+      --navy-2: #12324a;
+      --teal: #0f7b8f;
+      --blue: #0058b9;
+      --gold: #c8a84e;
+      --ink: #102033;
+      --muted: #64748b;
+      --line: #dbe4ee;
+      --surface: #ffffff;
+      --surface-2: #f4f7fb;
+      --green: #1a7a4e;
+      --green-soft: #eaf7ef;
+      --red-soft: #fff1f2;
+      --red: #b42318;
+      --max: 1180px;
+      --shadow: 0 20px 50px rgba(11,34,52,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      background: #eef4f8;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .topbar {
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      border: 2px solid var(--gold);
+      flex: 0 0 auto;
+    }
+    .brand strong { display: block; font-weight: 900; line-height: 1.05; }
+    .brand span { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+    .phone-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(11,34,52,0.05);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 24px auto 0;
+      padding: 0 20px;
+    }
+    .hero-card {
+      overflow: hidden;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(11,34,52,0.94) 0%, rgba(18,50,74,0.82) 55%, rgba(15,123,143,0.78) 100%),
+        url('https://i.imgur.com/9jkiZyF.jpeg') center/cover no-repeat;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .hero-content {
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .quote-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .carrier-chip, .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    .carrier-chip {
+      gap: 8px;
+      background: #fff;
+      color: var(--navy);
+      padding: 7px 14px;
+    }
+    .carrier-chip img { height: 16px; width: auto; }
+    .meta-pill {
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.13);
+      color: rgba(255,255,255,0.92);
+    }
+    h1 {
+      font-family: Outfit, Inter, sans-serif;
+      font-size: clamp(2.1rem, 4vw, 3.35rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 620px;
+    }
+    .hero-lede {
+      margin-top: 18px;
+      color: rgba(255,255,255,0.88);
+      font-size: 1.07rem;
+      max-width: 640px;
+    }
+    .market-note {
+      margin-top: 18px;
+      display: inline-flex;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(200,168,78,0.16);
+      border: 1px solid rgba(200,168,78,0.45);
+      color: #fff6d7;
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+
+    .hero-price-card {
+      background: rgba(255,255,255,0.98);
+      color: var(--ink);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.85);
+    }
+    .price-label {
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 900;
+      font-size: 0.76rem;
+    }
+    .price {
+      font-family: Outfit, Inter, sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-top: 8px;
+      color: var(--navy);
+    }
+    .price .per { font-size: 1.1rem; color: var(--muted); font-family: Inter, sans-serif; letter-spacing: 0; }
+    .price-subtext {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn {
+      border-radius: 13px;
+      padding: 13px 16px;
+      text-align: center;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+    }
+    .btn-primary { background: var(--gold); color: var(--navy); }
+    .btn-secondary { background: var(--surface-2); color: var(--navy); border: 1px solid var(--line); }
+    .action-disclaimer { color: var(--muted); font-size: 0.76rem; margin-top: 12px; }
+
+    main {
+      max-width: var(--max);
+      margin: 24px auto 80px;
+      padding: 0 20px;
+      display: grid;
+      gap: 22px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 12px 35px rgba(11,34,52,0.06);
+      padding: 26px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    .section-kicker {
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: Outfit, Inter, sans-serif;
+      font-size: clamp(1.35rem, 2vw, 1.95rem);
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .muted { color: var(--muted); }
+    .sig-block {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .agent-photo {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+    .agent-info strong { display: block; color: var(--navy); }
+    .agent-info span { display: block; color: var(--muted); font-size: 0.88rem; }
+
+    .overview-grid, .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .fact {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-2);
+      padding: 14px;
+    }
+    .fact span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .fact strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.2rem;
+      margin-top: 4px;
+    }
+
+    .commercial-alert {
+      background: #fff8e1;
+      border-color: #f2d37a;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .alert-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--gold);
+      color: var(--navy);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .list-stack { display: grid; gap: 14px; }
+    .item-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .item-head {
+      background: var(--surface-2);
+      border-left: 5px solid var(--teal);
+      padding: 15px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+    .item-head strong { color: var(--navy); font-size: 1.05rem; display: block; }
+    .item-head span { color: var(--muted); font-size: 0.88rem; }
+    .badge {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 900;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+    .item-body { padding: 14px 18px; }
+    .detail-table { width: 100%; border-collapse: collapse; }
+    .detail-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid #edf2f7;
+      font-size: 0.93rem;
+    }
+    .detail-table tr:last-child td { border-bottom: 0; }
+    .detail-table td:last-child { text-align: right; font-weight: 800; color: var(--navy); }
+
+    .coverage-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+    }
+    .coverage-table th {
+      background: var(--navy);
+      color: #fff;
+      padding: 13px 14px;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .coverage-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .coverage-table tr:last-child td { border-bottom: 0; }
+    .coverage-table td:last-child { text-align: right; font-weight: 900; color: var(--navy); }
+
+    .plans {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .plan-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+    .plan-card.recommended {
+      border-color: rgba(15,123,143,0.35);
+      background: #f0fbfd;
+    }
+    .plan-card strong { display: block; color: var(--navy); font-size: 1.25rem; }
+    .plan-card span { display: block; color: var(--muted); margin-top: 4px; }
+
+    .trust-divider-card {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      align-items: center;
+      padding: 0;
+      overflow: hidden;
+    }
+    .trust-divider-img {
+      width: 100%;
+      height: 100%;
+      min-height: 330px;
+      object-fit: cover;
+    }
+    .trust-divider-text { padding: 28px 30px 28px 0; }
+    .trust-divider-text h3 {
+      font-family: Outfit, Inter, sans-serif;
+      color: var(--navy);
+      font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+    .trust-divider-text p { color: var(--muted); margin-top: 10px; }
+
+    .reviews-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .review-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface-2);
+      padding: 18px;
+    }
+    .stars { color: #d4a11c; letter-spacing: 0.08em; font-weight: 900; margin-bottom: 8px; }
+    .review-item p { color: var(--ink); font-style: italic; }
+    .review-item strong { display: block; margin-top: 12px; color: var(--navy); }
+
+    .closing-panel {
+      text-align: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, var(--teal) 100%);
+      color: #fff;
+      border: 0;
+    }
+    .closing-panel .section-title { color: #fff; }
+    .closing-panel p { color: rgba(255,255,255,0.84); max-width: 720px; margin: 0 auto 22px; }
+    .closing-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .sticky-bind {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: var(--gold);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 14px 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+      font-weight: 900;
+      z-index: 40;
+    }
+
+    @media (max-width: 860px) {
+      .hero-content, .grid-2, .trust-divider-card, .plans, .reviews-list {
+        grid-template-columns: 1fr;
+      }
+      .hero-content { padding: 28px; }
+      .trust-divider-text { padding: 0 24px 28px; }
+      .trust-divider-img { min-height: 260px; }
+      .overview-grid, .coverage-grid { grid-template-columns: 1fr; }
+      .action-row { grid-template-columns: 1fr; }
+      .topbar-inner { align-items: flex-start; }
+      .phone-btn { display: none; }
+      .coverage-table { display: block; overflow-x: auto; }
+      .sticky-bind { left: 18px; right: 18px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">BL</div>
+        <div>
+          <strong>Bill Layne Insurance Agency</strong>
+          <span>Commercial Auto Quote Review</span>
+        </div>
+      </div>
+      <a class="phone-btn" href="tel:13368351993">Call Office: (336) 835-1993</a>
+    </div>
+  </header>
+
+  <section aria-label="Commercial auto quote pricing summary" class="hero">
+    <div class="hero-card">
+      <div class="hero-content">
+        <div>
+          <div class="quote-meta">
+            <span class="carrier-chip"><img alt="Progressive" src="https://i.imgur.com/7N1vfo0.png" /> Progressive</span>
+            <span class="meta-pill">Jun 8, 2026</span>
+            <span class="meta-pill">12-month commercial auto quote</span>
+          </div>
+          <h1>Air Controls, your commercial auto quote explained clearly.</h1>
+          <p class="hero-lede">We reviewed the business vehicles, rated drivers, liability limits, physical damage coverage, and payment options so you can make a confident decision before anything is submitted.</p>
+          <div class="market-note">Commercial auto markets reviewed: Progressive, Nationwide, and National General.</div>
+        </div>
+
+        <aside class="hero-price-card">
+          <div class="price-label">Estimated Monthly EFT</div>
+          <div class="price">$395.92<span class="per">/mo</span></div>
+          <p class="price-subtext"><strong>$394.87 initial payment today</strong>, followed by 9 payments of $395.92 and 1 final payment of $395.85. Total premium: $4,344.00.</p>
+          <div class="action-row">
+            <a class="btn btn-primary" href="https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName=Jeremy+Fayer+%2F+Air+Controls&templateType=commercial-auto&carrier=Progressive&quoteNumber=AIR-CONTROLS-2026-06-08&premium=%244%2C420.00&subject=Progressive+Commercial+Auto+Quote+Review" target="_blank" rel="noopener">Review Next Step</a>
+            <a class="btn btn-secondary" href="sms:13368279065">Text a Question</a>
+          </div>
+          <p class="action-disclaimer">Coverage does not start until carrier approval, final agency validation, signed forms if required, and payment processing.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="grid-2">
+      <article class="card">
+        <div class="section-kicker">Bill's Plain-English Take</div>
+        <h2 class="section-title">Business vehicles need one extra layer of review.</h2>
+        <p class="muted">Jeremy, commercial auto is different from personal auto because the carrier cares about who drives, how vehicles are used, where they are garaged, driving radius, and what business operations are connected to the vehicles.</p>
+        <p class="muted" style="margin-top:12px;">This page is designed to make the important details easy to check before we request binding.</p>
+        <div class="sig-block">
+          <img alt="Bill Layne" class="agent-photo" src="https://i.imgur.com/dPA8slE.jpeg" />
+          <div class="agent-info">
+            <strong>Bill Layne Insurance Agency</strong>
+            <span>1283 N Bridge St, Elkin NC 28621</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <div class="section-kicker">Quote Overview</div>
+        <h2 class="section-title">At a glance</h2>
+        <div class="overview-grid">
+          <div class="fact"><span>Business</span><strong>Air Controls</strong></div>
+          <div class="fact"><span>Carrier</span><strong>Progressive</strong></div>
+          <div class="fact"><span>Vehicles</span><strong>2</strong></div>
+          <div class="fact"><span>Rated Drivers</span><strong>2</strong></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card commercial-alert">
+      <div class="alert-icon">!</div>
+      <div>
+        <div class="section-kicker">Commercial Auto Checkpoint</div>
+        <h2 class="section-title">Please confirm the business use before binding.</h2>
+        <p class="muted">Tell us if any vehicle is used for delivery, rideshare, hauling for others, long-distance trips, towing, employee take-home use, or carrying specialized tools/equipment. Those details can change eligibility, rating, and coverage forms.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">Business Protection</div>
+      <h2 class="section-title">Policy-level commercial coverages</h2>
+      <table class="coverage-table">
+        <thead>
+          <tr>
+            <th>Coverage</th>
+            <th>Plain-English Purpose</th>
+            <th style="text-align:right;">Limit / Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Commercial Auto Liability</td>
+            <td>Helps protect the business if a covered driver injures someone or damages property.</td>
+            <td>$300,000 combined single limit</td>
+          </tr>
+          <tr>
+            <td>Uninsured / Underinsured Motorist</td>
+            <td>Helps protect your business when another driver has no insurance or not enough insurance.</td>
+            <td>$100,000 combined single limit; UM property damage included with $100 deductible</td>
+          </tr>
+          <tr>
+            <td>Medical Payments</td>
+            <td>Helps with medical bills for people in a covered vehicle after a covered accident.</td>
+            <td>Rejected</td>
+          </tr>
+          <tr>
+            <td>Hired / Non-Owned Auto</td>
+            <td>Important if employees use personal vehicles for business or if the business rents vehicles.</td>
+            <td>Not shown on quote - confirm if needed</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">Covered Units</div>
+      <h2 class="section-title">Vehicles on this commercial quote</h2>
+      <p class="muted" style="margin-bottom:18px;">Each vehicle should match the VIN, garaging ZIP, radius, business use, deductibles, and physical damage coverage shown by the carrier.</p>
+      <div class="list-stack">
+        
+        <article class="item-card">
+          <div class="item-head">
+            <div>
+              <strong>2022 RAM 1500</strong>
+              <span>VIN 1C6SRFFT9NN148393 | Garaging ZIP 27330 | 100 mile radius | Pickup Truck</span>
+            </div>
+            <span class="badge">$2,295</span>
+          </div>
+          <div class="item-body">
+            <table class="detail-table">
+<tr><td>Vehicle value basis</td><td>Actual Cash Value plus $2,000 permanently attached equipment</td></tr>
+<tr><td>Annual mileage</td><td>0 - 3,999</td></tr>
+<tr><td>Personal use</td><td>No</td></tr>
+<tr><td>Liability premium</td><td>$1,441</td></tr>
+<tr><td>UM/UIM premium</td><td>$37</td></tr>
+<tr><td>UM property damage premium</td><td>$22</td></tr>
+<tr><td>Comprehensive</td><td>$100 deductible | $142 premium</td></tr>
+<tr><td>Collision</td><td>$500 deductible | $638 premium</td></tr>
+<tr><td>Roadside assistance</td><td>$0 deductible | $15 premium</td></tr>
+</table>
+          </div>
+        </article>
+
+        <article class="item-card">
+          <div class="item-head">
+            <div>
+              <strong>2020 Chevrolet Express G2500</strong>
+              <span>VIN 1GCWGAFG2L1214440 | Garaging ZIP 27330 | 100 mile radius | Cargo Van</span>
+            </div>
+            <span class="badge">$2,125</span>
+          </div>
+          <div class="item-body">
+            <table class="detail-table">
+<tr><td>Vehicle value basis</td><td>Actual Cash Value plus $2,000 permanently attached equipment</td></tr>
+<tr><td>Annual mileage</td><td>40,000 - 59,999</td></tr>
+<tr><td>Personal use</td><td>No</td></tr>
+<tr><td>Liability premium</td><td>$1,565</td></tr>
+<tr><td>UM/UIM premium</td><td>$46</td></tr>
+<tr><td>UM property damage premium</td><td>$25</td></tr>
+<tr><td>Comprehensive</td><td>$100 deductible | $98 premium</td></tr>
+<tr><td>Collision</td><td>$500 deductible | $370 premium</td></tr>
+<tr><td>Roadside assistance</td><td>$0 deductible | $21 premium</td></tr>
+</table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">Rated Operators</div>
+      <h2 class="section-title">Drivers listed on this quote</h2>
+      <p class="muted" style="margin-bottom:18px;">Please confirm every owner, employee, household member, or regular operator who may drive a business vehicle.</p>
+      <div class="list-stack">
+        
+        <article class="item-card">
+          <div class="item-head">
+            <div>
+              <strong>Jeremy Fayer</strong>
+              <span>Date of birth 03/27/1976 | 0 points shown on quote</span>
+            </div>
+            <span class="badge">Rated</span>
+          </div>
+        </article>
+
+        <article class="item-card">
+          <div class="item-head">
+            <div>
+              <strong>Jayden Fayer</strong>
+              <span>Date of birth 06/08/2009 | 0 points shown on quote</span>
+            </div>
+            <span class="badge">Rated</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <div class="section-kicker">Payment Options</div>
+        <h2 class="section-title">Choose what fits business cash flow</h2>
+        <div class="plans">
+          <div class="plan-card recommended">
+            <span>Monthly EFT</span>
+            <strong>$395.92/mo</strong>
+            <span>$394.87 today, then 9 payments of $395.92 and 1 final payment of $395.85.</span>
+          </div>
+          <div class="plan-card">
+            <span>Pay in Full</span>
+            <strong>$3,670.00</strong>
+            <span>One payment for the policy term. Any savings are confirmed before binding.</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-kicker">Savings Applied</div>
+        <h2 class="section-title">Discounts on this quote</h2>
+        <div class="list-stack">
+          
+          <article class="item-card">
+            <div class="item-head">
+              <div>
+                <strong>Total policy premium</strong>
+                <span>Progressive quote total shown before payment-plan discounts: $4,420.00.</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="item-card">
+            <div class="item-head">
+              <div>
+                <strong>Paid-in-full discount</strong>
+                <span>Progressive quote shows $750.00 savings when the policy is paid in full, lowering the premium to $3,670.00.</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="item-card">
+            <div class="item-head">
+              <div>
+                <strong>EFT payment option</strong>
+                <span>Electronic Funds Transfer total premium shown as $4,344.00 with $1.00 installment fees.</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="card trust-divider-card">
+      <img src="https://i.imgur.com/b9Yh74p.png" alt="Local agent reviewing commercial auto coverage with a business owner" class="trust-divider-img" />
+      <div class="trust-divider-text">
+        <div class="section-kicker">Local Agent Review</div>
+        <h3>A real person checks the details before anything is submitted.</h3>
+        <p>Before binding, we review listed drivers, vehicle use, VINs, garaging, deductibles, payment plan, business operations, and carrier requirements.</p>
+        <p>After coverage starts, our office remains your local contact for ID cards, billing questions, vehicle changes, certificates, and claim guidance.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">Local Social Proof</div>
+      <h2 class="section-title">What local customers say about us</h2>
+      <div class="reviews-list">
+        <div class="review-item">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>Bill Layne Insurance helped us understand the details and made the quote process much easier to review.</p>
+          <strong>Local business customer</strong>
+        </div>
+        <div class="review-item">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p>They explain coverage in plain English and are quick to answer questions when something needs to be corrected.</p>
+          <strong>Local customer review</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="card closing-panel">
+      <h2 class="section-title">Ready to review the next step?</h2>
+      <p>Click below, call, text, or reply. We will walk through the quote, confirm the business vehicle details, and explain what is needed before coverage can be bound.</p>
+      <div class="closing-actions">
+        <a class="btn btn-primary" href="https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName=Jeremy+Fayer+%2F+Air+Controls&templateType=commercial-auto&carrier=Progressive&quoteNumber=AIR-CONTROLS-2026-06-08&premium=%244%2C420.00&subject=Progressive+Commercial+Auto+Quote+Review" target="_blank" rel="noopener">Contact Me</a>
+        <a class="btn btn-secondary" href="tel:13368351993">Call Office</a>
+      </div>
+    </section>
+  </main>
+
+  <a class="sticky-bind" href="https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName=Jeremy+Fayer+%2F+Air+Controls&templateType=commercial-auto&carrier=Progressive&quoteNumber=AIR-CONTROLS-2026-06-08&premium=%244%2C420.00&subject=Progressive+Commercial+Auto+Quote+Review" target="_blank" rel="noopener">Proceed</a>
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="x-apple-disable-message-reformatting"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>🚗 {{CUSTOMER_FIRST_NAME}}, your {{CARRIER_NAME}} quote is ready</title>
+  <style>
+    body { margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    table { border-collapse:collapse; }
+    img { -ms-interpolation-mode:bicubic; }
+    a { text-decoration:none; }
+    @media only screen and (max-width:600px) {
+      .container { width:100% !important; }
+      .card-pad { padding:20px !important; }
+      .hero-pad { padding:32px 20px !important; }
+      .premium-num { font-size:36px !important; }
+      .stack-mobile { display:block !important; width:100% !important; padding-left:0 !important; padding-right:0 !important; }
+      .hide-mobile { display:none !important; }
+    }
+    @media (prefers-color-scheme:dark) {
+      body { background-color:#f1f5f9 !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <!-- Gmail Preheader Preview Spacer Hack -->
+  <div style="display:none;font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;color:transparent;">
+    {{LOWEST_MONTHLY_PAYMENT}}/mo · {{VEHICLE_COUNT}} vehicles · save {{PAID_IN_FULL_SAVINGS}} paying in full
+    &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+
+  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f1f5f9;">
+    <tbody>
+      <tr>
+        <td align="center" style="padding:20px 0;">
+          <table role="presentation" width="600" cellPadding="0" cellSpacing="0" border="0" class="container">
+            <tbody>
+              <tr>
+                <td>
+                  <!-- Header brand block -->
+                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="100%" style="background-color:#fafafa;border:1px solid #e2e8f0;border-radius:16px 16px 0 0;border-bottom:none;">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td height="5" style="background:linear-gradient(90deg,#003f87 0%,#0076d3 50%,#003f87 100%);background-color:#003f87;font-size:0;line-height:0;height:5px;">&nbsp;</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td style="padding:24px;" align="center">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;">
+                                          <img src="{{AGENCY_LOGO_URL}}" width="120" alt="Bill Layne Insurance Agency" style="display:block;width:120px;height:auto;border:0;"/>
+                                        </td>
+                                        <td width="20" style="width:20px;font-size:0;line-height:0;">
+                                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="1" height="40">
+                                            <tbody>
+                                              <tr>
+                                                <td style="background-color:#e2e8f0;font-size:0;line-height:0;width:1px;height:40px;">&nbsp;</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                        <td style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;">
+                                          <img src="{{CARRIER_LOGO_SRC}}" width="120" alt="{{CARRIER_NAME}}" style="display:block;width:120px;height:auto;border:0;"/>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="padding:0 24px 18px 24px;">
+                                  <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:1.5px;text-transform:uppercase;">Auto Insurance Quote</p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Hero pricing banner (Navy to Teal gradient optimized) -->
+                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0" width="100%" style="background:linear-gradient(135deg,#0b2234 0%,#12324a 50%,#2080a0 100%);background-color:#12324a;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;" bgcolor="#12324a">
+                    <tbody>
+                      <tr>
+                        <td style="padding:48px 32px;text-align:center;" class="hero-pad">
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto 20px auto;">
+                            <tbody>
+                              <tr>
+                                <td style="background-color:rgba(200,168,78,0.15);border:1px solid rgba(200,168,78,0.4);border-radius:20px;padding:6px 16px;">
+                                  <span style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;font-weight:700;color:#C8A84E;letter-spacing:1.5px;text-transform:uppercase;">🚗 Auto Insurance Quote</span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:32px;font-weight:700;color:#ffffff;line-height:1.2;">{{CUSTOMER_FIRST_NAME}}, your {{CARRIER_NAME}} auto quote is ready.</p>
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto;">
+                            <tbody>
+                              <tr>
+                                <td style="background-color:rgba(255,255,255,0.15);border-radius:16px;padding:20px 36px;border:1px solid rgba(255,255,255,0.3);text-align:center;">
+                                  <p style="margin:0 0 2px 0;font-size:11px;font-weight:700;color:#C8A84E;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">EFT Recurring Payment</p>
+                                  <p style="margin:0;font-size:40px;font-weight:700;color:#ffffff;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;line-height:1.1;" class="premium-num">{{LOWEST_MONTHLY_PAYMENT}}<span style="font-size:18px;font-weight:400;color:rgba(255,255,255,0.75);">/mo</span></p>
+                                  <p style="margin:4px 0 0 0;font-size:13px;color:rgba(255,255,255,0.75);font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">{{INITIAL_PAYMENT_FOR_LOWEST_MONTHLY}} down · {{LOWEST_MONTHLY_PAYMENT}} × 5 · {{INSTALLMENT_TERM_TOTAL}} total</p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table cellPadding="0" cellSpacing="0" border="0" width="100%" style="margin:18px auto 0 auto;max-width:520px;">
+                            <tbody>
+                              <tr>
+                                <td style="background-color:rgba(255,255,255,0.12);border-radius:12px;padding:14px 18px;border:1px solid rgba(200,168,78,0.4);">
+                                  <p style="margin:0 0 6px 0;font-size:10px;font-weight:700;color:#C8A84E;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;text-align:center;">🛒 We Shopped Your Rate</p>
+                                  <p style="margin:0 0 6px 0;font-size:13px;color:#ffffff;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;line-height:1.5;text-align:center;">As your independent agent, I compared <strong>multiple top carriers</strong> to find your best value:</p>
+                                  <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.85);font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;line-height:1.7;text-align:center;"><strong>{{CARRIER_NAME}}</strong> &bull; Nationwide &bull; Travelers &bull; National General</p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <table cellPadding="0" cellSpacing="0" border="0" style="margin:18px auto 0 auto;">
+                            <tbody>
+                              <tr>
+                                <td style="padding:0 4px;">
+                                  <table cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="background-color:rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;">
+                                          <span style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#ffffff;font-weight:600;">{{POLICY_TERM_LABEL}} term</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="background-color:rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;">
+                                          <span style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#ffffff;font-weight:600;">{{VEHICLE_COUNT}} vehicles</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="background-color:rgba(255,255,255,0.12);border-radius:10px;padding:6px 12px;">
+                                          <span style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#ffffff;font-weight:600;">{{DRIVER_COUNT}} drivers</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Primary Action CTA (High CTR text View Proposal & Lock Rate) - Outlook bulletproof reconstruction -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:24px 32px;text-align:center;" class="card-pad">
+                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:20px;font-weight:700;color:#0f172a;">Ready to view your full proposal dashboard?</p>
+                          <p style="margin:0 0 16px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:13px;color:#334155;line-height:1.6;">Verify all coverages, details, and driver profiles on your interactive dashboard. You can select your payment method and start final review there.</p>
+                          
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto 10px auto;">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="background-color:#d4a11c; border-radius:999px; background:linear-gradient(135deg,#d4a11c 0%,#f0bd3c 100%);" bgcolor="#d4a11c">
+                                  <a href="{{QUOTE_ACTION_URL}}" target="_blank" style="background-color:#d4a11c; border:1px solid #d4a11c; border-radius:999px; color:#0b2234; display:inline-block; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size:14px; font-weight:800; text-decoration:none; padding:14px 36px; text-transform:uppercase; letter-spacing:1px;">View Proposal & Lock Rate →</a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.5;">No coverage is bound until final agency check & payment processing. Submitting review does not start policy.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Humanized Signature Greeting Block -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px 32px 18px 32px;" class="card-pad">
+                          <p style="margin:0 0 14px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:16px;line-height:1.65;color:#334155;">Hi {{CUSTOMER_FIRST_NAME}},</p>
+                          <p style="margin:0 0 16px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:15px;line-height:1.6;color:#334155;">Thank you for giving us the opportunity to shop your insurance. I prepared this quote with <strong>{{CARRIER_NAME}}</strong> and summarized the key details below so you can review your driver profiles, vehicle coverage limits, and payment options without digging through a massive carrier PDF.</p>
+                          <p style="margin:0 0 24px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:15px;line-height:1.6;color:#334155;">Please look over the details, and if everything looks correct, click the link above to lock in this rate and request policy finalization.</p>
+                          
+                          <!-- Agent profile sig row -->
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin-top:16px;">
+                            <tbody>
+                              <tr>
+                                <td style="padding-right:12px;vertical-align:middle;">
+                                  <img src="{{AGENT_HEADSHOT_URL}}" alt="Bill Layne" width="48" height="48" style="display:block;border-radius:8px;width:48px;height:48px;border:2px solid #e2e8f0;object-fit:cover;"/>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                  <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:14px;font-weight:700;color:#0f172a;">Bill Layne</p>
+                                  <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#64748b;">Bill Layne Insurance Agency</p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- 10-Day Rate Lock Alert Notice Box -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:0 32px 24px 32px;" class="card-pad">
+                          <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fffaf0;border:1px solid #fbd38d;border-radius:12px;">
+                            <tbody>
+                              <tr>
+                                <td style="padding:14px 18px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#744210;line-height:1.5;">
+                                  ⏱️ <strong>Rate Lock Notice:</strong> This {{CARRIER_NAME}} quote is saved in our local agency database. To lock in this exact rate and prevent market pricing fluctuations, we recommend completing your proposal review and checking out within <strong>10 days</strong>.
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Quick Stats Grid -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Quick Decision Snapshot</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">The Numbers at a Glance</p>
+                          <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Recurring EFT</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{LOWEST_MONTHLY_PAYMENT}}/mo</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">{{INITIAL_PAYMENT_FOR_LOWEST_MONTHLY}} down payment</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Total Premium</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{INSTALLMENT_TERM_TOTAL}}</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">{{POLICY_TERM_LABEL}} term</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Carrier</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{CARRIER_NAME}}</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">Quote {{QUOTE_NUMBER}}</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Vehicles</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{VEHICLE_COUNT}} vehicles</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">{{DRIVER_COUNT}} drivers rated</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Liability</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{LIABILITY_LIMITS}}</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">BI / property damage</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:14px 16px;">
+                                          <p style="margin:0 0 4px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.8px;text-transform:uppercase;">Quote Expires</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:17px;font-weight:700;color:#003f87;line-height:1.2;">{{QUOTE_EXPIRATION_DATE}}</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:11px;color:#64748b;line-height:1.4;">Rate subject to verification</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Trust Welcome Kit Image Divider Block -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad" align="center">
+                          <img src="https://i.imgur.com/NoN42Ha.png" alt="Your welcome kit policy documentation" width="520" style="display:block;border:0;width:100%;max-width:520px;height:auto;margin:0 auto;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.06);"/>
+                          <p style="margin:12px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:14px;font-weight:700;color:#0f172a;line-height:1.4;">Your Official Welcome Pack & ID Cards are Ready</p>
+                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#64748b;line-height:1.5;max-width:460px;">Once finalized, we prepare a physical Welcome Pack for your household containing printed auto ID cards, contact cards, and policy breakdown sheets.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Dynamic Vehicle List (Encapsulated in style-scoped container) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Insured Vehicles</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">{{VEHICLE_COUNT}} Vehicles on This Quote</p>
+                          
+                          <div style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155; font-size:14px; line-height:1.6;">
+                            {{VEHICLES_HTML}}
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Dynamic Driver List (Encapsulated in style-scoped container) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Rated Drivers</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">{{DRIVER_COUNT}} Drivers on This Policy</p>
+                          
+                          <div style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155; font-size:14px; line-height:1.6;">
+                            {{DRIVERS_HTML}}
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Dynamic Discounts Grid (Encapsulated in style-scoped container) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Savings Applied</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">Discounts on This Quote</p>
+                          
+                          <div style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155; font-size:14px; line-height:1.6;">
+                            {{DISCOUNTS_HTML}}
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Premium Breakdown list (Encapsulated in style-scoped container) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Premium Detail</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">Premium Breakdown</p>
+                          
+                          <div style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155; font-size:14px; line-height:1.6; margin-bottom:12px;">
+                            {{PREMIUM_BREAKDOWN_HTML}}
+                          </div>
+                          
+                          <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#003f87;border-radius:8px;">
+                            <tbody>
+                              <tr>
+                                <td style="padding:16px 20px;" bgcolor="#003f87">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <span style="font-size:13px;font-weight:700;color:#ffffff;letter-spacing:0.5px;text-transform:uppercase;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">Total 6-Month Premium</span>
+                                        </td>
+                                        <td align="right">
+                                          <span style="font-size:22px;font-weight:700;color:#C8A84E;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">{{INSTALLMENT_TERM_TOTAL}}</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Payment Options Plans block -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fafafa;border:1px solid #e2e8f0;border-top:none;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Payment Options</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">Choose the Payment Plan That Fits</p>
+                          <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="stack-mobile" width="50%" style="padding:0 6px 0 0;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f0f9ff;border:1px solid #bfdbfe;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:18px;">
+                                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:14px;font-weight:700;color:#0f172a;">🔁 Pay Monthly (EFT)</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:22px;font-weight:700;color:#003f87;">{{INITIAL_PAYMENT_FOR_LOWEST_MONTHLY}} down</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#64748b;">{{LOWEST_MONTHLY_PAYMENT}} × 5</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td class="stack-mobile" width="50%" style="padding:0 0 0 6px;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fff7ed;border:1px solid #C8A84E;border-radius:10px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:18px;">
+                                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:14px;font-weight:700;color:#0f172a;">🎉 Pay in Full</p>
+                                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:22px;font-weight:700;color:#003f87;">{{PAID_IN_FULL_AMOUNT}}</p>
+                                          <p style="margin:4px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#059669;font-weight:bold;">Save {{PAID_IN_FULL_SAVINGS}}</p>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- SECTION: Understanding Your Coverage (Infographic) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:24px 32px 24px 32px;" class="card-pad">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;">● Understanding Your Coverage</p>
+                          <p style="margin:0 0 16px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">What You're Protected For</p>
+                          
+                          <!-- Infographic Content Table -->
+                          <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff; margin:0 auto; max-width:520px;">
+                            <tbody>
+                              <!-- Header -->
+                              <tr>
+                                <td style="padding:0 0 16px 0;" align="center">
+                                  <p style="margin:0; font-size:13px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; font-style:italic; text-align:center;">A plain-English guide to what you're protected for under North Carolina rules</p>
+                                </td>
+                              </tr>
+                              
+                              <!-- NC Minimums Callout Box -->
+                              <tr>
+                                <td style="padding:0 0 20px 0;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#fffbeb; border:1px solid #fef3c7; border-radius:8px;">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding:12px 14px; font-family:system-ui, -apple-system, sans-serif; font-size:12px; color:#744210; line-height:1.4;">
+                                          📅 <strong>NC minimum coverage changed in 2025</strong> — ask us if your limits still make sense.
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                              <!-- SECTION 1: Required in NC -->
+                              <tr>
+                                <td style="padding:0 0 20px 0;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding-bottom:12px;">
+                                          <table cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td width="24" height="24" align="center" style="background-color:#0b2234; border-radius:4px; font-family:system-ui, -apple-system, sans-serif; font-size:12px; font-weight:800; color:#ffffff; width:24px; height:24px;">1</td>
+                                                <td style="padding-left:8px; font-family:system-ui, -apple-system, sans-serif; font-size:15px; font-weight:700; color:#0b2234;">Required in NC <span style="font-weight:400; font-size:12px; color:#64748b; margin-left:4px;">| What North Carolina requires</span></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <!-- 3 Columns for Section 1 -->
+                                          <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td class="stack-mobile" width="33%" style="padding:0 6px 12px 0; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">🛡️</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Bodily Injury</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Pays for injuries you cause to others in a crash.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                                <td class="stack-mobile" width="33%" style="padding:0 6px 12px 6px; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">🚗</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Property Damage</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Pays for damage you cause to another car/property.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                                <td class="stack-mobile" width="33%" style="padding:0 0 12px 6px; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">👤</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">UM / UIM</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Helps protect you if other driver has no insurance.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                              <!-- SECTION 2: Protects Your Car -->
+                              <tr>
+                                <td style="padding:0 0 20px 0;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding-bottom:12px;">
+                                          <table cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td width="24" height="24" align="center" style="background-color:#0b2234; border-radius:4px; font-family:system-ui, -apple-system, sans-serif; font-size:12px; font-weight:800; color:#ffffff; width:24px; height:24px;">2</td>
+                                                <td style="padding-left:8px; font-family:system-ui, -apple-system, sans-serif; font-size:15px; font-weight:700; color:#0b2234;">Protects Your Car <span style="font-weight:400; font-size:12px; color:#64748b; margin-left:4px;">| Damage to your vehicle</span></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <!-- 2 Columns for Section 2 -->
+                                          <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td class="stack-mobile" width="50%" style="padding:0 6px 12px 0; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">☂️</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Comprehensive</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Covers theft, hail, fire, glass, and animal hits.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                                <td class="stack-mobile" width="50%" style="padding:0 0 12px 6px; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">💥</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Collision</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Repairs your car if damaged in a crash.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                              <!-- SECTION 3: Helpful Add-Ons -->
+                              <tr>
+                                <td style="padding:0 0 10px 0;">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td style="padding-bottom:12px;">
+                                          <table cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td width="24" height="24" align="center" style="background-color:#0b2234; border-radius:4px; font-family:system-ui, -apple-system, sans-serif; font-size:12px; font-weight:800; color:#ffffff; width:24px; height:24px;">3</td>
+                                                <td style="padding-left:8px; font-family:system-ui, -apple-system, sans-serif; font-size:15px; font-weight:700; color:#0b2234;">Helpful Add-Ons <span style="font-weight:400; font-size:12px; color:#64748b; margin-left:4px;">| Extra protection</span></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <!-- 3 Columns for Section 3 -->
+                                          <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                            <tbody>
+                                              <tr>
+                                                <td class="stack-mobile" width="33%" style="padding:0 6px 12px 0; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">➕</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Med Pay</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Pays medical bills for you & passengers.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                                <td class="stack-mobile" width="33%" style="padding:0 6px 12px 6px; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">🔑</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Rental Car</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Pays for a rental while yours is repaired.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                                <td class="stack-mobile" width="33%" style="padding:0 0 12px 6px; vertical-align:top;">
+                                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+                                                    <tbody>
+                                                      <tr>
+                                                        <td style="padding:16px 10px; text-align:center;" align="center">
+                                                          <span style="font-size:20px; display:block; margin-bottom:4px;">🚚</span>
+                                                          <span style="font-size:11px; font-weight:700; color:#0b2234; font-family:system-ui, -apple-system, sans-serif; display:block;">Roadside</span>
+                                                          <span style="font-size:10px; color:#64748b; font-family:system-ui, -apple-system, sans-serif; display:block; margin-top:4px; line-height:1.3;">Helps with towing, jump starts, & lockouts.</span>
+                                                        </td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                              <!-- Educational Disclaimer -->
+                              <tr>
+                                <td style="padding:10px 0 0 0;" align="center">
+                                  <p style="margin:0; font-family:system-ui, -apple-system, sans-serif; font-size:11px; color:#64748b; line-height:1.4; text-align:center;">
+                                    * This guide is educational. Actual coverage depends on your policy, carrier, deductibles, limits, and endorsements.
+                                  </p>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- SECTION: Local Customer Review (Centered Layout with Contrast Background) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:12px 32px 24px 32px; text-align:center;" class="card-pad" align="center">
+                          <p style="margin:0 0 4px 0;font-size:10px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;letter-spacing:1.5px;text-transform:uppercase;text-align:center;">● Local Customer Review</p>
+                          <p style="margin:0 0 20px 0;font-size:20px;font-weight:700;color:#0f172a;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;text-align:center;">Trusted by Local Families</p>
+                          
+                          <!-- Inner Review Card (Light Gray Contrast) -->
+                          <table width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc;border-radius:12px;margin:0 auto;max-width:520px;" align="center">
+                            <tbody>
+                              <tr>
+                                <td style="padding:22px 24px; text-align:center;" align="center">
+                                  <table width="100%" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td align="center" style="padding-bottom:12px;">
+                                          <img src="https://i.imgur.com/nDFmjxh.png" width="24" height="24" alt="Google" style="display:inline-block;width:24px;height:24px;border:0;vertical-align:middle;"/>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center">
+                                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;font-weight:700;color:#C8A84E;letter-spacing:1px;text-transform:uppercase;text-align:center;">
+                                            <span style="color:#C8A84E;font-size:15px;margin-right:6px;vertical-align:middle;">★★★★★</span>{{GOOGLE_RATING}} Google Rating
+                                          </p>
+                                          <p style="margin:0 0 12px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:15px;color:#334155;line-height:1.65;font-style:italic;text-align:center;">“{{REVIEW_1_TEXT}}”</p>
+                                          <p style="margin:0 0 16px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;font-weight:700;color:#0f172a;text-align:center;">{{REVIEW_1_NAME}} - Google Review</p>
+                                          <table cellPadding="0" cellSpacing="0" border="0" align="center" style="margin:0 auto;">
+                                            <tbody>
+                                              <tr>
+                                                <td align="center" style="background-color:#ffffff;border:2px solid #003f87;border-radius:8px;">
+                                                  <a href="https://g.page/r/CXGq9B7-jzu7EAE/review" target="_blank" style="display:inline-block;padding:10px 18px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:13px;font-weight:700;color:#003f87;text-decoration:none;">Read Our Google Reviews</a>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- SECTION: Final CTA Section (Action-oriented Lock Rate text) -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#ffffff;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:12px 32px 32px 32px;text-align:center;" class="card-pad">
+                          <p style="margin:0 0 8px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:22px;font-weight:700;color:#0f172a;">Ready to secure your rate?</p>
+                          <p style="margin:0 0 24px 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:14px;color:#64748b;line-height:1.6;">Click below to view your personalized web proposal. You can finalize coverages, check payment breakdowns, and submit binding instructions directly.</p>
+                          
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto 12px auto;">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="background-color:#d4a11c; border-radius:999px; background:linear-gradient(135deg,#d4a11c 0%,#f0bd3c 100%);" bgcolor="#d4a11c">
+                                  <a href="{{QUOTE_ACTION_URL}}" target="_blank" style="background-color:#d4a11c; border:1px solid #d4a11c; border-radius:999px; color:#0b2234; display:inline-block; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size:15px; font-weight:800; text-decoration:none; padding:14px 36px; text-transform:uppercase; letter-spacing:1px;">View Proposal & Lock Rate →</a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:0 auto 12px auto;">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="border:2px solid #003f87;border-radius:8px;background-color:#ffffff;">
+                                  <a href="tel:3368351993" style="display:inline-block;padding:12px 32px;font-size:14px;font-weight:700;color:#003f87;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;text-decoration:none;">📞 Call (336) 835-1993</a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                           <p style="margin:0;font-size:11px;color:#64748b;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">Available Mon-Fri 9am-5pm • We reply within 1 business hour</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Footer contact block -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;">
+                    <tbody>
+                      <tr>
+                        <td height="3" style="background:linear-gradient(90deg,#003f87,#C8A84E);background-color:#C8A84E;font-size:0;line-height:0;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="padding:26px 24px 16px 24px;">
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td style="background-color:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;">
+                                  <img src="{{AGENCY_LOGO_URL}}" width="136" alt="Bill Layne Insurance Agency" style="display:block;width:136px;height:auto;border:0;"/>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p style="margin:16px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:13px;color:#334155;line-height:1.8;">
+                            1283 N Bridge St<br/>Elkin, NC 28621<br/>
+                            <a href="tel:3368351993" style="color:#003f87;font-weight:700;">(336) 835-1993</a> • <a href="mailto:{{AGENT_EMAIL}}" style="color:#003f87;font-weight:700;">{{AGENT_EMAIL}}</a><br/>
+                            <a href="https://www.BillLayneInsurance.com" style="color:#003f87;font-weight:700;">www.BillLayneInsurance.com</a>
+                          </p>
+                          <table role="presentation" cellPadding="0" cellSpacing="0" border="0" style="margin:16px auto 0 auto;">
+                            <tbody>
+                              <tr>
+                                <td style="padding:0 4px;">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td width="28" height="28" align="center" valign="middle" style="background-color:#1877F2;border-radius:6px;width:28px;height:28px;">
+                                          <a href="https://www.facebook.com/dollarbillagency" aria-label="Facebook" style="display:block;width:28px;height:28px;line-height:28px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#ffffff;text-decoration:none;">f</a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td width="28" height="28" align="center" valign="middle" style="background-color:#C13584;border-radius:6px;width:28px;height:28px;">
+                                          <a href="https://www.instagram.com/ncautoandhome" aria-label="Instagram" style="display:block;width:28px;height:28px;line-height:28px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#ffffff;text-decoration:none;">IG</a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td width="28" height="28" align="center" valign="middle" style="background-color:#FF0000;border-radius:6px;width:28px;height:28px;">
+                                          <a href="https://www.youtube.com/@ncautoandhome" aria-label="YouTube" style="display:block;width:28px;height:28px;line-height:28px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#ffffff;text-decoration:none;">YT</a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td width="28" height="28" align="center" valign="middle" style="background-color:#0f172a;border-radius:6px;width:28px;height:28px;">
+                                          <a href="https://x.com/shopsavecompare" aria-label="X" style="display:block;width:28px;height:28px;line-height:28px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#ffffff;text-decoration:none;">X</a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                                <td style="padding:0 4px;">
+                                  <table role="presentation" cellPadding="0" cellSpacing="0" border="0">
+                                    <tbody>
+                                      <tr>
+                                        <td width="28" height="28" align="center" valign="middle" style="background-color:#0084FF;border-radius:6px;width:28px;height:28px;">
+                                          <a href="https://m.me/dollarbillagency" aria-label="Messenger" style="display:block;width:28px;height:28px;line-height:28px;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;font-weight:700;color:#ffffff;text-decoration:none;">M</a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p style="margin:14px 0 0 0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:12px;color:#334155;">
+                            <img src="https://i.imgur.com/nDFmjxh.png" width="16" height="16" alt="Google" style="vertical-align:middle;border:0;margin-right:4px;"/>{{GOOGLE_RATING}} stars on Google from {{GOOGLE_REVIEW_COUNT}} reviews
+                          </p>
+                          
+                          <!-- Consolidated disclaimers -->
+                          <p style="margin:20px auto 0 auto;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;color:#64748b;line-height:1.5;max-width:480px;text-align:center;">
+                            * <strong>Coverage Disclaimer:</strong> Coverage starts only after the application is submitted, accepted by the carrier, and initial payment is received. No coverage is bound until final agency check and payment processing.
+                          </p>
+                          <p style="margin:6px auto 0 auto;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;color:#64748b;line-height:1.5;max-width:480px;text-align:center;">
+                            * <strong>Guide Disclaimer:</strong> The coverage guide above is for educational purposes. Actual coverage depends on your policy contract, selected carrier, deductibles, limits, and endorsements.
+                          </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Footer unsubscribe block -->
+                  <table role="presentation" width="100%" cellPadding="0" cellSpacing="0" border="0" style="background-color:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 16px 16px;">
+                    <tbody>
+                      <tr>
+                        <td style="padding:18px 24px;text-align:center;">
+                          <p style="margin:0;font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;font-size:10px;color:#94a3b8;line-height:1.6;">You are receiving this because you requested a quote from Bill Layne Insurance Agency. To unsubscribe, reply with "unsubscribe" or call (336) 835-1993.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "EmailMessage",
+      "action": {
+        "@type": "ViewAction",
+        "name": "View Proposal",
+        "url": "{{QUOTE_ACTION_URL}}"
+      },
+      "description": "View your personalized auto quote proposal and lock your rate.",
+      "publisher": {
+        "@type": "InsuranceAgency",
+        "name": "Bill Layne Insurance Agency",
+        "telephone": "+1-336-835-1993",
+        "email": "{{AGENT_EMAIL}}",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1283 N Bridge St",
+          "addressLocality": "Elkin",
+          "addressRegion": "NC",
+          "postalCode": "28621"
+        }
+      }
+    }
+  </script>
+</body>
+</html>

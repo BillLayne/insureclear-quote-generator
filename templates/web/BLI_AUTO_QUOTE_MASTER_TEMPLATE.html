@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- ============================================================
+  BILL LAYNE INSURANCE — AUTO QUOTE WEB TEMPLATE (renderer master)
+  Sibling of BLI_HOME_QUOTE_MASTER_TEMPLATE.html — same brand system.
+  Tokens are replaced by lib/autoWebPageHtml.ts.
+  Dynamic blocks: DRIVERS_HTML, POLICY_COVERAGE_ROWS_HTML,
+  VEHICLES_HTML, DISCOUNTS_HTML, AUDIO_SECTION_HTML.
+  ============================================================ -->
+
+<title>{{CLIENT_NAME}} — Auto Quote Explained | Bill Layne Insurance</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="A clear, mobile-friendly auto insurance quote summary prepared by Bill Layne Insurance Agency, Elkin NC.">
+<link rel="icon" href="https://i.imgur.com/lxu9nfT.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= BLI BRAND TOKENS ================= */
+:root{
+  --navy:#14184d;
+  --blue:#517ddd;
+  --gold:#ffd966;
+  --gold-deep:#b8860b;
+  --ink:#1b1f3a;
+  --muted:#5b6178;
+  --paper:#f6f7fb;
+  --card:#ffffff;
+  --line:#dfe3ef;
+  --green:#1d7a3e;
+  --green-bg:#e7f6ec;
+  --radius:18px;
+  --shadow:0 10px 30px rgba(20,24,77,.08);
+  --display:'Fraunces', Georgia, serif;
+  --body:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.65;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:96px;
+}
+img{max-width:100%;display:block}
+a{color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* ================= VERIFY BAR ================= */
+.verify{
+  background:var(--navy);color:#fff;
+  font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  position:sticky;top:0;z-index:50;
+}
+.verify .wrap{display:flex;justify-content:space-between;align-items:center;padding:10px 16px}
+.dot{width:9px;height:9px;border-radius:50%;background:#3ddc6f;display:inline-block;margin-right:8px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.verify .gold{color:var(--gold)}
+
+/* ================= HEADER ================= */
+header.agency{padding:16px 0;border-bottom:1px solid var(--line);background:#fff}
+header.agency .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:46px;height:46px;object-fit:contain}
+.brand strong{font-size:17px;color:var(--navy);display:block;line-height:1.2}
+.brand span{font-size:12.5px;color:var(--muted);font-weight:600}
+.carrier{display:flex;align-items:center;gap:10px;text-align:right}
+.carrier p{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.carrier strong{font-size:13.5px;color:var(--navy)}
+.carrier img{height:34px;width:auto}
+@media (max-width:640px){ .carrier p{display:none} .carrier strong{display:none} }
+
+/* ================= HERO ================= */
+.hero{
+  margin-top:20px;border-radius:28px;overflow:hidden;position:relative;
+  background:
+    linear-gradient(100deg, rgba(20,24,77,.94) 0%, rgba(20,24,77,.82) 52%, rgba(20,24,77,.45) 100%),
+    var(--hero-img, var(--navy)) center 55%/cover no-repeat;
+  color:#fff;box-shadow:var(--shadow);
+}
+.hero-inner{display:flex;flex-wrap:wrap;gap:28px;align-items:center;padding:34px 26px}
+@media (min-width:880px){ .hero-inner{padding:56px 48px} }
+.hero-copy{flex:1 1 340px;min-width:280px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(20,24,77,.45);backdrop-filter:blur(3px)}
+.chip.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+h1{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(30px, 5.5vw, 50px);line-height:1.12;letter-spacing:-.01em;
+}
+h1 .accent{color:var(--gold)}
+.hero-copy p{margin-top:14px;font-size:16px;color:rgba(255,255,255,.92);max-width:560px}
+.gold-rule{width:64px;height:4px;background:var(--gold);border-radius:2px;margin:18px 0 0}
+
+/* Price card */
+.price-card{
+  flex:0 1 380px;min-width:280px;background:var(--card);color:var(--ink);
+  border-radius:22px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.28);
+  border-top:6px solid var(--gold);
+}
+.price-card .label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.price{font-family:var(--display);font-weight:700;font-size:52px;line-height:1;color:var(--navy);margin:10px 0 2px;font-variant-numeric:tabular-nums}
+.price small{font-family:var(--body);font-size:16px;font-weight:700;color:var(--muted)}
+.price-card .note{font-size:13.5px;color:var(--muted);margin:8px 0 14px}
+.term{border-top:1px solid var(--line);padding-top:14px}
+.term .label{margin-bottom:2px}
+.term strong{font-size:21px;color:var(--navy);font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:var(--gold);color:var(--navy);font-size:12.5px;font-weight:800;padding:6px 14px;border-radius:999px}
+
+/* ================= SECTION SHELL ================= */
+section{margin-top:36px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.6vw,32px);color:var(--navy);margin:6px 0 6px}
+.lede{color:var(--muted);max-width:680px;font-size:15.5px}
+
+/* ================= AUDIO ================= */
+.audio-card{
+  display:flex;flex-wrap:wrap;gap:18px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);
+}
+.audio-icon{width:52px;height:52px;border-radius:16px;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.audio-card h3{font-size:18px;color:var(--navy)}
+.audio-card p{font-size:14px;color:var(--muted)}
+.audio-card audio{width:100%;max-width:640px;margin-top:4px}
+.audio-card details{width:100%;border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+.audio-card summary{font-size:13px;font-weight:800;color:var(--navy);cursor:pointer}
+.audio-card details p{margin-top:8px;font-size:13.5px;color:var(--ink)}
+
+/* ================= INDEPENDENT ADVANTAGE ================= */
+.shopped{
+  display:flex;gap:18px;align-items:flex-start;
+  background:var(--navy);color:#fff;border-radius:var(--radius);
+  border-left:6px solid var(--gold);padding:22px 24px;box-shadow:var(--shadow);
+}
+.shopped-icon{flex:0 0 auto;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.1);color:var(--gold);display:flex;align-items:center;justify-content:center}
+.shopped h3{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;margin-bottom:6px}
+.shopped h3 .gold-text{color:var(--gold)}
+.shopped p{font-size:14.5px;color:rgba(255,255,255,.92);max-width:640px}
+
+/* ================= DRIVERS ================= */
+.drivers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:18px}
+.driver{
+  display:flex;align-items:center;gap:14px;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow);
+}
+.driver-icon{
+  flex:0 0 auto;width:44px;height:44px;border-radius:50%;
+  background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;
+}
+.driver strong{display:block;font-size:15.5px;color:var(--navy)}
+.driver span{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+
+/* ================= COVERAGE LEDGER (shared) ================= */
+.ledger{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-top:18px}
+.ledger-head{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--navy);color:#fff;padding:14px 20px;
+  font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+}
+.ledger-head span:last-child{color:var(--gold)}
+details.cov{border-top:1px solid var(--line)}
+details.cov:first-of-type{border-top:none}
+details.cov summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:16px 20px;min-height:44px;
+}
+details.cov summary::-webkit-details-marker{display:none}
+details.cov summary:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.icon-chip{
+  flex:0 0 auto;width:36px;height:36px;border-radius:10px;
+  background:var(--navy);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+.cov-name{flex:1 1 auto;min-width:0}
+.cov-name strong{display:block;font-size:15.5px;color:var(--navy)}
+.cov-name span{display:block;font-size:12.5px;color:var(--muted)}
+.cov-limit{font-weight:800;font-size:15px;color:var(--navy);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.cov-limit small{display:block;font-size:11px;font-weight:700;color:var(--muted)}
+.chev{flex:0 0 auto;transition:transform .25s;color:var(--muted)}
+details[open] .chev{transform:rotate(180deg)}
+.cov-body{padding:0 20px 18px 70px;font-size:14.5px;color:var(--ink)}
+.cov-body .means{
+  margin-top:10px;padding:10px 14px;border-left:4px solid var(--gold);
+  background:#fffaf0;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink);
+}
+.cov-body .means strong{color:var(--gold-deep)}
+@media (max-width:520px){ .cov-body{padding-left:20px} }
+
+/* ================= VEHICLES ================= */
+.vehicle{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-top:18px;
+}
+.veh-head{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:linear-gradient(100deg, var(--navy), #232a6e);color:#fff;padding:18px 20px;
+}
+.veh-icon{flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.12);color:var(--gold);display:flex;align-items:center;justify-content:center}
+.veh-title{flex:1 1 auto;min-width:200px}
+.veh-title .eyebrow{color:var(--gold);font-size:11px}
+.veh-title strong{display:block;font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2}
+.veh-chips{display:flex;flex-wrap:wrap;gap:8px}
+.veh-chips .chip{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1);font-size:11px}
+.vehicle .ledger{margin:0;border:none;border-radius:0;box-shadow:none}
+.vehicle .ledger-head{background:#eef1fa;color:var(--navy)}
+.vehicle .ledger-head span:last-child{color:var(--gold-deep)}
+
+/* Deductible callout */
+.callout{
+  margin-top:18px;background:#fffaf0;border:1px solid #f3e3b0;border-left:6px solid var(--gold);
+  border-radius:var(--radius);padding:18px 20px;
+}
+.callout h3{font-size:16.5px;color:var(--navy);margin-bottom:6px}
+.callout p{font-size:14.5px;color:var(--ink)}
+
+/* ================= DISCOUNTS ================= */
+.disc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.disc div{
+  display:flex;align-items:center;gap:10px;background:var(--green-bg);
+  border:1px solid #cdead6;border-radius:14px;padding:12px 14px;
+  font-size:14px;font-weight:700;color:var(--green);
+}
+
+/* ================= FAQ ================= */
+.faq{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-top:18px}
+details.qa{border-top:1px solid var(--line)}
+details.qa:first-of-type{border-top:none}
+details.qa summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;
+  padding:16px 20px;min-height:44px;font-weight:700;font-size:15.5px;color:var(--navy);
+}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+details.qa summary .q{flex:1 1 auto}
+.qa-body{padding:0 20px 18px;font-size:14.5px;color:var(--ink)}
+
+/* ================= TRUST ================= */
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:18px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.tcard img{width:100%;height:190px;object-fit:cover}
+.tcard .pad{padding:16px 18px}
+.tcard h3{font-size:15.5px;color:var(--navy);margin-bottom:4px}
+.tcard p{font-size:14px;color:var(--muted)}
+.stars{color:#e8a514;font-size:14px;letter-spacing:2px}
+.review{font-size:13.5px;color:var(--ink);font-style:italic;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.review b{display:block;font-style:normal;color:var(--navy);margin-top:4px;font-size:12.5px}
+
+/* ================= NEXT STEPS ================= */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.step .n{font-family:var(--display);font-weight:700;font-size:26px;color:var(--gold-deep)}
+.step h3{font-size:15.5px;color:var(--navy);margin:6px 0 4px}
+.step p{font-size:13.5px;color:var(--muted)}
+
+/* ================= FOOTER ================= */
+footer{margin-top:48px;border-top:1px solid var(--line);padding:34px 0 40px;text-align:center}
+footer img.logo{width:72px;margin:0 auto 12px}
+footer .name{font-weight:800;color:var(--navy);font-size:15px}
+footer p{font-size:13px;color:var(--muted);margin-top:4px}
+footer .disc-text{max-width:760px;margin:14px auto 0;font-size:12px;line-height:1.6}
+footer a{font-weight:700}
+
+/* ================= STICKY CTA (mobile) ================= */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:#fff;border-top:1px solid var(--line);
+  box-shadow:0 -6px 18px rgba(20,24,77,.08);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+}
+.sticky .row{display:flex;gap:10px;max-width:1080px;margin:0 auto}
+.btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;border-radius:14px;font-size:15px;font-weight:800;
+  text-decoration:none;border:1px solid transparent;
+}
+.btn svg{flex:0 0 auto}
+.btn-call{background:var(--navy);color:#fff}
+.btn-text{background:#fff;color:var(--navy);border-color:var(--line)}
+.btn-accept{background:var(--blue);color:#fff}
+.btn:active{transform:translateY(1px)}
+@media (min-width:880px){
+  .sticky{display:none}
+  body{padding-bottom:0}
+  .float-accept{
+    position:fixed;bottom:28px;right:28px;z-index:60;
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--blue);color:#fff;font-weight:800;font-size:15px;
+    padding:16px 26px;border-radius:999px;text-decoration:none;
+    box-shadow:0 14px 35px rgba(81,125,221,.45);transition:transform .2s;
+  }
+  .float-accept:hover{transform:translateY(-3px)}
+}
+@media (max-width:879px){ .float-accept{display:none} }
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+@media print{
+  .sticky,.float-accept,.verify{display:none}
+  body{padding-bottom:0;background:#fff}
+}
+</style>
+</head>
+
+<!-- ACCEPT BUTTON DATA — populated by the renderer; the script encodes them safely -->
+<body
+  data-client="{{CLIENT_NAME}}"
+  data-email="{{CLIENT_EMAIL}}"
+  data-carrier="{{CARRIER_NAME}}"
+  data-quote="{{QUOTE_NUMBER}}"
+  data-premium="{{PREMIUM_PARAM}}"
+>
+
+<!-- ================= VERIFY BAR ================= -->
+<div class="verify">
+  <div class="wrap">
+    <span><span class="dot"></span>Rates Verified</span>
+    <span class="gold">{{CARRIER_NAME}} Quote Review</span>
+  </div>
+</div>
+
+<!-- ================= AGENCY HEADER ================= -->
+<header class="agency">
+  <div class="wrap">
+    <div class="brand">
+      <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo" width="46" height="46">
+      <div>
+        <strong>Bill Layne Insurance</strong>
+        <span>Your Neighbor. Your Agent.</span>
+      </div>
+    </div>
+    <div class="carrier">
+      <div>
+        <p>Insurance Carrier</p>
+        <strong>{{CARRIER_NAME}}</strong>
+      </div>
+      <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" loading="lazy" height="34">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <div class="hero" style="--hero-img:url('{{HERO_IMAGE_URL}}')">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="chips">
+          <span class="chip gold">Prepared {{PREPARED_DATE}}</span>
+          <span class="chip">Rate locked through {{VALID_THROUGH}}</span>
+          <span class="chip">{{TERM_LENGTH}} Term</span>
+          <span class="chip">Quote #{{QUOTE_NUMBER}}</span>
+        </div>
+        <h1>Your auto quote,<br><span class="accent">explained clearly.</span></h1>
+        <div class="gold-rule"></div>
+        <p>Prepared for <strong>{{CLIENT_NAME}}</strong> in {{CLIENT_CITY}}. This page turns your {{CARRIER_NAME}} quote into a simple review: your price first, then every driver, every vehicle, and every coverage mapped out in plain English.</p>
+      </div>
+
+      <div class="price-card">
+        <div class="label"><span class="dot" style="background:var(--green)"></span>Recommended Payment Option</div>
+        <div class="price">{{MONTHLY_PREMIUM}}<small> / mo</small></div>
+        <p class="note">{{PAYMENT_NOTE}}</p>
+        <div class="term">
+          <div class="label">Total {{TERM_LENGTH}} Term Premium</div>
+          <strong>{{TERM_PREMIUM}}</strong><br>
+          <span class="pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {{SAVINGS_LINE}}
+          </span>
+          <p class="note" style="margin:12px 0 0">This rate is locked through <strong>{{VALID_THROUGH}}</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{AUDIO_SECTION_HTML}}
+
+  <!-- ================= INDEPENDENT ADVANTAGE ================= -->
+  <section id="shopped">
+    <div class="shopped">
+      <div class="shopped-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+      </div>
+      <div>
+        <h3>We shopped this for you — <span class="gold-text">that's the independent advantage.</span></h3>
+        <p>As an independent agency, we don't work for one carrier — we work for you. We compared rates from <strong>{{CARRIERS_COMPARED}} carriers</strong> we represent, and <strong>{{CARRIER_NAME}}</strong> came out best for your drivers, your vehicles, and your budget.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DRIVERS ================= -->
+  <section id="drivers">
+    <span class="eyebrow">Who's Covered Behind the Wheel</span>
+    <h2>Drivers on this policy</h2>
+    <p class="lede">Everyone listed here is a rated driver on this quote. If anyone in your household with a license is missing, tell us before we bind — it protects you at claim time.</p>
+
+    <div class="drivers">
+{{DRIVERS_HTML}}
+    </div>
+  </section>
+
+  <!-- ================= POLICY-WIDE PROTECTION ================= -->
+  <section id="policy-coverages">
+    <span class="eyebrow">Protection That Follows Every Vehicle</span>
+    <h2>Your policy-wide coverages</h2>
+    <p class="lede">These coverages protect you and your family no matter which vehicle on the policy you're driving. Tap any line to see what it does — in plain English.</p>
+
+    <div class="ledger">
+      <div class="ledger-head"><span>Coverage</span><span>Your Limit</span></div>
+{{POLICY_COVERAGE_ROWS_HTML}}
+    </div>
+  </section>
+
+  <!-- ================= VEHICLES ================= -->
+  <section id="vehicles">
+    <span class="eyebrow">Vehicle-by-Vehicle Breakdown</span>
+    <h2>Your vehicles &amp; their coverages</h2>
+    <p class="lede">Each vehicle carries its own physical-damage protection and deductibles. Tap any coverage to see exactly how it works for that vehicle.</p>
+
+{{VEHICLES_HTML}}
+
+    <!-- Deductible callout -->
+    <div class="callout">
+      <h3>How your deductibles work</h3>
+      <p>{{DEDUCTIBLE_EXPLANATION}}</p>
+    </div>
+  </section>
+
+  <!-- ================= DISCOUNTS ================= -->
+  <section id="discounts">
+    <span class="eyebrow">Already Working For You</span>
+    <h2>Discounts applied to this quote</h2>
+    <div class="disc">
+{{DISCOUNTS_HTML}}
+    </div>
+  </section>
+
+  <!-- ================= TRUST / ABOUT US ================= -->
+  <section id="trust">
+    <span class="eyebrow">Why Families Choose Us</span>
+    <h2>A local agent in your corner</h2>
+    <div class="trust">
+      <div class="tcard">
+        <img src="https://i.imgur.com/XFgsYUp.jpeg" alt="Family protected on the road" loading="lazy" width="600" height="190">
+        <div class="pad">
+          <h3>Our goal: protect your family</h3>
+          <p>We don't just insure vehicles — we protect the people riding in them. This policy was built around your drivers and how you actually use your cars.</p>
+        </div>
+      </div>
+      <div class="tcard">
+        <img src="https://i.imgur.com/jM04kLX.jpeg" alt="Bill Layne Insurance office in Elkin, NC" loading="lazy" width="600" height="190">
+        <div class="pad">
+          <h3>Our Elkin office</h3>
+          <p>1283 N Bridge St, Elkin, NC 28621<br>Stop by or call anytime — we're right down the street.</p>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="pad">
+          <h3>Google Rating &nbsp;<span class="stars">★★★★★</span> {{GOOGLE_RATING}}</h3>
+          <p class="review">"Bill Layne Insurance saved us money on our bundle and made the transition seamless. We love having a local agent we can actually call!"<b>— Sarah K., Elkin, NC</b></p>
+          <p class="review">"After my accident, Bill walked me through the whole claim. I never talked to a robot once. Exceptional service."<b>— Mark T., Surry County, NC</b></p>
+          <p style="margin-top:12px"><a href="https://g.page/r/CXGq9B7-jzu7EAE/review" target="_blank" rel="noopener">Read all {{REVIEW_COUNT}} verified local reviews →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NEXT STEPS ================= -->
+  <section id="next">
+    <span class="eyebrow">Ready When You Are</span>
+    <h2>Three simple steps to get protected</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Review your quote</h3><p>Check your drivers, vehicles, and coverages above. Questions? Call or text — that's what we're here for.</p></div>
+      <div class="step"><div class="n">2</div><h3>Tap "Accept Quote"</h3><p>One tap starts your application review. No paperwork marathon, no phone trees.</p></div>
+      <div class="step"><div class="n">3</div><h3>We handle the rest</h3><p>We finalize details with {{CARRIER_NAME}}, confirm your effective date, and send your ID cards and documents.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq">
+    <span class="eyebrow">Good Questions</span>
+    <h2>Before you say yes</h2>
+    <div class="faq">
+      <details class="qa">
+        <summary><span class="q">What happens to my current policy?</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="qa-body">
+          <p>We handle the cancellation paperwork for you and time it to your new effective date — no gap, no overlap, and no lapse on your record. If you're owed a refund on unused premium, your old carrier sends it directly to you.</p>
+        </div>
+      </details>
+      <details class="qa">
+        <summary><span class="q">When do I get my new ID cards?</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="qa-body">
+          <p>Digital ID cards usually arrive the same business day you accept — ready for your phone's wallet. We mail printed cards for your glovebox, too. If you have a lienholder, we notify them and send proof of insurance automatically.</p>
+        </div>
+      </details>
+      <details class="qa">
+        <summary><span class="q">What if I add a driver or swap a vehicle later?</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="qa-body">
+          <p>One call or text to us and it's done — new vehicle, new teen driver, address change. That's the point of having a local agent: you never wait on hold with a call center to make a simple change.</p>
+        </div>
+      </details>
+      <details class="qa">
+        <summary><span class="q">When does my coverage start?</span>
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="qa-body">
+          <p>Your effective date is <strong>{{EFFECTIVE_DATE}}</strong>. Once you tap Accept, we confirm everything with {{CARRIER_NAME}} and send your documents — usually the same business day.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <img class="logo" src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo" loading="lazy" width="72" height="72">
+    <p class="name">© 2026 Bill Layne Insurance Agency. All Rights Reserved.</p>
+    <p>1283 N Bridge St, Elkin NC 28621 &bull; <a href="tel:3368351993">336-835-1993</a> &bull; <a href="mailto:Save@BillLayneInsurance.com">Save@BillLayneInsurance.com</a></p>
+    <p>Licensed in North Carolina &bull; NC License #6571216 &bull; Protecting North Carolina Families Since 2005</p>
+    <p class="disc-text"><strong>Important Disclaimer:</strong> This quote illustration is for explanation purposes only and does not constitute a binder of insurance coverage or a contract. Premium rates and coverages are subject to final detail review, driving record and prior insurance verification, and final carrier approval.</p>
+  </footer>
+</main>
+
+<!-- ================= STICKY CTA (mobile) ================= -->
+<div class="sticky">
+  <div class="row">
+    <a class="btn btn-call" href="tel:3368351993">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call
+    </a>
+    <a class="btn btn-text" id="textBtn" href="#">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Text
+    </a>
+    <a class="btn btn-accept" id="acceptBtnMobile" href="#" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Accept
+    </a>
+  </div>
+</div>
+
+<!-- Desktop floating accept -->
+<a class="float-accept" id="acceptBtnDesktop" href="#" target="_blank" rel="noopener">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  Accept Quote &amp; Start Review
+</a>
+
+<script>
+/* ---------- Build Accept URL with safe encoding ---------- */
+(function () {
+  var b = document.body.dataset;
+  var params = new URLSearchParams({
+    action: "application_review",
+    clientName: b.client,
+    clientEmail: b.email || "",
+    templateType: "auto",
+    carrier: b.carrier,
+    quoteNumber: b.quote,
+    premium: b.premium,
+    subject: b.carrier + " Auto Quote Review"
+  });
+  var url = "https://quote-template-studio.pages.dev/quote-action?" + params.toString();
+  document.getElementById("acceptBtnMobile").href = url;
+  document.getElementById("acceptBtnDesktop").href = url;
+
+  /* Texting line — pre-filled message, safely encoded */
+  var msg = "Hi Bill, I'm reviewing my auto quote (#" + b.quote + ") and had a question about...";
+  document.getElementById("textBtn").href = "sms:3368279065?body=" + encodeURIComponent(msg);
+})();
+
+/* ---------- Coverage accordions: aria sync + one open per ledger ---------- */
+document.querySelectorAll("details.cov").forEach(function (d) {
+  var summary = d.querySelector("summary");
+  summary.setAttribute("role", "button");
+  summary.setAttribute("aria-expanded", d.open ? "true" : "false");
+  d.addEventListener("toggle", function () {
+    summary.setAttribute("aria-expanded", d.open ? "true" : "false");
+    if (d.open) {
+      /* close siblings within the SAME ledger only, so one coverage
+         can stay open on each vehicle at the same time */
+      d.closest(".ledger").querySelectorAll("details.cov[open]").forEach(function (o) {
+        if (o !== d) o.open = false;
+      });
+    }
+  });
+});
+
+/* ---------- FAQ accordions: aria sync only (multiple may stay open) ---------- */
+document.querySelectorAll("details.qa").forEach(function (d) {
+  var summary = d.querySelector("summary");
+  summary.setAttribute("role", "button");
+  summary.setAttribute("aria-expanded", d.open ? "true" : "false");
+  d.addEventListener("toggle", function () {
+    summary.setAttribute("aria-expanded", d.open ? "true" : "false");
+  });
+});
+</script>
+</body>
+</html>

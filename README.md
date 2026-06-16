@@ -1,136 +1,79 @@
-# InsureClear — AI Quote Proposal Generator
+# Quote Template Studio
 
-Upload a PDF or image of an insurance quote, and Gemini parses it into a clean,
-consumer-friendly proposal template (home, auto, or other).
+React + Vite app for Bill Layne Insurance Agency staff to turn auto and home carrier quote PDFs into Gmail-ready HTML quote emails.
 
-The Gemini API call runs **server-side** in a Cloudflare Pages Function, so
-your API key is never shipped to the browser.
+The app can:
+- Upload a carrier PDF or image and parse it with Gemini through a Cloudflare Pages Function.
+- Load auto/home sample data for testing.
+- Edit structured quote data in a staff form or the advanced JSON editor.
+- Render a live 600px Gmail preview.
+- Copy HTML, copy the plain-text companion, or download a self-contained `.html` file.
+- Open a customer confirmation page from email CTAs and notify `docs@billlayneinsurance.com` when the customer asks to be contacted.
+- Run Gmail safety checks: byte count, clean mailto, no banned circles/headshot strings, Schema JSON-LD, and home TIV compliance.
 
----
+## Local Development
 
-## Architecture
-
-```
-Browser (React + Vite)
-   │  POST /api/parse-quote  { base64Data, mimeType, instructions, quoteType }
-   ▼
-Cloudflare Pages Function   ──►   Google Gemini API
-   (functions/api/parse-quote.ts)
-   reads GEMINI_API_KEY from env
-```
-
-Static frontend deploys to Cloudflare Pages. The Pages Function runs on the
-Workers runtime and is the only place the API key is ever read.
-
----
-
-## 1. Local development
-
-**Requires Node.js 20+.**
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Option A — frontend only (no AI calls)
+Frontend only:
+
 ```bash
 npm run dev
 ```
-The UI runs at `http://localhost:3000`, but uploads to `/api/parse-quote` will
-404 because the Pages Function is not running.
 
-### Option B — full stack with Wrangler
+The UI runs at `http://127.0.0.1:3000`, but PDF parsing will 404 because the Cloudflare function is not running.
+
+Full stack with the PDF parser:
+
 ```bash
-cp .dev.vars.example .dev.vars   # then put your real Gemini key in .dev.vars
+cp .dev.vars.example .dev.vars
+# Put your real Gemini key in .dev.vars as GEMINI_API_KEY=...
 npm run dev:cf
 ```
-This boots `wrangler pages dev` in front of Vite so the function and the
-frontend run together. `.dev.vars` is gitignored.
 
----
+Wrangler serves the full app at `http://127.0.0.1:8788` and proxies Vite on `http://127.0.0.1:3000`.
 
-## 2. Push to GitHub
+## Project Map
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo>.git
-git push -u origin main
-```
+| Path | Purpose |
+| --- | --- |
+| `App.tsx` | Staff-facing upload, edit, preview, and export UI |
+| `config/brand.ts` | Agency logo, address, colors, social links |
+| `config/carriers.ts` | Carrier registry and logo/legal names |
+| `types/auto.ts`, `types/home.ts` | Structured quote data contracts |
+| `templates/` | React email components rendered to static Gmail HTML |
+| `lib/htmlSerialize.tsx` | `renderToStaticMarkup()` wrapper |
+| `lib/integrityCheck.ts` | Gmail clipping and safety checks |
+| `lib/plainTextCompanion.ts` | Multipart plain-text companion copy |
+| `functions/api/parse-quote.ts` | Server-side Gemini PDF parser |
+| `data/samples.ts` | Auto/home fixtures from the handoff |
 
-`.gitignore` already excludes `.env.local`, `.dev.vars`, `node_modules`, `dist`,
-and `.wrangler/` — none of those should ever be committed.
+## Deployment
 
----
-
-## 3. Deploy to Cloudflare Pages
-
-### Connect the repo
-1. Cloudflare dashboard → **Workers & Pages** → **Create application** →
-   **Pages** → **Connect to Git**.
-2. Pick the GitHub repo.
-3. Build settings:
-   - **Framework preset:** Vite
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** 20 (set `NODE_VERSION=20` env var if needed)
-
-### Add the API key as a secret
-After the first deploy:
-1. Open the Pages project → **Settings → Environment variables**.
-2. Click **Add variable**.
-3. **Variable name:** `GEMINI_API_KEY`
-4. **Value:** paste your Gemini API key
-5. **Type:** **Secret** (encrypted — important; do not use plaintext)
-6. Apply to **Production** and **Preview**.
-7. Trigger a redeploy (any push, or **Deployments → Retry**) so the function
-   picks up the new variable.
-
-The `functions/` directory is auto-detected by Cloudflare Pages and deployed
-alongside the static site. No extra config needed.
-
-### Verify
-After deploy, upload a sample PDF in the UI. If something is wrong:
-- **DevTools → Network → /api/parse-quote** — look at the JSON error.
-- **Cloudflare dashboard → Pages → your project → Functions → Real-time logs**
-  shows the function's stderr (e.g. missing key, Gemini API errors).
-
----
-
-## 4. Deploy from the CLI (optional)
-
-If you'd rather skip the GitHub integration:
+Build:
 
 ```bash
-npx wrangler login
-npm run deploy        # vite build && wrangler pages deploy dist
-npx wrangler pages secret put GEMINI_API_KEY --project-name=<your-project>
+npm run build
 ```
 
----
+Deploy to Cloudflare Pages:
 
-## File map
+```bash
+npm run deploy
+```
 
-| Path                              | What it does                                   |
-| --------------------------------- | ---------------------------------------------- |
-| `App.tsx`, `components/`          | React UI                                       |
-| `services/geminiService.ts`       | Browser → calls `/api/parse-quote`             |
-| `utils/htmlGenerator.ts`          | Turns parsed data into the downloadable HTML   |
-| `functions/api/parse-quote.ts`    | **Server-side** Gemini proxy (holds the key)   |
-| `functions/tsconfig.json`         | TS config so worker types resolve              |
-| `vite.config.ts`                  | Vite build (no secrets injected)               |
-| `.dev.vars.example`               | Template for local Wrangler secrets            |
+Set `GEMINI_API_KEY` as a Cloudflare Pages secret for production and preview. The key must stay server-side; do not expose it in Vite client env vars.
 
----
+Quote action notifications use the `/quote-action` Cloudflare Pages Function. Set these production variables/secrets:
 
-## Security notes
+```bash
+wrangler pages secret put RESEND_API_KEY --project-name quote-template-studio
+wrangler pages secret put QUOTE_NOTICE_FROM --project-name quote-template-studio
+wrangler pages secret put QUOTE_NOTICE_TO --project-name quote-template-studio
+```
 
-- **Never** put the API key back into `vite.config.ts` `define` — that bakes
-  it into the public JS bundle.
-- The `.env.local` file is no longer used for the API key. It's gitignored, but
-  even if it were committed, the build no longer reads `GEMINI_API_KEY` from it.
-- Rate limiting / abuse protection is not built in. For a public-facing
-  deployment, consider adding [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/),
-  a per-IP rate limiter, or auth in front of the function.
+`QUOTE_NOTICE_TO` should be `docs@billlayneinsurance.com`. `QUOTE_NOTICE_FROM` must be a sender/domain verified in Resend. Optional Twilio SMS notifications can be enabled with `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER`, and `TWILIO_TO_NUMBER`.

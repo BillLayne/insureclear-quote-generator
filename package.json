@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:cf": "wrangler pages dev -- npm run dev",
+    "dev:cf": "wrangler pages dev --proxy 3000 -- npm run dev",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "vite build && wrangler pages deploy dist"
