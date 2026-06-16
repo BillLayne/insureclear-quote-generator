@@ -74,16 +74,8 @@
     }
     .brand strong { display: block; font-weight: 900; line-height: 1.05; }
     .brand span { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
-    .phone-btn {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--navy);
-      font-weight: 800;
-      padding: 10px 14px;
-      border-radius: 999px;
-      white-space: nowrap;
-      box-shadow: 0 6px 16px rgba(11,34,52,0.05);
-    }
+    .brand-logo { height: 48px; width: auto; display: block; }
+    .carrier-logo { height: 38px; width: auto; display: block; flex: 0 0 auto; }
 
     .hero {
       max-width: var(--max);
@@ -460,8 +452,9 @@
       .trust-divider-img { min-height: 260px; }
       .overview-grid, .coverage-grid { grid-template-columns: 1fr; }
       .action-row { grid-template-columns: 1fr; }
-      .topbar-inner { align-items: flex-start; }
-      .phone-btn { display: none; }
+      .topbar-inner { align-items: center; padding: 12px 18px; }
+      .brand-logo { height: 40px; }
+      .carrier-logo { height: 30px; }
       .coverage-table { display: block; overflow-x: auto; }
       .sticky-bind { left: 18px; right: 18px; text-align: center; }
     }
@@ -471,13 +464,9 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">BL</div>
-        <div>
-          <strong>Bill Layne Insurance Agency</strong>
-          <span>Commercial Auto Quote Review</span>
-        </div>
+        <img class="brand-logo" src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo">
       </div>
-      <a class="phone-btn" href="tel:13368351993">Call Office: (336) 835-1993</a>
+      <img class="carrier-logo" src="{{CARRIER_LOGO_SRC}}" alt="{{CARRIER_NAME}} logo" loading="lazy">
     </div>
   </header>
 

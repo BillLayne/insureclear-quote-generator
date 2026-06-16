@@ -70,14 +70,10 @@ a{color:var(--blue)}
 header.agency{padding:16px 0;border-bottom:1px solid var(--line);background:#fff}
 header.agency .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .brand{display:flex;align-items:center;gap:12px}
-.brand img{width:46px;height:46px;object-fit:contain}
-.brand strong{font-size:17px;color:var(--navy);display:block;line-height:1.2}
-.brand span{font-size:12.5px;color:var(--muted);font-weight:600}
+.brand img{height:48px;width:auto;display:block;object-fit:contain}
 .carrier{display:flex;align-items:center;gap:10px;text-align:right}
-.carrier p{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.carrier strong{font-size:13.5px;color:var(--navy)}
-.carrier img{height:34px;width:auto}
-@media (max-width:640px){ .carrier p{display:none} .carrier strong{display:none} }
+.carrier img{height:38px;width:auto;display:block}
+@media (max-width:640px){ .brand img{height:42px} .carrier img{height:34px} }
 
 /* ================= HERO ================= */
 .hero{
@@ -299,22 +295,14 @@ footer a{font-weight:700}
   </div>
 </div>
 
-<!-- ================= AGENCY HEADER ================= -->
+<!-- ================= AGENCY HEADER (logos only) ================= -->
 <header class="agency">
   <div class="wrap">
     <div class="brand">
-      <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo" width="46" height="46">
-      <div>
-        <strong>Bill Layne Insurance</strong>
-        <span>Your Neighbor. Your Agent.</span>
-      </div>
+      <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency logo">
     </div>
     <div class="carrier">
-      <div>
-        <p>Insurance Carrier</p>
-        <strong>{{CARRIER_NAME}}</strong>
-      </div>
-      <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" loading="lazy" height="34">
+      <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" loading="lazy">
     </div>
   </div>
 </header>
