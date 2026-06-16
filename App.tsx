@@ -29,6 +29,7 @@ import { autoSample, dwellingSample, homeSample, motorcycleSample, rentersSample
 import { autoAudioReviewScript, renderAutoWebPageHtml } from './lib/autoWebPageHtml';
 import { renderCommercialAutoWebPageHtml } from './lib/commercialAutoWebPageHtml';
 import { homeAudioReviewScript, renderHomeWebPageHtml } from './lib/homeWebPageHtml';
+import { createGmailDraft, gmailConfigured, preloadGmailAuth } from './lib/gmailDraft';
 import { type EmailMode, renderQuoteHtml } from './lib/htmlSerialize';
 import { runIntegrityChecks } from './lib/integrityCheck';
 import { buildPdfVerificationEmail } from './lib/pdfVerificationEmail';
@@ -504,6 +505,27 @@ function App() {
     setMessage('Styled email copied and Gmail compose opened. Click the message body and press Ctrl+V to paste the formatted template.');
   };
 
+  const createGmailDraftHandler = async () => {
+    if (!gmailConfigured) {
+      setMessage('Gmail Draft needs a one-time setup — add VITE_GMAIL_CLIENT_ID and rebuild (see GMAIL_DRAFT_SETUP.md). Until then use Sync Gmail.');
+      return;
+    }
+    try {
+      setMessage('Opening Google authorization for Gmail…');
+      const { url } = await createGmailDraft({
+        subject: rendered.subject,
+        html: rendered.html,
+        to: data.clientEmail || undefined,
+        bcc: 'Save@BillLayneInsurance.com',
+      });
+      recordRecentQuote('Created Gmail Draft');
+      setMessage('Gmail draft created with full mobile formatting preserved (BCC Save@BillLayneInsurance.com). Opening your Drafts…');
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Could not create the Gmail draft.');
+    }
+  };
+
   const syncPdfVerificationToGmail = async () => {
     const pdfEmail = buildPdfVerificationEmail(data);
     await copyRichHtml(pdfEmail.html, pdfEmail.text);
@@ -551,6 +573,11 @@ function App() {
     setRecentQuotes(next);
   };
 
+  // Preload Google Identity Services so the auth popup opens within the click gesture.
+  useEffect(() => {
+    preloadGmailAuth();
+  }, []);
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -574,7 +601,8 @@ function App() {
               <button onClick={syncPdfVerificationToGmail} disabled={!canExport}><Mail size={16} /> PDF Email</button>
               <button onClick={downloadPdfVerificationEmail} disabled={!canExport}><FileText size={16} /> PDF HTML</button>
               <button onClick={downloadHtml} disabled={!canExport}><Download size={16} /> Download</button>
-              <button className="accent" onClick={syncToGmail} disabled={!canExport}><Mail size={16} /> Sync Gmail</button>
+              <button onClick={syncToGmail} disabled={!canExport} title="Legacy: copies HTML and opens Gmail compose to paste (Gmail may font-boost on mobile)."><Mail size={16} /> Sync Gmail</button>
+              <button className="accent" onClick={createGmailDraftHandler} disabled={!canExport} title="Creates a real Gmail draft with the full HTML preserved — renders correctly on mobile."><Mail size={16} /> Gmail Draft</button>
             </>
           ) : (
             <>
