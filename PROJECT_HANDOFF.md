@@ -55,7 +55,7 @@ npx wrangler pages deploy dist --project-name quote-template-studio --branch mai
 Latest Cloudflare preview URL:
 
 ```text
-https://aef82735.quote-template-studio.pages.dev
+https://26525fd5.quote-template-studio.pages.dev
 ```
 
 Production URL:
@@ -67,7 +67,7 @@ https://quote-template-studio.pages.dev/
 Latest verified production bundle:
 
 ```text
-assets/index-B84KKPLn.js
+assets/index-KB-zhYUW.js
 ```
 
 Latest verification:
@@ -75,9 +75,11 @@ Latest verification:
 - `npm run build` passed.
 - Cloudflare Pages deploy completed successfully.
 - `https://quote-template-studio.pages.dev/` returned `200`.
-- `https://aef82735.quote-template-studio.pages.dev/` returned `200`.
-- Production served `assets/index-B84KKPLn.js`.
-- Production bundle contains `Auto Fold Card`, `Home Fold Card`, and `Fold Card Fields`.
+- `https://26525fd5.quote-template-studio.pages.dev/` returned `200`.
+- Production served `assets/index-KB-zhYUW.js`.
+- Production bundle contains the original Auto Fold template sections: `Ready To Review?`, `Quote At A Glance`, and `Coverage Snapshot`.
+- Production bundle no longer contains the generic placeholder phrase `Your auto quote, folded into plain English.`
+- Local Browser visual QA confirmed the Auto Fold Card matches the original standalone builder structure instead of the generic fold-card renderer.
 - Fold-card assets returned `200`: `/fold-card/agency-logo.png`, `/fold-card/auto-quote-cover.png`, and `/fold-card/auto-quote-agent-review.png`.
 - Browser verification confirmed Auto Fold Card and Home Fold Card output buttons, iframe rendering, editable fold-card field boxes, and no console errors.
 

@@ -54,6 +54,79 @@ const vehicleName = (vehicle: Vehicle) =>
 const listItems = (items: string[]) =>
   items.filter(Boolean).map((item) => `<li>${escapeHtml(item)}</li>`).join('');
 
+const escapeAttr = (value: unknown) => escapeHtml(value);
+
+const cssUrl = (value: string) => `url("${String(value).replace(/"/g, '%22')}")`;
+
+const localCarrierLogo = (carrierId: keyof typeof CARRIERS) => {
+  const logos: Partial<Record<keyof typeof CARRIERS, string>> = {
+    progressive: `${STUDIO_ORIGIN}/carrier-logos/progressive.png`,
+    nationwide: `${STUDIO_ORIGIN}/carrier-logos/nationwide.png`,
+    national_general: `${STUDIO_ORIGIN}/carrier-logos/national-general.png`,
+    travelers: `${STUDIO_ORIGIN}/carrier-logos/travelers.png`,
+  };
+  return logos[carrierId] || carrierLogo(carrierId);
+};
+
+const autoCarrierTheme = (carrierId: keyof typeof CARRIERS) => {
+  const themes: Partial<Record<keyof typeof CARRIERS, { nav: string; green: string; companyDefault: string; help: Array<[string, string]> }>> = {
+    national_general: {
+      nav: '#003366',
+      green: '#0f7a54',
+      companyDefault: 'Integon Preferred Insurance Company / National General',
+      help: [['Claims', '1-800-468-3466'], ['Auto Service', '1-888-293-5108'], ['MyPolicy', 'mynatgenpolicy.com']],
+    },
+    nationwide: {
+      nav: '#0b4ea2',
+      green: '#1f7a53',
+      companyDefault: 'Nationwide',
+      help: [['Claims', '1-800-421-3535'], ['Service / Billing', '1-877-669-6877'], ['Website', 'nationwide.com']],
+    },
+    progressive: {
+      nav: '#0b5ca7',
+      green: '#15836b',
+      companyDefault: 'Progressive',
+      help: [['Claims', '1-800-776-4737'], ['Roadside', '1-800-776-2778'], ['Service', '1-888-671-4405']],
+    },
+    travelers: {
+      nav: '#b32025',
+      green: '#6b7280',
+      companyDefault: 'Travelers',
+      help: [['Claims / Roadside', '1-800-252-4633'], ['Customer Service', '1-800-238-6225'], ['Bill Pay', '1-800-252-2268']],
+    },
+  };
+  return themes[carrierId] || {
+    nav: '#003366',
+    green: '#0f7a54',
+    companyDefault: CARRIERS[carrierId]?.legalName || carrierName(carrierId),
+    help: [['Claims', CARRIERS[carrierId]?.claimsPhone || 'Confirm with carrier'], ['Service', CARRIERS[carrierId]?.claimsPhone || 'Confirm with carrier'], ['Website', CARRIERS[carrierId]?.portalUrl || 'Confirm with carrier']],
+  };
+};
+
+const formatLimit = (value?: string, type: 'split' | 'single' = 'split') => {
+  if (!value) return 'Review';
+  const trimmed = value.trim();
+  if (trimmed.includes('$') || /k/i.test(trimmed)) return trimmed;
+  const parts = trimmed.split('/').map((part) => part.trim()).filter(Boolean);
+  if (type === 'single' && parts.length === 1 && /^\d+$/.test(parts[0])) return `$${parts[0]}k each accident`;
+  if (parts.length >= 2 && parts.every((part) => /^\d+$/.test(part))) return `$${parts[0]}k / $${parts[1]}k`;
+  if (parts.length === 1 && /^\d+$/.test(parts[0])) return `$${parts[0]}k`;
+  return trimmed;
+};
+
+const coverageText = (vehicle: Vehicle, names: string[], fallback: string) => {
+  const match = vehicle.coverages?.find((coverage) => names.some((name) => coverage.name.toLowerCase().includes(name)));
+  if (!match) return fallback;
+  if (match.status === 'rejected' || /not included|not shown/i.test(match.limitOrDeductible)) return 'Not shown';
+  return match.limitOrDeductible || fallback;
+};
+
+const driverStatus = (relationship: string) => {
+  if (relationship === 'excluded') return 'Excluded';
+  if (relationship === 'child') return 'Rated Driver';
+  return 'Rated Driver';
+};
+
 const baseStyles = `
   <style>
     :root {
@@ -235,6 +308,706 @@ const baseStyles = `
   </style>
 `;
 
+const originalAutoStyles = `
+  <style>
+    :root {
+      --navy: #003366;
+      --deep: #061f3f;
+      --green: #0f7a54;
+      --gold: #ffc300;
+      --ink: #12213a;
+      --muted: #667085;
+      --line: #d8e0ec;
+      --paper: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html { background: #d8e4f5; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #d8e4f5;
+      font-family: Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .print-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px;
+      color: #fff;
+      background: #0b2347;
+      box-shadow: 0 10px 30px rgba(7, 20, 44, 0.22);
+    }
+    .print-toolbar h1 { margin: 0; font-size: 15px; line-height: 1.1; }
+    .print-toolbar p { margin: 3px 0 0; color: rgba(255,255,255,.78); font-size: 12px; font-weight: 700; }
+    .print-toolbar button {
+      min-height: 36px;
+      border: 0;
+      border-radius: 8px;
+      padding: 0 14px;
+      color: #061f3f;
+      background: var(--gold);
+      font: 900 12px/1 Inter, Arial, sans-serif;
+      cursor: pointer;
+    }
+    .sheet-wrap { padding: 18px; }
+    .sheet {
+      position: relative;
+      width: 11in;
+      height: 8.5in;
+      margin: 0 auto 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 20px 70px rgba(7, 20, 44, 0.24);
+    }
+    .sheet::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      border-left: 1px dotted rgba(11, 35, 71, 0.35);
+      pointer-events: none;
+    }
+    .panel {
+      position: relative;
+      width: 5.5in;
+      height: 8.5in;
+      overflow: hidden;
+    }
+    .back-cover,
+    .inside-panel {
+      padding: 0.28in;
+      background:
+        linear-gradient(90deg, rgba(0, 51, 102, 0.08), transparent 20%),
+        linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+    }
+    .front-cover {
+      color: var(--deep);
+      background:
+        linear-gradient(180deg, rgba(0, 25, 60, 0.14) 0%, rgba(0, 25, 60, 0.02) 30%, rgba(0, 25, 60, 0.24) 58%, rgba(255, 255, 255, 0) 76%),
+        var(--front-cover-image) center top / cover no-repeat;
+    }
+    .front-safe {
+      position: absolute;
+      inset: 0.28in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .cover-logo-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.16in;
+    }
+    .logo-box {
+      display: grid;
+      place-items: center;
+      min-width: 1.62in;
+      min-height: 0.62in;
+      padding: 0.1in;
+      border-radius: 0.13in;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 0.14in 0.34in rgba(5, 17, 38, 0.16);
+    }
+    .logo-box img {
+      max-width: 1.35in;
+      max-height: 0.38in;
+      object-fit: contain;
+    }
+    .quote-pill {
+      padding: 0.08in 0.13in;
+      border-radius: 99px;
+      color: #fff;
+      background: rgba(6, 31, 63, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0.12in 0.3in rgba(5, 17, 38, 0.2);
+      font-size: 8.8pt;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .front-title {
+      margin: 0 0 0.12in;
+      max-width: 3.2in;
+      color: #fff;
+      font-size: 22.5pt;
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-shadow: 0 0.06in 0.22in rgba(0, 0, 0, 0.62);
+      transform: translateY(-2.75in);
+    }
+    .front-subtitle {
+      margin: 0;
+      max-width: 3.56in;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 9.4pt;
+      line-height: 1.35;
+      font-weight: 850;
+      text-shadow: 0 0.05in 0.18in rgba(0, 0, 0, 0.55);
+      transform: translateY(-2.75in);
+    }
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.09in;
+      max-width: 4.25in;
+      margin-top: 0.18in;
+    }
+    .meta-tile {
+      min-height: 0.56in;
+      padding: 0.1in;
+      border-radius: 0.12in;
+      background: rgba(255, 255, 255, 0.93);
+      border: 1px solid rgba(0, 51, 102, 0.12);
+      box-shadow: 0 0.08in 0.22in rgba(5, 17, 38, 0.1);
+    }
+    .label {
+      display: block;
+      margin: 0 0 0.03in;
+      color: #667085;
+      font-size: 6.7pt;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .value {
+      display: block;
+      color: var(--deep);
+      font-size: 10.4pt;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+    .cover-bottom {
+      display: grid;
+      grid-template-columns: 1fr 0.96in;
+      align-items: end;
+      gap: 0.14in;
+      transform: translateY(-0.42in);
+    }
+    .qr-box {
+      display: grid;
+      place-items: center;
+      padding: 0.07in;
+      border-radius: 0.12in;
+      background: #fff;
+      box-shadow: 0 0.1in 0.28in rgba(5, 17, 38, 0.16);
+    }
+    .qr-box img {
+      width: 0.82in;
+      height: 0.82in;
+      display: block;
+    }
+    .qr-caption {
+      margin: 0.06in 0 0;
+      color: #41556f;
+      font-size: 6.5pt;
+      font-weight: 900;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .prepared {
+      padding: 0.11in 0.13in;
+      border-radius: 0.13in;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(0, 51, 102, 0.12);
+    }
+    .prepared strong {
+      display: block;
+      margin-bottom: 0.03in;
+      color: var(--deep);
+      font-size: 8.7pt;
+      font-weight: 900;
+    }
+    .prepared span {
+      display: block;
+      color: #475569;
+      font-size: 7.2pt;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.16in;
+      margin-bottom: 0.18in;
+    }
+    .small-logo {
+      display: grid;
+      place-items: center;
+      width: 1.4in;
+      min-height: 0.5in;
+      padding: 0.08in;
+      border-radius: 0.12in;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .small-logo img {
+      max-width: 1.15in;
+      max-height: 0.3in;
+      object-fit: contain;
+    }
+    .panel-title h2 {
+      margin: 0;
+      color: var(--deep);
+      font-size: 17pt;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .panel-title p {
+      margin: 0.05in 0 0;
+      color: #667085;
+      font-size: 8pt;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+    .summary-card {
+      padding: 0.15in;
+      border-radius: 0.16in;
+      color: #fff;
+      background: linear-gradient(135deg, #07305f 0%, var(--navy) 72%, var(--green) 100%);
+      box-shadow: inset 0 -0.05in 0 rgba(0, 0, 0, 0.12);
+    }
+    .premium-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.12in;
+      align-items: start;
+    }
+    .premium-row .amount {
+      color: #fff;
+      font-size: 31pt;
+      line-height: 0.9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .premium-row .term {
+      margin-top: 0.04in;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 8pt;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+    .status-pill {
+      align-self: start;
+      padding: 0.08in 0.13in;
+      border-radius: 99px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      font-size: 8pt;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .auto-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.07in;
+      margin-top: 0.14in;
+    }
+    .mini {
+      padding: 0.08in;
+      border-radius: 0.1in;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.23);
+    }
+    .mini span,
+    .mini strong { display: block; }
+    .mini span {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 6.3pt;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .mini strong {
+      margin-top: 0.03in;
+      color: #fff;
+      font-size: 8.5pt;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+    .section {
+      margin-top: 0.14in;
+      padding: 0.12in;
+      border-radius: 0.13in;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .section h3 {
+      margin: 0 0 0.08in;
+      color: var(--deep);
+      font-size: 10pt;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .plain-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .plain-table th,
+    .plain-table td {
+      padding: 0.045in 0.04in;
+      border-bottom: 1px solid #e5ebf4;
+      vertical-align: top;
+      font-size: 7pt;
+      line-height: 1.2;
+      text-align: left;
+    }
+    .plain-table th {
+      color: #667085;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .plain-table td {
+      color: #1f2f46;
+      font-weight: 750;
+    }
+    .plain-table tr:last-child td { border-bottom: 0; }
+    .limits-condensed { padding: 0.1in; }
+    .limit-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.055in 0.08in;
+    }
+    .limit-item {
+      display: grid;
+      grid-template-columns: 0.86in 1fr;
+      gap: 0.06in;
+      align-items: baseline;
+      padding: 0.04in 0;
+      border-bottom: 1px solid #e5ebf4;
+      min-height: 0.22in;
+    }
+    .limit-item span {
+      color: #667085;
+      font-size: 5.8pt;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+    .limit-item strong {
+      color: #172a43;
+      font-size: 6.6pt;
+      line-height: 1.08;
+      font-weight: 900;
+    }
+    .vehicle-ledger {
+      margin-top: 0.12in;
+      padding: 0.1in;
+      border-radius: 0.13in;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .ledger-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.08in;
+      margin-bottom: 0.07in;
+    }
+    .ledger-heading h3 {
+      margin: 0;
+      color: var(--deep);
+      font-size: 10pt;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .ledger-heading span {
+      color: #667085;
+      font-size: 6.5pt;
+      line-height: 1.1;
+      font-weight: 850;
+      text-align: right;
+    }
+    .vehicle-fit-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid #dfe7f1;
+      border-radius: 0.09in;
+    }
+    .vehicle-fit-table th,
+    .vehicle-fit-table td {
+      border-right: 1px solid #e6edf6;
+      border-bottom: 1px solid #e6edf6;
+      vertical-align: top;
+      text-align: left;
+    }
+    .vehicle-fit-table th:last-child,
+    .vehicle-fit-table td:last-child { border-right: 0; }
+    .vehicle-fit-table tr:last-child td { border-bottom: 0; }
+    .vehicle-fit-table th {
+      padding: 0.04in 0.045in;
+      color: #667085;
+      background: #f3f7fc;
+      font-size: 5.45pt;
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .vehicle-fit-table td {
+      padding: 0.055in 0.045in;
+      color: #1f2f46;
+      background: #fff;
+      font-size: 5.9pt;
+      line-height: 1.08;
+      font-weight: 800;
+    }
+    .vehicle-fit-table .vehicle-name {
+      width: 1.16in;
+      color: var(--deep);
+      font-size: 6.3pt;
+      font-weight: 900;
+    }
+    .vehicle-fit-table .vehicle-name span {
+      display: block;
+      margin-top: 0.025in;
+      color: #667085;
+      font-size: 5.3pt;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+    .vehicle-fit-table .premium-cell {
+      color: var(--green);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .coverage-key {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.055in;
+      margin-top: 0.08in;
+    }
+    .coverage-key span {
+      padding: 0.055in 0.065in;
+      border-radius: 0.07in;
+      color: #334155;
+      background: #f8fbff;
+      border: 1px solid #e7edf5;
+      font-size: 5.8pt;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+    .quote-photo {
+      margin-top: 0.42in;
+      height: 2in;
+      overflow: hidden;
+      border-radius: 0.14in;
+      background: #dfe7f1;
+      border: 1px solid var(--line);
+      box-shadow: 0 0.1in 0.26in rgba(7, 20, 44, 0.1);
+    }
+    .quote-photo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 48%;
+    }
+    .quote-product-strip {
+      margin: 0.07in auto 0;
+      padding: 0.055in 0.08in;
+      width: 4.25in;
+      border-radius: 0.1in;
+      color: #17345b;
+      background: #f8fbff;
+      border: 1px solid #dbe7f6;
+      box-shadow: 0 0.06in 0.16in rgba(7, 20, 44, 0.06);
+      font-size: 6.5pt;
+      line-height: 1.12;
+      font-weight: 850;
+      text-align: center;
+    }
+    .quote-product-strip strong {
+      color: var(--blue);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .alert {
+      margin-top: 0.12in;
+      padding: 0.1in;
+      border-radius: 0.12in;
+      color: #663c00;
+      background: #fff7e6;
+      border: 1px solid #f3d39b;
+      font-size: 7.2pt;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+    .discount-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.055in;
+    }
+    .discount-grid span {
+      padding: 0.055in 0.07in;
+      border-radius: 0.08in;
+      color: #334155;
+      background: #f8fbff;
+      border: 1px solid #e7edf5;
+      font-size: 6.6pt;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+    .step-list {
+      display: grid;
+      gap: 0.07in;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .step-list li {
+      display: grid;
+      grid-template-columns: 0.26in 1fr;
+      gap: 0.07in;
+      align-items: start;
+      color: #334155;
+      font-size: 7.4pt;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+    .step-list b {
+      color: var(--deep);
+      font-weight: 900;
+    }
+    .step-list em {
+      display: grid;
+      place-items: center;
+      width: 0.24in;
+      height: 0.24in;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--navy);
+      font-size: 7pt;
+      font-style: normal;
+      font-weight: 900;
+    }
+    .agency-box {
+      display: grid;
+      grid-template-columns: 1fr 0.98in;
+      gap: 0.11in;
+      align-items: center;
+      padding: 0.12in;
+      border-radius: 0.15in;
+      color: #fff;
+      background: linear-gradient(135deg, #07305f 0%, var(--navy) 72%, var(--green) 100%);
+    }
+    .agency-head {
+      display: flex;
+      align-items: center;
+      gap: 0.08in;
+      margin-bottom: 0.08in;
+    }
+    .agency-logo {
+      display: grid;
+      place-items: center;
+      width: 0.64in;
+      height: 0.38in;
+      padding: 0.04in;
+      border-radius: 0.08in;
+      background: #fff;
+    }
+    .agency-logo img {
+      max-width: 0.52in;
+      max-height: 0.24in;
+      object-fit: contain;
+    }
+    .agency-head h2 {
+      margin: 0;
+      color: #fff;
+      font-size: 12pt;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .agency-lines {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.055in 0.08in;
+    }
+    .agency-line {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 6.6pt;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+    .agency-line strong {
+      display: block;
+      color: #fff;
+      font-size: 6.4pt;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .agency-line span {
+      display: block;
+      margin-top: 0.02in;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 900;
+    }
+    .fine-print {
+      margin: 0.12in 0 0;
+      color: #64748b;
+      font-size: 6.3pt;
+      line-height: 1.28;
+      font-weight: 700;
+    }
+    .back-bottom {
+      position: absolute;
+      left: 0.28in;
+      right: 0.28in;
+      bottom: 0.24in;
+    }
+    @page { size: 11in 8.5in; margin: 0; }
+    @media print {
+      html,
+      body {
+        width: 11in;
+        min-height: 17in;
+        margin: 0;
+        background: #fff;
+      }
+      .print-toolbar { display: none !important; }
+      .sheet-wrap { padding: 0; }
+      .sheet {
+        width: 11in;
+        height: 8.5in;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+      }
+      .sheet:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+`;
+
 const shell = (title: string, body: string) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -255,6 +1028,29 @@ const shell = (title: string, body: string) => `<!DOCTYPE html>
     <button onclick="window.print()">Print Fold Card</button>
   </div>
   <div class="sheet-wrap">${body}</div>
+</body>
+</html>`;
+
+const autoShell = (title: string, body: string, theme: { nav: string; green: string }) => `<!DOCTYPE html>
+<html lang="en" style="--navy:${escapeAttr(theme.nav)};--green:${escapeAttr(theme.green)};">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  ${originalAutoStyles}
+</head>
+<body>
+  <div class="print-toolbar">
+    <div>
+      <h1>${escapeHtml(title)}</h1>
+      <p>Fill from parsed PDF, print landscape, two-sided, flip on short edge.</p>
+    </div>
+    <button onclick="window.print()">Print / Save PDF</button>
+  </div>
+  <main class="sheet-wrap">${body}</main>
 </body>
 </html>`;
 
@@ -326,87 +1122,244 @@ const coverPanel = ({
 
 export function renderAutoFoldCardHtml(data: AutoQuoteData): RenderedFoldCard {
   const carrier = carrierName(data.carrierId);
+  const theme = autoCarrierTheme(data.carrierId);
   const fold = data.foldCard || {};
   const vehicles = activeVehicles(data.vehicles);
-  const vehicleRows = vehicles.map((vehicle) => {
-    const coverage = vehicle.coverages?.slice(0, 3).map((item) => `${item.name}: ${item.limitOrDeductible}`).join('<br>') || (vehicle.coverageType === 'full_coverage' ? 'Full coverage selected' : 'Liability only');
-    return `<tr>
-      <td><strong>${escapeHtml(vehicleName(vehicle))}</strong><br>VIN: ${escapeHtml(vehicle.vinLast8 || 'Review')}</td>
-      <td>${escapeHtml(vehicle.coverageType === 'full_coverage' ? 'Full Coverage' : 'Liability Only')}</td>
-      <td>${coverage}</td>
-      <td>${escapeHtml(compactMoney(vehicle.vehiclePremium))}</td>
-    </tr>`;
-  }).join('');
-  const paymentSchedule = fold.paymentSchedule || `${money(data.paymentOptions.eft.downPayment)} down, then ${data.paymentOptions.eft.recurringCount} payments of ${money(data.paymentOptions.eft.recurringAmount)}`;
+  const logo = localCarrierLogo(data.carrierId);
+  const total = money(data.totalPremium);
+  const down = money(data.paymentOptions.eft.downPayment);
+  const setupCharge = fold.setupCharge || 0;
+  const subtotal = setupCharge ? money(Math.max(data.totalPremium - setupCharge, 0)) : money(data.totalPremium);
+  const setup = setupCharge ? money(setupCharge) : 'review';
+  const payments = fold.paymentSchedule || `${data.paymentOptions.eft.recurringCount} x ${money(data.paymentOptions.eft.recurringAmount)}`;
+  const term = `${data.termMonths || 6} Month Direct Bill`;
   const coverageAlert = fold.coverageAlert || 'Review all listed drivers, VINs, deductibles, and liability limits before starting the policy.';
   const productStrip = fold.productStrip || DEFAULT_PRODUCT_STRIP;
+  const company = fold.companyName || theme.companyDefault;
+  const customerAddress = fold.customerAddress || (vehicles[0]?.garagingZip ? `Garaging ZIP ${vehicles[0].garagingZip}` : 'Address pending');
+  const quoteDate = dateText(data.quoteDate);
+  const effectiveDate = dateText(data.effectiveDate);
+  const biLimit = formatLimit(data.coverages.bodilyInjuryLimit);
+  const pdLimit = formatLimit(data.coverages.propertyDamageLimit, 'single');
+  const medPay = data.coverages.medicalPayments ? `${compactMoney(data.coverages.medicalPayments)} each person` : 'Review';
+  const umLimit = formatLimit(data.coverages.uninsuredMotoristLimit);
+  const umpdLimit = data.coverages.underinsuredMotoristLimit ? formatLimit(data.coverages.underinsuredMotoristLimit) : pdLimit;
+  const compLimit = data.coverages.comprehensiveDeductible ? `${compactMoney(data.coverages.comprehensiveDeductible)} deductible` : 'Review';
+  const qrTarget = fold.qrLink || data.digitalCardUrl || AGENCY_QR_FALLBACK;
+  const qrCaption = fold.qrLink || data.digitalCardUrl ? 'Scan for quote' : 'Scan for local help';
+  const driverRows = data.drivers.length
+    ? data.drivers.map((driver) => `<tr><td>${escapeHtml(driver.name || 'Driver')}</td><td>${escapeHtml(driver.age || '')}</td><td>${escapeHtml(driverStatus(driver.relationship))}</td><td>${driver.relationship === 'excluded' ? 'Excluded' : '0'}</td></tr>`).join('')
+    : '<tr><td>Driver name</td><td>Age</td><td>Status</td><td>Points</td></tr>';
+  const vehicleSummaryRows = vehicles.length
+    ? vehicles.map((vehicle) => `<tr><td>${escapeHtml(vehicleName(vehicle))}</td><td>${escapeHtml(vehicle.vinLast8 || '')}</td><td>${escapeHtml(vehicle.coverageType === 'full_coverage' ? 'Full coverage' : 'Liability only')}</td></tr>`).join('')
+    : '<tr><td>Vehicle</td><td>VIN</td><td>Use</td></tr>';
+  const vehicleLedgerRows = vehicles.length
+    ? vehicles.map((vehicle) => {
+      const biPd = `${formatLimit(data.coverages.bodilyInjuryLimit)} / ${formatLimit(data.coverages.propertyDamageLimit, 'single')}`;
+      return `<tr>
+        <td class="vehicle-name">${escapeHtml(vehicleName(vehicle))}<span>${escapeHtml(vehicle.vinLast8 || '')}</span></td>
+        <td>${escapeHtml(biPd)}</td>
+        <td>${escapeHtml(coverageText(vehicle, ['comprehensive', 'comp'], compLimit))}</td>
+        <td>${escapeHtml(coverageText(vehicle, ['collision'], vehicle.coverageType === 'full_coverage' ? 'Confirm deductible' : 'Not shown'))}</td>
+        <td>${escapeHtml(coverageText(vehicle, ['medical'], medPay))}</td>
+        <td>${escapeHtml(coverageText(vehicle, ['uninsured', 'underinsured', 'um'], `${umLimit} / ${umpdLimit}`))}</td>
+        <td class="premium-cell">${escapeHtml(vehicle.vehiclePremium ? money(vehicle.vehiclePremium) : 'Review')}</td>
+      </tr>`;
+    }).join('')
+    : '<tr><td class="vehicle-name">Vehicle details pending<span>Add vehicles in the form</span></td><td colspan="6">No vehicle coverage rows entered yet.</td></tr>';
+  const carrierHelpRows = theme.help.map(([label, value]) => `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join('');
+  const discounts = data.discounts.map((discount) => discount.label).filter(Boolean);
+  const discountGrid = discounts.slice(0, 8).map((discount) => `<span>${escapeHtml(discount)}</span>`).join('');
   const title = `${data.clientFullName} - Auto Quote Fold Card`;
   const body = `
-    <article class="sheet outside-sheet">
-      ${backPanel('auto', data.carrierId, fold.companyName)}
-      ${coverPanel({
-        variant: 'auto',
-        data,
-        title: `${carrier} auto quote for ${data.clientFirstName || data.clientFullName}`,
-        subtitle: 'A print-ready quote card with payment, drivers, vehicles, and coverage details.',
-        totalLabel: `${data.termMonths || 6}-month total`,
-        totalAmount: data.totalPremium,
-        downPayment: data.paymentOptions.eft.downPayment,
-        coverImage: data.heroImageUrl || DEFAULT_AUTO_COVER,
-        qrTarget: fold.qrLink,
-      })}
-    </article>
-    <article class="sheet inside-sheet">
-      <section class="panel inside-left">
-        <h2 class="section-title">Quote details</h2>
-        <p class="section-copy">Review these fields against the carrier PDF before printing or presenting the fold card.</p>
-        <div class="mini-grid">
-          <div class="info-box"><span>Customer</span><strong>${escapeHtml(data.clientFullName)}</strong></div>
-          <div class="info-box"><span>Address</span><strong>${escapeHtml(fold.customerAddress || 'Review / add address')}</strong></div>
-          <div class="info-box"><span>Carrier</span><strong>${escapeHtml(carrier)}</strong></div>
-          <div class="info-box"><span>Prior carrier</span><strong>${escapeHtml(fold.priorCarrier || 'Not shown')}</strong></div>
-          <div class="info-box"><span>Quote date</span><strong>${escapeHtml(dateText(data.quoteDate))}</strong></div>
-          <div class="info-box"><span>Expires</span><strong>${escapeHtml(dateText(data.expiryDate))}</strong></div>
-          <div class="info-box"><span>Setup charge</span><strong>${escapeHtml(fold.setupCharge ? money(fold.setupCharge) : 'Review')}</strong></div>
-          <div class="info-box"><span>Payment schedule</span><strong>${escapeHtml(paymentSchedule)}</strong></div>
+    <section class="sheet" aria-label="Outside of folded auto quote card">
+      <article class="panel back-cover">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Ready To Review?</h2>
+            <p>Use this quote card as a simple guide while we confirm details and bind coverage.</p>
+          </div>
+          <div class="small-logo"><img src="${DEFAULT_AGENCY_LOGO}" alt="Bill Layne Insurance Agency"></div>
         </div>
-        <div class="alert-box">${escapeHtml(coverageAlert)}</div>
-        <h2 class="section-title">Drivers</h2>
-        <ul class="driver-list">
-          ${listItems(data.drivers.map((driver) => `${driver.name || 'Driver'} - ${driver.relationship || 'driver'}${driver.age ? `, age ${driver.age}` : ''}`))}
-        </ul>
-        <h2 class="section-title" style="margin-top:.16in;">Shared limits</h2>
-        <div class="mini-grid">
-          <div class="info-box"><span>Bodily injury</span><strong>${escapeHtml(data.coverages.bodilyInjuryLimit || 'Review')}</strong></div>
-          <div class="info-box"><span>Property damage</span><strong>${escapeHtml(data.coverages.propertyDamageLimit || 'Review')}</strong></div>
-          <div class="info-box"><span>UM/UIM</span><strong>${escapeHtml([data.coverages.uninsuredMotoristLimit, data.coverages.underinsuredMotoristLimit].filter(Boolean).join(' / ') || 'Review')}</strong></div>
-          <div class="info-box"><span>Med pay</span><strong>${escapeHtml(data.coverages.medicalPayments ? money(data.coverages.medicalPayments, '$0') : 'Review')}</strong></div>
+
+        <section class="agency-box" aria-label="Bill Layne Insurance contact information">
+          <div>
+            <div class="agency-head">
+              <div class="agency-logo"><img src="${DEFAULT_AGENCY_LOGO}" alt="Bill Layne Insurance Agency"></div>
+              <h2>Bill Layne Insurance</h2>
+            </div>
+            <div class="agency-lines">
+              <div class="agency-line"><strong>Call</strong><span>336-835-1993</span></div>
+              <div class="agency-line"><strong>Text</strong><span>336-827-9065</span></div>
+              <div class="agency-line"><strong>Email</strong><span>Save@BillLayneInsurance.com</span></div>
+              <div class="agency-line"><strong>Office</strong><span>Elkin, NC</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="qr-box"><img src="${qrUrl(AGENCY_QR_FALLBACK)}" alt="Bill Layne Insurance digital contact QR"></div>
+            <p class="qr-caption">Agency contact card</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Before Coverage Can Be Bound</h3>
+          <ol class="step-list">
+            <li><em>1</em><span><b>Confirm drivers and vehicles.</b> Names, dates of birth, license status, VINs, garaging address, and vehicle use must be correct.</span></li>
+            <li><em>2</em><span><b>Confirm coverage choices.</b> Review deductibles, rental, roadside, comp, collision, and lender needs before binding.</span></li>
+            <li><em>3</em><span><b>Make first payment.</b> Coverage is not active until the company accepts payment and the policy is bound.</span></li>
+            <li><em>4</em><span><b>Save the final documents.</b> After binding, keep your ID cards and declarations page with your records.</span></li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <h3>${escapeHtml(carrier)} Help</h3>
+          <table class="plain-table"><tbody>${carrierHelpRows}</tbody></table>
+        </section>
+
+        <section class="section">
+          <h3>Discounts Shown On Quote</h3>
+          <div class="discount-grid">${discountGrid}</div>
+        </section>
+
+        <div class="back-bottom">
+          <p class="fine-print">This printed piece is a quote summary only. It is not an insurance policy, binder, ID card, or proof of insurance. Premiums and payment plans may change if rating information, underwriting, reports, payment timing, vehicles, drivers, discounts, or coverage selections change.</p>
         </div>
-      </section>
-      <section class="panel inside-right">
-        <h2 class="section-title">Vehicle coverage ledger</h2>
-        <p class="section-copy">Blank vehicle rows do not print. Add or edit vehicles in the Studio field boxes before downloading.</p>
-        <table class="ledger">
-          <thead><tr><th>Vehicle</th><th>Type</th><th>Coverage notes</th><th>Premium</th></tr></thead>
-          <tbody>${vehicleRows || '<tr><td colspan="4">Add vehicle details before printing.</td></tr>'}</tbody>
-        </table>
-        <h2 class="section-title" style="margin-top:.16in;">Discounts shown</h2>
-        <ul class="discount-list">
-          ${listItems(data.discounts.map((discount) => discount.label)).trim() || '<li>Confirm discounts shown on PDF</li>'}
-        </ul>
-        <div class="agent-block">
-          <img src="${escapeHtml(fold.agentImageUrl || DEFAULT_AGENT_IMAGE)}" alt="Agent reviewing quote with customer">
-          <div class="agent-note">
-            <h3>Questions before you start?</h3>
-            <p>We can review payment timing, driver assignments, vehicle coverages, discounts, and any carrier requirements before you bind coverage.</p>
-            <div class="product-strip">Also ask us about: ${escapeHtml(productStrip)}</div>
+      </article>
+
+      <article class="panel front-cover" style="--front-cover-image:${cssUrl(data.heroImageUrl || DEFAULT_AUTO_COVER)};">
+        <div class="front-safe">
+          <div class="cover-logo-row">
+            <div class="logo-box"><img src="${escapeAttr(logo)}" alt="${escapeAttr(carrier)}"></div>
+            <div class="quote-pill">Auto Quote</div>
+          </div>
+          <div class="cover-bottom">
+            <div>
+              <h1 class="front-title">${escapeHtml(data.clientFullName || 'Customer Name')}, your personalized auto quote</h1>
+              <p class="front-subtitle">Prepared by Bill Layne Insurance Agency with ${escapeHtml(carrier)}. Review the premium, vehicles, drivers, coverage snapshot, and next steps before binding.</p>
+              <div class="cover-meta">
+                <div class="meta-tile"><span class="label">Quote Number</span><span class="value">${escapeHtml(data.quoteNumber || 'Pending')}</span></div>
+                <div class="meta-tile"><span class="label">Effective Date</span><span class="value">${escapeHtml(effectiveDate)}</span></div>
+                <div class="meta-tile"><span class="label">Total Quote</span><span class="value">${escapeHtml(total)}</span></div>
+                <div class="meta-tile"><span class="label">Down Payment</span><span class="value">${escapeHtml(down)}</span></div>
+              </div>
+              <div class="prepared">
+                <strong>Bill Layne Insurance Agency</strong>
+                <span>Call 336-835-1993 or text 336-827-9065 with questions, changes, or to bind when ready.</span>
+              </div>
+            </div>
+            <div>
+              <div class="qr-box"><img src="${qrUrl(qrTarget)}" alt="Quote QR"></div>
+              <p class="qr-caption">${escapeHtml(qrCaption)}</p>
+            </div>
           </div>
         </div>
-      </section>
-    </article>`;
+      </article>
+    </section>
+
+    <section class="sheet" aria-label="Inside of folded auto quote card">
+      <article class="panel inside-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Quote At A Glance</h2>
+            <p>The main numbers and people listed on the carrier quote.</p>
+          </div>
+          <div class="small-logo"><img src="${escapeAttr(logo)}" alt="${escapeAttr(carrier)}"></div>
+        </div>
+
+        <section class="summary-card">
+          <div class="premium-row">
+            <div>
+              <span class="label" style="color: rgba(255,255,255,.76);">Total Auto Quote</span>
+              <div class="amount">${escapeHtml(total)}</div>
+              <div class="term">Subtotal premium ${escapeHtml(subtotal)} plus ${escapeHtml(setup)} pay plan setup charge.</div>
+            </div>
+            <div class="status-pill">Quote Only</div>
+          </div>
+          <div class="auto-mini-grid">
+            <div class="mini"><span>Down</span><strong>${escapeHtml(down)}</strong></div>
+            <div class="mini"><span>Payments</span><strong>${escapeHtml(payments)}</strong></div>
+            <div class="mini"><span>Term</span><strong>${escapeHtml(term)}</strong></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Applicant And Quote Details</h3>
+          <table class="plain-table">
+            <tbody>
+              <tr><th>Named Insureds</th><td>${escapeHtml(data.clientFullName)}</td></tr>
+              <tr><th>Company</th><td>${escapeHtml(company)}</td></tr>
+              <tr><th>Quote Date</th><td>${escapeHtml(quoteDate)}</td></tr>
+              <tr><th>Address</th><td>${escapeHtml(customerAddress)}</td></tr>
+              <tr><th>Prior Carrier</th><td>${escapeHtml(fold.priorCarrier || 'Prior carrier pending')}</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h3>Drivers Listed</h3>
+          <table class="plain-table">
+            <thead><tr><th>Name</th><th>Age</th><th>Status</th><th>Points</th></tr></thead>
+            <tbody>${driverRows}</tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h3>Vehicles Quoted</h3>
+          <table class="plain-table">
+            <thead><tr><th>Vehicle</th><th>VIN</th><th>Use</th></tr></thead>
+            <tbody>${vehicleSummaryRows}</tbody>
+          </table>
+        </section>
+      </article>
+
+      <article class="panel inside-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Coverage Snapshot</h2>
+            <p>Compact vehicle ledger designed to still fit when a quote has up to five autos.</p>
+          </div>
+        </div>
+
+        <section class="section limits-condensed" style="margin-top: 0;">
+          <h3>Shared Quoted Limits</h3>
+          <div class="limit-strip">
+            <div class="limit-item"><span>BI</span><strong>${escapeHtml(biLimit)}</strong></div>
+            <div class="limit-item"><span>PD</span><strong>${escapeHtml(pdLimit)}</strong></div>
+            <div class="limit-item"><span>Med Pay</span><strong>${escapeHtml(medPay)}</strong></div>
+            <div class="limit-item"><span>UM/UIM BI</span><strong>${escapeHtml(umLimit)}</strong></div>
+            <div class="limit-item"><span>UMPD</span><strong>${escapeHtml(umpdLimit)}</strong></div>
+            <div class="limit-item"><span>OTC/Comp</span><strong>${escapeHtml(compLimit)}</strong></div>
+          </div>
+          <div class="alert">${escapeHtml(coverageAlert)}</div>
+        </section>
+
+        <section class="vehicle-ledger">
+          <div class="ledger-heading">
+            <h3>Vehicle Coverage Ledger</h3>
+            <span>Only entered vehicles appear on the printed quote.</span>
+          </div>
+          <table class="vehicle-fit-table">
+            <thead>
+              <tr><th>Vehicle</th><th>BI / PD</th><th>Comp / OTC</th><th>Collision</th><th>Med Pay</th><th>UM / UMPD</th><th>Total</th></tr>
+            </thead>
+            <tbody>${vehicleLedgerRows}</tbody>
+          </table>
+          <div class="coverage-key">
+            <span>BI / PD = injury and property damage liability.</span>
+            <span>OTC/Comp = theft, glass, deer, fire, weather, and similar losses.</span>
+            <span>Collision, rental, and roadside should be confirmed per vehicle.</span>
+          </div>
+        </section>
+
+        <figure class="quote-photo" aria-label="Bill Layne Insurance local quote review">
+          <img src="${escapeAttr(fold.agentImageUrl || DEFAULT_AGENT_IMAGE)}" alt="Local insurance agent reviewing an auto quote with customers">
+        </figure>
+        <p class="quote-product-strip"><strong>Also ask us about:</strong> ${escapeHtml(productStrip)}</p>
+      </article>
+    </section>`;
 
   return {
-    html: shell(title, body),
+    html: autoShell(title, body, theme),
     title,
     preheader: `${carrier} auto fold-card brochure for ${data.clientFullName}`,
   };
