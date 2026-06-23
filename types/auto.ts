@@ -6,6 +6,8 @@ export interface AutoQuoteData {
   clientFullName: string;
   clientEmail: string;
   heroImageUrl?: string;
+  digitalCardUrl?: string;
+  foldCard?: AutoFoldCardFields;
   carrierId: CarrierId;
   carriersShoppedNames: string[];
   quoteNumber: string;
@@ -78,4 +80,16 @@ export interface AutoCoverages {
 export interface Discount {
   emoji: string;
   label: string;
+}
+
+export interface AutoFoldCardFields {
+  companyName?: string;
+  customerAddress?: string;
+  priorCarrier?: string;
+  setupCharge?: number;
+  paymentSchedule?: string;
+  coverageAlert?: string;
+  qrLink?: string;
+  productStrip?: string;
+  agentImageUrl?: string;
 }

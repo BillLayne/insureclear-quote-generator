@@ -1,6 +1,7 @@
 import { BRAND } from '../config/brand';
 import { CARRIERS } from '../config/carriers';
 import type { AutoQuoteData, Driver, Vehicle, VehicleCoverage } from '../types/auto';
+import { resolveDigitalCardUrl } from '../lib/digitalCardLinks';
 import { normalizeHeroImageUrl } from '../lib/heroImage';
 import autoEliteTemplate from './email/AUTO_ELITE_WELCOME.html?raw';
 
@@ -46,7 +47,7 @@ const relationshipCopy = (driver?: Driver) => {
 };
 
 const vehicleName = (vehicle?: Vehicle) =>
-  vehicle ? `${vehicle.year} ${vehicle.make} ${vehicle.model}` : 'No additional vehicle listed';
+  vehicle ? `${vehicle.year} ${vehicle.make} ${vehicle.model}` : 'Not listed';
 
 const vehicleUse = (vehicle?: Vehicle) =>
   vehicle ? `${vehicle.coverageType === 'full_coverage' ? 'Comprehensive/collision selected' : 'Liability only'} - ZIP ${vehicle.garagingZip}` : 'Not listed';
@@ -117,6 +118,7 @@ export function renderAutoEliteGmailHtml(data: AutoQuoteData) {
   const names = splitName(data);
   const carrierLogo = carrier.logoUrl || BRAND.logoUrl;
   const carrierWebsite = carrier.portalUrl || BRAND.websiteUrl;
+  const carrierCardUrl = resolveDigitalCardUrl(data.carrierId, data.digitalCardUrl);
   const vehicleImage = normalizeHeroImageUrl(data.heroImageUrl, defaultVehicleImageUrl);
   const monthly = data.paymentOptions.eft.recurringAmount || data.totalPremium / Math.max(data.termMonths, 1);
   const vehicles = [data.vehicles[0], data.vehicles[1]];
@@ -148,7 +150,7 @@ export function renderAutoEliteGmailHtml(data: AutoQuoteData) {
     AddedCov3: escapeHtml(addedCoverages[2]?.name),
     AddedCov3Val: escapeHtml(addedCoverages[2]?.amount),
     BodilyInjury: escapeHtml(data.coverages.bodilyInjuryLimit),
-    CarrierCardURL: escapeHtml(carrierWebsite),
+    CarrierCardURL: escapeHtml(carrierCardUrl),
     CarrierClaimsPhone: escapeHtml(carrier.claimsPhone || BRAND.phone),
     CarrierLogoURL: escapeHtml(carrierLogo),
     CarrierName: escapeHtml(carrier.legalName || carrier.displayName),

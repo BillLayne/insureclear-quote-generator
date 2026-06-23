@@ -28,9 +28,16 @@ import './index.css';
 import { CARRIERS, type CarrierId } from './config/carriers';
 import { autoSample, dwellingSample, homeSample, motorcycleSample, rentersSample } from './data/samples';
 import { receiptSample } from './data/receipts';
+import { renderAutoDigitalQuoteCardHtml } from './lib/autoDigitalQuoteCardHtml';
+import { renderAutoEliteWebPageHtml } from './lib/autoEliteWebPageHtml';
 import { autoAudioReviewScript, renderAutoWebPageHtml } from './lib/autoWebPageHtml';
 import { renderCommercialAutoWebPageHtml } from './lib/commercialAutoWebPageHtml';
+import { renderHomeDigitalQuoteCardHtml } from './lib/homeDigitalQuoteCardHtml';
+import { renderHomeEliteWebPageHtml } from './lib/homeEliteWebPageHtml';
 import { homeAudioReviewScript, renderHomeWebPageHtml } from './lib/homeWebPageHtml';
+import { renderModernAutoWebPageHtml } from './lib/modernAutoWebPageHtml';
+import { renderNonstandardAutoWebPageHtml } from './lib/nonstandardAutoWebPageHtml';
+import { renderAutoFoldCardHtml, renderHomeFoldCardHtml } from './lib/foldCardHtml';
 import { createGmailDraft, gmailConfigured, preloadGmailAuth } from './lib/gmailDraft';
 import { type EmailMode, renderQuoteHtml } from './lib/htmlSerialize';
 import { runIntegrityChecks } from './lib/integrityCheck';
@@ -50,7 +57,7 @@ import type { RentersQuoteData } from './types/renters';
 
 const carrierOptions = Object.values(CARRIERS);
 const recentStorageKey = 'quote-template-studio-recent-quotes';
-type OutputMode = 'email' | 'webpage' | 'commercialWebpage';
+type OutputMode = 'email' | 'webpage' | 'autoEliteWebpage' | 'commercialWebpage' | 'nonstandardWebpage' | 'modernWebpage' | 'homeEliteWebpage' | 'autoDigitalQuote' | 'homeDigitalQuote' | 'autoFoldCard' | 'homeFoldCard';
 
 const QUOTE_TYPE_OPTIONS: Array<{ id: QuoteTemplateType; label: string; hint: string; Icon: LucideIcon }> = [
   { id: 'auto', label: 'Auto', hint: 'Personal vehicles & drivers', Icon: Car },
@@ -258,11 +265,19 @@ function App() {
   }, [audioReview, data.clientFullName, data.quoteNumber, data.templateType]);
   const renderedWebPage = useMemo(() => {
     if (outputMode === 'commercialWebpage' && data.templateType === 'auto') return renderCommercialAutoWebPageHtml(data);
+    if (outputMode === 'nonstandardWebpage' && data.templateType === 'auto') return renderNonstandardAutoWebPageHtml(data);
+    if (outputMode === 'modernWebpage' && data.templateType === 'auto') return renderModernAutoWebPageHtml(data, activeAudioReview);
+    if (outputMode === 'autoEliteWebpage' && data.templateType === 'auto') return renderAutoEliteWebPageHtml(data, activeAudioReview);
+    if (outputMode === 'homeEliteWebpage' && data.templateType === 'home') return renderHomeEliteWebPageHtml(data);
+    if (outputMode === 'autoDigitalQuote' && data.templateType === 'auto') return renderAutoDigitalQuoteCardHtml(data);
+    if (outputMode === 'homeDigitalQuote' && data.templateType === 'home') return renderHomeDigitalQuoteCardHtml(data);
+    if (outputMode === 'autoFoldCard' && data.templateType === 'auto') return renderAutoFoldCardHtml(data);
+    if (outputMode === 'homeFoldCard' && data.templateType === 'home') return renderHomeFoldCardHtml(data);
     if (data.templateType === 'auto') return renderAutoWebPageHtml(data, activeAudioReview);
     if (data.templateType === 'home') return renderHomeWebPageHtml(data, activeAudioReview);
     return null;
   }, [activeAudioReview, data, outputMode]);
-  const isWebOutput = !isReceipt && (outputMode === 'webpage' || outputMode === 'commercialWebpage');
+  const isWebOutput = !isReceipt && (outputMode === 'webpage' || outputMode === 'autoEliteWebpage' || outputMode === 'commercialWebpage' || outputMode === 'nonstandardWebpage' || outputMode === 'modernWebpage' || outputMode === 'homeEliteWebpage' || outputMode === 'autoDigitalQuote' || outputMode === 'homeDigitalQuote' || outputMode === 'autoFoldCard' || outputMode === 'homeFoldCard');
   const previewHtml = isReceipt ? receiptRendered.html : isWebOutput && renderedWebPage ? renderedWebPage.html : rendered.html;
   const previewTitle = isReceipt ? receiptRendered.subject : isWebOutput && renderedWebPage ? renderedWebPage.title : rendered.subject;
   const previewSubhead = isReceipt
@@ -270,7 +285,23 @@ function App() {
     : isWebOutput
       ? outputMode === 'commercialWebpage'
         ? 'Responsive commercial auto quote webpage preview'
-        : `Responsive ${data.templateType} quote webpage preview`
+        : outputMode === 'nonstandardWebpage'
+          ? 'Fast-start nonstandard auto quote webpage preview'
+          : outputMode === 'modernWebpage'
+            ? 'Modern auto quote webpage preview'
+            : outputMode === 'autoEliteWebpage'
+              ? 'Elite auto quote webpage preview'
+              : outputMode === 'homeEliteWebpage'
+                ? 'Elite home quote webpage preview'
+                : outputMode === 'autoDigitalQuote'
+                  ? 'Mobile-first auto quote digital card preview'
+                  : outputMode === 'homeDigitalQuote'
+                    ? 'Mobile-first home quote digital card preview'
+                    : outputMode === 'autoFoldCard'
+                      ? 'Print-ready auto quote fold-card preview'
+                      : outputMode === 'homeFoldCard'
+                        ? 'Print-ready home quote fold-card preview'
+                        : `Responsive ${data.templateType} quote webpage preview`
       : rendered.preheader;
   const previewByteCount = new Blob([previewHtml]).size;
   const integrity = useMemo(() => runIntegrityChecks(rendered.html), [rendered.html]);
@@ -284,8 +315,9 @@ function App() {
   const reviewedKeySet = useMemo(() => new Set(reviewedKeys), [reviewedKeys]);
   const reviewComplete = reviewItems.every((item) => !item.required || reviewedKeySet.has(item.key));
   const readiness = useMemo(() => readinessItems(data, integrity.passed, dataErrors, reviewComplete, integrity.byteCount), [data, dataErrors, integrity.byteCount, integrity.passed, reviewComplete]);
-  const canExport = activeIntegrity.passed && activeErrors.length === 0;
-  const canUseWebAudio = outputMode === 'webpage' && Boolean(renderedWebPage) && ['auto', 'home'].includes(data.templateType) && dataErrors.length === 0;
+  const canExport = activeIntegrity.passed;
+  const readyToSend = canExport && activeErrors.length === 0;
+  const canUseWebAudio = (outputMode === 'webpage' || outputMode === 'autoEliteWebpage') && Boolean(renderedWebPage) && ['auto', 'home'].includes(data.templateType) && dataErrors.length === 0;
   const templateSuggestion = useMemo(() => suggestTemplateType(`${file?.name || ''} ${instructions}`), [file, instructions]);
 
   useEffect(() => {
@@ -305,6 +337,30 @@ function App() {
       setOutputMode('email');
     }
     if (data.templateType !== 'auto' && outputMode === 'commercialWebpage') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'auto' && outputMode === 'nonstandardWebpage') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'auto' && outputMode === 'modernWebpage') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'auto' && outputMode === 'autoEliteWebpage') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'home' && outputMode === 'homeEliteWebpage') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'auto' && outputMode === 'autoDigitalQuote') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'home' && outputMode === 'homeDigitalQuote') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'auto' && outputMode === 'autoFoldCard') {
+      setOutputMode('email');
+    }
+    if (data.templateType !== 'home' && outputMode === 'homeFoldCard') {
       setOutputMode('email');
     }
     if (data.templateType !== 'home' && (emailMode === 'homeElite' || emailMode === 'homeEliteQuote')) {
@@ -375,6 +431,12 @@ function App() {
     try {
       const parsed = await parseInsuranceQuote(file, instructions, quoteType);
       setData(parsed);
+      if (parsed.templateType === 'auto') {
+        setOutputMode('autoFoldCard');
+      }
+      if (parsed.templateType === 'home') {
+        setOutputMode('homeFoldCard');
+      }
       setReviewedKeys([]);
       setMessage('PDF parsed. Review every field before exporting.');
     } catch (error) {
@@ -533,7 +595,25 @@ function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    const webType = outputMode === 'commercialWebpage' ? 'commercial_auto' : data.templateType;
+    const webType = outputMode === 'commercialWebpage'
+      ? 'commercial_auto'
+      : outputMode === 'nonstandardWebpage'
+        ? 'nonstandard_auto'
+        : outputMode === 'modernWebpage'
+          ? 'modern_auto'
+          : outputMode === 'autoEliteWebpage'
+            ? 'auto_elite'
+            : outputMode === 'homeEliteWebpage'
+              ? 'home_elite'
+              : outputMode === 'autoDigitalQuote'
+                ? 'auto_digital_quote'
+                : outputMode === 'homeDigitalQuote'
+                  ? 'home_digital_quote'
+                  : outputMode === 'autoFoldCard'
+                    ? 'auto_fold_card'
+                    : outputMode === 'homeFoldCard'
+                      ? 'home_fold_card'
+              : data.templateType;
     a.download = `${data.clientFullName.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}_${webType}_web_quote.html`;
     document.body.appendChild(a);
     a.click();
@@ -641,7 +721,7 @@ function App() {
           </div>
         </div>
         <div className="header-meta">
-          <span className={`status-pill ${canExport ? 'ok' : 'hold'}`}>{canExport ? 'Ready to send' : 'Needs review'}</span>
+          <span className={`status-pill ${readyToSend ? 'ok' : 'hold'}`}>{readyToSend ? 'Ready to send' : 'Needs review'}</span>
           <span className="header-context">{isReceipt ? `Receipt · ${[receiptData.clientFirstName, receiptData.clientLastName].filter(Boolean).join(' ') || 'New receipt'}` : `${CARRIERS[data.carrierId]?.displayName || data.carrierId} · ${data.clientFullName || 'New client'}`}</span>
         </div>
         <div className="export-actions">
@@ -662,8 +742,8 @@ function App() {
             </>
           ) : (
             <>
-              <button onClick={copyWebPageHtml} disabled={!renderedWebPage || dataErrors.length > 0}><Clipboard size={16} /> Copy Web HTML</button>
-              <button className="accent" onClick={downloadWebPageHtml} disabled={!renderedWebPage || dataErrors.length > 0}><Download size={16} /> Download Web</button>
+              <button onClick={copyWebPageHtml} disabled={!renderedWebPage}><Clipboard size={16} /> Copy Web HTML</button>
+              <button className="accent" onClick={downloadWebPageHtml} disabled={!renderedWebPage}><Download size={16} /> Download Web</button>
             </>
           )}
         </div>
@@ -791,6 +871,83 @@ function App() {
                 </span>
               </button>
               <button
+                className={`output-card ${outputMode === 'modernWebpage' ? 'active' : ''}`}
+                onClick={() => setOutputMode('modernWebpage')}
+                disabled={data.templateType !== 'auto'}
+              >
+                <span className="output-icon"><Monitor size={18} /></span>
+                <span className="output-copy">
+                  <strong>Modern Auto Page</strong>
+                  <span>{data.templateType === 'auto' ? 'Modern auto quote layout with audio guide' : 'Available for auto quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'autoEliteWebpage' ? 'active' : ''}`}
+                onClick={() => setOutputMode('autoEliteWebpage')}
+                disabled={data.templateType !== 'auto'}
+              >
+                <span className="output-icon"><Car size={18} /></span>
+                <span className="output-copy">
+                  <strong>Auto Elite Webpage</strong>
+                  <span>{data.templateType === 'auto' ? 'Premium auto quote page with payment plans' : 'Available for auto quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'homeEliteWebpage' ? 'active' : ''}`}
+                onClick={() => setOutputMode('homeEliteWebpage')}
+                disabled={data.templateType !== 'home'}
+              >
+                <span className="output-icon"><Home size={18} /></span>
+                <span className="output-copy">
+                  <strong>Home Elite Webpage</strong>
+                  <span>{data.templateType === 'home' ? 'Premium home quote page with payment plans' : 'Available for home quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'autoDigitalQuote' ? 'active' : ''}`}
+                onClick={() => setOutputMode('autoDigitalQuote')}
+                disabled={data.templateType !== 'auto'}
+              >
+                <span className="output-icon"><Smartphone size={18} /></span>
+                <span className="output-copy">
+                  <strong>Auto Quote Digital</strong>
+                  <span>{data.templateType === 'auto' ? 'Mobile quote card with Start Policy action' : 'Available for auto quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'homeDigitalQuote' ? 'active' : ''}`}
+                onClick={() => setOutputMode('homeDigitalQuote')}
+                disabled={data.templateType !== 'home'}
+              >
+                <span className="output-icon"><Home size={18} /></span>
+                <span className="output-copy">
+                  <strong>Home Quote Digital</strong>
+                  <span>{data.templateType === 'home' ? 'Mobile quote card with coverage sections' : 'Available for home quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'autoFoldCard' ? 'active' : ''}`}
+                onClick={() => setOutputMode('autoFoldCard')}
+                disabled={data.templateType !== 'auto'}
+              >
+                <span className="output-icon"><Scissors size={18} /></span>
+                <span className="output-copy">
+                  <strong>Auto Fold Card</strong>
+                  <span>{data.templateType === 'auto' ? 'Duplex brochure with editable field boxes' : 'Available for auto quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'homeFoldCard' ? 'active' : ''}`}
+                onClick={() => setOutputMode('homeFoldCard')}
+                disabled={data.templateType !== 'home'}
+              >
+                <span className="output-icon"><Scissors size={18} /></span>
+                <span className="output-copy">
+                  <strong>Home Fold Card</strong>
+                  <span>{data.templateType === 'home' ? 'Duplex brochure with coverage ledger' : 'Available for home quotes'}</span>
+                </span>
+              </button>
+              <button
                 className={`output-card ${outputMode === 'commercialWebpage' ? 'active' : ''}`}
                 onClick={() => setOutputMode('commercialWebpage')}
                 disabled={data.templateType !== 'auto'}
@@ -799,6 +956,17 @@ function App() {
                 <span className="output-copy">
                   <strong>Commercial Auto Page</strong>
                   <span>{data.templateType === 'auto' ? 'Business vehicles, drivers & liability' : 'Available for auto quotes'}</span>
+                </span>
+              </button>
+              <button
+                className={`output-card ${outputMode === 'nonstandardWebpage' ? 'active' : ''}`}
+                onClick={() => setOutputMode('nonstandardWebpage')}
+                disabled={data.templateType !== 'auto'}
+              >
+                <span className="output-icon"><Smartphone size={18} /></span>
+                <span className="output-copy">
+                  <strong>Nonstandard Auto Page</strong>
+                  <span>{data.templateType === 'auto' ? 'Fast-start down payment first layout' : 'Available for auto quotes'}</span>
                 </span>
               </button>
               </>
@@ -882,12 +1050,12 @@ function App() {
                 </div>
               </div>
               <div className={`preview-stage ${previewDevice}`}>
-                <iframe title={isWebOutput ? `${outputMode === 'commercialWebpage' ? 'commercial auto' : data.templateType} webpage quote preview` : 'Gmail quote preview'} srcDoc={previewHtml} />
+                <iframe title={isWebOutput ? `${outputMode === 'commercialWebpage' ? 'commercial auto' : outputMode === 'nonstandardWebpage' ? 'nonstandard auto' : outputMode === 'modernWebpage' ? 'modern auto' : outputMode === 'autoEliteWebpage' ? 'auto elite' : outputMode === 'homeEliteWebpage' ? 'home elite' : outputMode === 'autoDigitalQuote' ? 'auto quote digital' : outputMode === 'homeDigitalQuote' ? 'home quote digital' : outputMode === 'autoFoldCard' ? 'auto fold card' : outputMode === 'homeFoldCard' ? 'home fold card' : data.templateType} webpage quote preview` : 'Gmail quote preview'} srcDoc={previewHtml} />
               </div>
             </section>
 
             {isReceipt ? (
-              <ReceiptStatusPanel integrity={receiptIntegrity} errors={receiptErrors} canExport={canExport} />
+              <ReceiptStatusPanel integrity={receiptIntegrity} errors={receiptErrors} canExport={readyToSend} />
             ) : (
               <IntegrityPanel
                 integrity={integrity}
@@ -897,7 +1065,7 @@ function App() {
                 reviewedKeys={reviewedKeySet}
                 setReviewedKeys={setReviewedKeys}
                 readiness={readiness}
-                canExport={canExport}
+                canExport={readyToSend}
                 recentQuotes={recentQuotes}
               />
             )}
@@ -934,6 +1102,14 @@ function QuoteEditor({
         <Field label="Full Name" value={data.clientFullName} onChange={(value) => update({ clientFullName: value } as Partial<QuoteData>)} />
         <Field label="Client Email" value={data.clientEmail} onChange={(value) => update({ clientEmail: value } as Partial<QuoteData>)} />
         <Field label="Hero Image URL" value={data.heroImageUrl || ''} placeholder="Optional direct Imgur image link" onChange={(value) => update({ heroImageUrl: value } as Partial<QuoteData>)} />
+        {['auto', 'home'].includes(data.templateType) ? (
+          <Field
+            label="Digital Card Link"
+            value={(data as AutoQuoteData | HomeQuoteData).digitalCardUrl || ''}
+            placeholder="Optional customer-specific digital card link"
+            onChange={(value) => update({ digitalCardUrl: value } as Partial<QuoteData>)}
+          />
+        ) : null}
         <label className="field">
           <span>Carrier</span>
           <select value={data.carrierId} onChange={(event) => setCarrier(event.target.value as CarrierId)}>
@@ -942,10 +1118,10 @@ function QuoteEditor({
             ))}
           </select>
         </label>
-        <Field label="Quote Number" value={data.quoteNumber} onChange={(value) => update({ quoteNumber: value } as Partial<QuoteData>)} />
+        <Field label="Quote / Policy Number" value={data.quoteNumber} onChange={(value) => update({ quoteNumber: value } as Partial<QuoteData>)} />
         <Field label="Quote Date" type="date" value={data.quoteDate} onChange={(value) => update({ quoteDate: value } as Partial<QuoteData>)} />
-        <Field label="Effective" type="date" value={data.effectiveDate} onChange={(value) => update({ effectiveDate: value } as Partial<QuoteData>)} />
-        <Field label="Expires" type="date" value={data.expiryDate} onChange={(value) => update({ expiryDate: value } as Partial<QuoteData>)} />
+        <Field label="Effective Date" type="date" value={data.effectiveDate} onChange={(value) => update({ effectiveDate: value } as Partial<QuoteData>)} />
+        <Field label="Expiration Date" type="date" value={data.expiryDate} onChange={(value) => update({ expiryDate: value } as Partial<QuoteData>)} />
       </div>
 
       <Field
@@ -953,6 +1129,10 @@ function QuoteEditor({
         value={data.carriersShoppedNames.join(', ')}
         onChange={(value) => update({ carriersShoppedNames: value.split(',').map((item) => item.trim()).filter(Boolean) } as Partial<QuoteData>)}
       />
+
+      {['auto', 'home'].includes(data.templateType) ? (
+        <FoldCardFields data={data as AutoQuoteData | HomeQuoteData} setData={setData} />
+      ) : null}
 
       {data.templateType === 'auto' ? (
         <AutoFields data={data} setData={setData} />
@@ -1037,6 +1217,55 @@ function ReceiptStatusPanel({
         </div>
       )}
     </section>
+  );
+}
+
+function FoldCardFields({
+  data,
+  setData,
+}: {
+  data: AutoQuoteData | HomeQuoteData;
+  setData: React.Dispatch<React.SetStateAction<QuoteData>>;
+}) {
+  const fold = data.foldCard || {};
+  const updateFold = (patch: NonNullable<(AutoQuoteData | HomeQuoteData)['foldCard']>) => {
+    setData((current) => {
+      if (current.templateType !== 'auto' && current.templateType !== 'home') return current;
+      return {
+        ...current,
+        foldCard: {
+          ...current.foldCard,
+          ...patch,
+        },
+      } as QuoteData;
+    });
+  };
+
+  return (
+    <>
+      <h3 className="form-section-title">Fold Card Fields</h3>
+      <div className="form-grid">
+        <Field label="Company Name" value={fold.companyName || ''} placeholder="Bill Layne Insurance Agency" onChange={(value) => updateFold({ companyName: value })} />
+        <Field label="Customer Address" value={fold.customerAddress || ''} placeholder={data.templateType === 'home' ? data.propertyAddress : 'Mailing / garaging address'} onChange={(value) => updateFold({ customerAddress: value })} />
+        <Field label="Prior Carrier" value={fold.priorCarrier || ''} placeholder="Optional" onChange={(value) => updateFold({ priorCarrier: value })} />
+        <Field label="Setup Charge" value={fold.setupCharge ? String(fold.setupCharge) : ''} placeholder="Optional fee" onChange={(value) => updateFold({ setupCharge: optionalNumberValue(value) })} />
+        <Field label="Payment Schedule" value={fold.paymentSchedule || ''} placeholder={data.templateType === 'auto' ? 'Down + installments' : 'Annual / escrow / installments'} onChange={(value) => updateFold({ paymentSchedule: value })} />
+        <Field label="QR Link" value={fold.qrLink || ''} placeholder="Optional customer URL" onChange={(value) => updateFold({ qrLink: value })} />
+        <Field label="Agent Image URL" value={fold.agentImageUrl || ''} placeholder="Optional direct image URL" onChange={(value) => updateFold({ agentImageUrl: value })} />
+      </div>
+      <TextArea
+        label="Coverage Alert"
+        value={fold.coverageAlert || ''}
+        placeholder={data.templateType === 'auto' ? 'Review driver assignments and liability-only vehicles.' : 'Review roof, deductibles, and inspection requirements.'}
+        onChange={(value) => updateFold({ coverageAlert: value })}
+      />
+      <TextArea
+        label="Product Strip"
+        value={fold.productStrip || ''}
+        placeholder="Home | Renters | Motorcycle | Boat | RV | Umbrella | Life"
+        onChange={(value) => updateFold({ productStrip: value })}
+      />
+    </>
   );
 }
 

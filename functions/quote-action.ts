@@ -19,6 +19,7 @@ interface QuoteAction {
   carrier: string;
   quoteNumber: string;
   premium: string;
+  propertyAddress: string;
   subject: string;
   notes: string;
 }
@@ -47,9 +48,21 @@ const actionFrom = (source: URLSearchParams | FormData): QuoteAction => ({
   carrier: field(source, 'carrier'),
   quoteNumber: field(source, 'quoteNumber'),
   premium: field(source, 'premium'),
+  propertyAddress: field(source, 'propertyAddress'),
   subject: field(source, 'subject'),
   notes: field(source, 'notes'),
 });
+
+const isDocumentRequest = (data: QuoteAction) =>
+  /document|declaration|mortgage|evidence/i.test(`${data.action} ${data.templateType} ${data.premium} ${data.subject}`);
+
+const requestLabel = (data: QuoteAction) => {
+  if (/request/i.test(data.premium) && !/^\$/.test(data.premium)) return data.premium;
+  const text = `${data.action} ${data.premium} ${data.subject}`.toLowerCase();
+  if (text.includes('mortgage') || text.includes('evidence')) return 'Mortgagee evidence request';
+  if (text.includes('declaration') || text.includes('dec')) return 'Declarations page request';
+  return data.premium || 'Document request';
+};
 
 const htmlPage = (title: string, body: string, status = 200) =>
   new Response(`<!doctype html>
@@ -88,21 +101,23 @@ const htmlPage = (title: string, body: string, status = 200) =>
 const summaryList = (data: QuoteAction) => `
 <dl>
   <dt>Client</dt><dd>${escapeHtml(data.clientName || 'Not listed')}</dd>
-  <dt>Quote</dt><dd>${escapeHtml(data.quoteNumber || 'Not listed')}</dd>
+  <dt>${isDocumentRequest(data) ? 'Policy' : 'Quote'}</dt><dd>${escapeHtml(data.quoteNumber || 'Not listed')}</dd>
   <dt>Carrier</dt><dd>${escapeHtml(data.carrier || 'Not listed')}</dd>
-  <dt>Template</dt><dd>${escapeHtml(data.templateType || 'Quote')}</dd>
-  <dt>Premium</dt><dd>${escapeHtml(data.premium || 'Not listed')}</dd>
+  <dt>${isDocumentRequest(data) ? 'Request' : 'Premium'}</dt><dd>${escapeHtml(isDocumentRequest(data) ? requestLabel(data) : (data.premium || 'Not listed'))}</dd>
+  ${data.propertyAddress ? `<dt>Property</dt><dd>${escapeHtml(data.propertyAddress)}</dd>` : ''}
 </dl>`;
 
 const confirmationForm = (data: QuoteAction) => htmlPage('Confirm request', `
 <section class="card">
   <p class="logo">Bill Layne Insurance Agency</p>
   <h1>Confirm your request</h1>
-  <p>Submit this form and Bill Layne Insurance Agency will contact you about the quote. This request does not bind coverage, lock a rate, or start a policy.</p>
+  <p>${isDocumentRequest(data)
+    ? `Submit this form and Bill Layne Insurance Agency will receive your ${escapeHtml(requestLabel(data).toLowerCase())}. We will review the policy details and follow up if we need anything else.`
+    : 'Submit this form and Bill Layne Insurance Agency will contact you about the quote. This request does not bind coverage, lock a rate, or start a policy.'}</p>
   ${summaryList(data)}
   <form method="post" action="/quote-action">
     ${Object.entries(data)
-      .filter(([key]) => !['clientEmail', 'clientPhone', 'notes'].includes(key))
+      .filter(([key]) => !['clientEmail', 'clientPhone', 'notes', 'templateType'].includes(key))
       .map(([key, value]) => `<input type="hidden" name="${escapeHtml(key)}" value="${escapeHtml(String(value))}">`)
       .join('')}
     <label for="clientEmail">Best email</label>
@@ -110,12 +125,14 @@ const confirmationForm = (data: QuoteAction) => htmlPage('Confirm request', `
     <label for="clientPhone">Best phone</label>
     <input id="clientPhone" name="clientPhone" type="tel" value="${escapeHtml(data.clientPhone)}" autocomplete="tel">
     <label for="notes">Anything you want us to know?</label>
-    <textarea id="notes" name="notes" rows="3" placeholder="Preferred contact time, effective date, lender request, etc.">${escapeHtml(data.notes)}</textarea>
+    <textarea id="notes" name="notes" rows="3" placeholder="${isDocumentRequest(data) ? 'Where should we send it? Lender name, email, fax, loan number, or deadline.' : 'Preferred contact time, effective date, lender request, etc.'}">${escapeHtml(data.notes)}</textarea>
     <label class="hp" for="website">Website</label>
     <input class="hp" id="website" name="website" tabindex="-1" autocomplete="off">
-    <button type="submit">Notify Bill to Contact Me</button>
+    <button type="submit">${isDocumentRequest(data) ? 'Send Document Request' : 'Notify Bill to Contact Me'}</button>
   </form>
-  <p class="notice">Coverage begins only after an application is submitted, accepted by the carrier, and initial payment is processed.</p>
+  <p class="notice">${isDocumentRequest(data)
+    ? 'This request does not change coverage. Your policy contract and declarations page control all coverage.'
+    : 'Coverage begins only after an application is submitted, accepted by the carrier, and initial payment is processed.'}</p>
 </section>`);
 
 const successPage = (data: QuoteAction) => htmlPage('Request received', `
@@ -124,7 +141,9 @@ const successPage = (data: QuoteAction) => htmlPage('Request received', `
   <h1>Request received</h1>
   <p>Thanks${data.clientName ? `, ${escapeHtml(data.clientName.split(' ')[0])}` : ''}. We sent your request to Bill Layne Insurance Agency.</p>
   ${summaryList(data)}
-  <p class="notice">This request does not bind coverage or lock a rate. Coverage starts only after carrier acceptance and payment.</p>
+  <p class="notice">${isDocumentRequest(data)
+    ? 'This request does not change coverage. We will use the current policy record to respond.'
+    : 'This request does not bind coverage or lock a rate. Coverage starts only after carrier acceptance and payment.'}</p>
   <p><a href="https://www.BillLayneInsurance.com">Return to BillLayneInsurance.com</a></p>
 </section>`);
 
@@ -137,16 +156,16 @@ const errorPage = (message: string) => htmlPage('Request not sent', `
 </section>`, 500);
 
 const emailText = (data: QuoteAction, request: Request) => [
-  'A customer requested contact from a quote email.',
+  isDocumentRequest(data) ? 'A customer requested a home policy document.' : 'A customer requested contact from a quote email.',
   '',
   `Action: ${data.action}`,
+  `Request: ${requestLabel(data)}`,
   `Client: ${data.clientName || 'Not listed'}`,
   `Client email: ${data.clientEmail || 'Not listed'}`,
   `Client phone: ${data.clientPhone || 'Not listed'}`,
-  `Template: ${data.templateType || 'Not listed'}`,
   `Carrier: ${data.carrier || 'Not listed'}`,
-  `Quote number: ${data.quoteNumber || 'Not listed'}`,
-  `Premium: ${data.premium || 'Not listed'}`,
+  `${isDocumentRequest(data) ? 'Policy number' : 'Quote number'}: ${data.quoteNumber || 'Not listed'}`,
+  `${isDocumentRequest(data) ? 'Property address' : 'Premium'}: ${isDocumentRequest(data) ? (data.propertyAddress || 'Not listed') : (data.premium || 'Not listed')}`,
   `Original subject: ${data.subject || 'Not listed'}`,
   `Notes: ${data.notes || 'None'}`,
   '',
@@ -159,7 +178,9 @@ async function sendEmail(env: Env, data: QuoteAction, request: Request) {
 
   const to = env.QUOTE_NOTICE_TO || noticeToDefault;
   const from = env.QUOTE_NOTICE_FROM || 'Quote Template Studio <onboarding@resend.dev>';
-  const subject = `Quote action requested: ${data.clientName || 'Client'} - ${data.carrier || data.templateType || 'quote'}`;
+  const subject = isDocumentRequest(data)
+    ? `${requestLabel(data)}: ${data.clientName || 'Client'} - ${data.carrier || 'home policy'}`
+    : `Quote action requested: ${data.clientName || 'Client'} - ${data.carrier || 'quote'}`;
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -186,7 +207,9 @@ async function sendSmsIfConfigured(env: Env, data: QuoteAction) {
   const params = new URLSearchParams({
     From: env.TWILIO_FROM_NUMBER,
     To: env.TWILIO_TO_NUMBER,
-    Body: `Quote contact request: ${data.clientName || 'Client'} - ${data.carrier || data.templateType} - ${data.premium || 'premium not listed'}. Check docs@billlayneinsurance.com.`,
+    Body: isDocumentRequest(data)
+      ? `${requestLabel(data)}: ${data.clientName || 'Client'} - ${data.carrier || 'home policy'} - policy ${data.quoteNumber || 'not listed'}. Check docs@billlayneinsurance.com.`
+      : `Quote contact request: ${data.clientName || 'Client'} - ${data.carrier || 'quote'} - ${data.premium || 'premium not listed'}. Check docs@billlayneinsurance.com.`,
   });
   const auth = btoa(`${env.TWILIO_ACCOUNT_SID}:${env.TWILIO_AUTH_TOKEN}`);
   await fetch(`https://api.twilio.com/2010-04-01/Accounts/${env.TWILIO_ACCOUNT_SID}/Messages.json`, {

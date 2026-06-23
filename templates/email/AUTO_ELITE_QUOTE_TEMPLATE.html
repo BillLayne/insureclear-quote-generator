@@ -1,43 +1,5 @@
-<!--
-============================================================================
-  BILL LAYNE INSURANCE — ELITE AUTO QUOTE (Gold-Standard Template)
-  Style: Playfair Display + Poppins, ivory/cream/gold light-concierge
-  Hero rule: AUTO = monthly payment is the big number (total / months)
-  Locked: NO agent chip · NO circular (oval-on-Gmail) badges · clean stacked driver rows
-  ----------------------------------------------------------------------------
-  MERGE FIELDS
-    {{CARRIER_LOGO_URL}}   Carrier logo (e.g. https://i.imgur.com/HF8oPAF.png)
-    {{CARRIER_NAME}}       Short carrier name (e.g. National General)
-    {{CARRIER_LEGAL}}      Legal entity (e.g. Integon Preferred Insurance Company)
-    {{HERO_IMAGE_URL}}     Hosted hero banner (Imgur), ~1200x500
-    {{PREPARED_FOR}}       Names line (e.g. Ronald & Belinda Wood)
-    {{VEHICLE_COUNT_WORD}} three / two / four ...
-    {{MONTHLY_PAYMENT}}    Big number = TERM_TOTAL / months (e.g. $111.54)
-    {{TERM_LENGTH}}        6-month / 12-month
-    {{QUOTE_NUMBER}}       Carrier quote # (e.g. 253426045)
-    {{PAY_IN_FULL}}        Pay-in-full amount (e.g. $613.22)
-    {{PIF_SAVINGS}}        Savings vs installments (e.g. $56.02)
-    {{TERM_TOTAL}}         Full term premium (e.g. $669.24)
-    {{DOWN_PAYMENT}}       Installment down payment (e.g. $114.74)
-    {{INSTALLMENT_COUNT}}  Number of installments (e.g. 5)
-    {{INSTALLMENT_AMT}}    Each installment (e.g. $114.50)
-    {{EFFECTIVE_DATE}}     mm/dd/yyyy
-    {{POLICY_TYPE}}        e.g. NC Personal Auto
-    {{BODILY_INJURY}} {{PROPERTY_DAMAGE}} {{UM_UIM_BI}} {{UM_PD}} {{MED_PAY}}  Policy-wide limits
-    PER VEHICLE (repeat the "Vehicle card" block):
-      {{VEHICLE_N}} {{VEHICLE_N_VIN}} {{VEHICLE_N_USE}} {{VEHICLE_N_PREMIUM}}
-      {{VEHICLE_N_COMP}} {{VEHICLE_N_COLL}}   (use "Not selected" if no coverage)
-    PER DRIVER (primary = gold "Primary" badge; others = neutral badge, repeat block):
-      {{DRIVER_N_NAME}} {{DRIVER_N_DETAIL}}   (e.g. Named Insured • Age 56 • 0 points)
-    {{DISCOUNT_1..8}}      Discount labels
-    {{QUOTE_ACTION_URL}}   Contact-Us / SendBillDocs link
-  ----------------------------------------------------------------------------
-  CONDITIONAL: "Bundle cross-sell P.S." card — include ONLY when the quote
-  carries a Homeowner discount; otherwise delete that <tr>.
-============================================================================
--->
-<!-- SUBJECT: your auto quote — {{VEHICLE_COUNT_WORD}} cars, about {{MONTHLY_PAYMENT}}/mo -->
-<!-- PREHEADER: {{VEHICLE_COUNT_WORD}} vehicles with {{CARRIER_NAME}} — {{TERM_TOTAL}} for {{TERM_LENGTH}}, the coverage details, and your next step. -->
+<!-- SUBJECT: your auto quote - {{VEHICLE_COUNT_WORD}} cars, about {{MONTHLY_PAYMENT}}/mo -->
+<!-- PREHEADER: {{VEHICLE_COUNT_WORD}} vehicles with {{CARRIER_NAME}} - {{TERM_TOTAL}} for {{TERM_LENGTH}}, coverage details and next step. -->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -45,438 +7,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="format-detection" content="telephone=no">
-  <meta name="color-scheme" content="light only">
-  <meta name="supported-color-schemes" content="light only">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
   <title>Your Auto Quote — Bill Layne Insurance</title>
   <!--[if mso]>
   <style type="text/css">
-    html,body,table,td,a,p,span,div{-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important}
-    table, td, div, p, a {font-family: Arial, sans-serif !important;}
-    h1, h2, h3, .serif {font-family: Georgia, 'Times New Roman', serif !important;}
-    .button-link {padding: 15px 34px !important;}
+    html,body,table,td,a,p,span,div{-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important;}
+    table,td,div,p,a{font-family:Arial,sans-serif!important;}
+    h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif!important;}
+    .btn-link{padding:16px 36px!important;}
   </style>
   <![endif]-->
-  <style>
+  <style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@400;500;600;700&display=swap');
-    body { margin:0; padding:0; }
-    img { border:0; line-height:100%; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
-    table { border-collapse:collapse; }
-    a { text-decoration:none; }
-    @media only screen and (max-width:600px) {
-      .container { width:100% !important; }
-      .stack { display:block !important; width:100% !important; box-sizing:border-box !important; }
-      .stack-pad { padding-bottom:12px !important; }
-      .pad-mobile { padding-left:20px !important; padding-right:20px !important; }
-      .h1-mobile { font-size:24px !important; line-height:1.14 !important; }
+    body{margin:0;padding:0;} img{border:0;line-height:100%;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;} table{border-collapse:collapse;} a{text-decoration:none;}
+    @media (prefers-color-scheme:dark){
+      body,.outer-wrap{background-color:#1a1814!important}.email-container,.header-cell,.footer-area{background-color:#1e1c19!important}.logo-chip,.carrier-chip,.footer-logo-chip,.google-chip{background-color:#2a2824!important;border-color:#3a3628!important}.gold-label{color:#d4a84e!important}.dark-text{color:#e8e4dc!important}.sub-text{color:#aaa59a!important}.faint-text,.disclaimer-text{color:#7e786f!important}.card-white{background-color:#242220!important;border-color:#3a3628!important}.card-cream,.bundle-card{background-color:#221f1b!important;border-color:#3a3628!important}.card-gold-border{background-color:#242220!important;border-color:#c8a84e!important}.cta-btn{background-color:#c8a84e!important;color:#1e1c19!important}.review-chip{background-color:#221f1b!important;border-color:#3a3628!important}.image-frame{border-color:#3a3628!important}
+    }
+    @media only screen and (max-width:600px){
+      .container{width:100%!important}.stack{display:block!important;width:100%!important;box-sizing:border-box!important}.stack-pad{padding-bottom:10px!important}.pad-mobile{padding-left:16px!important;padding-right:16px!important}.h1-mobile{font-size:22px!important;line-height:1.15!important}.start-mobile{font-size:34px!important}.hide-mobile{display:none!important;max-height:0!important;overflow:hidden!important}.full-btn{width:100%!important;box-sizing:border-box!important;text-align:center!important}.image-mobile{border-radius:13px!important}
     }
   </style>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"InsuranceAgency","name":"Bill Layne Insurance Agency","url":"https://www.BillLayneInsurance.com","telephone":"+13368351993","email":"Save@BillLayneInsurance.com","address":{"@type":"PostalAddress","streetAddress":"1283 N Bridge St","addressLocality":"Elkin","addressRegion":"NC","postalCode":"28621"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"100"}}
   </script>
 </head>
-<body style="margin:0; padding:0; background-color:#ece4d3;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
-  <div style="display:none; white-space:nowrap; font:15px courier; color:#ece4d3; line-height:0; max-height:0; overflow:hidden;width:600px!important;min-width:600px!important;max-width:600px!important">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-
-  <!-- Preheader (hidden) -->
-  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#ece4d3;">
-    {{VEHICLE_COUNT_WORD}} vehicles with {{CARRIER_NAME}} &#847; {{TERM_TOTAL}} for {{TERM_LENGTH}} &#847; coverage details and your next step.
-  </div>
-
-  <!-- Outer wrapper -->
+<body style="margin:0;padding:0;background-color:#ece4d3;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;" class="outer-wrap">
+  <div style="display:none;white-space:nowrap;font:15px courier;color:#faf7ef;line-height:0;width:600px!important;min-width:600px!important;max-width:600px!important;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#ece4d3;">{{VEHICLE_COUNT_WORD}} vehicles &middot; {{CARRIER_NAME}} &middot; {{MONTHLY_PAYMENT}}/mo &middot; Start today for {{DOWN_PAYMENT}} &middot; reply YES or tap to review</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ece4d3" style="background-color:#ece4d3;">
-    <tr>
-      <td align="center" style="padding:22px 10px;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+    <tr><td align="center" style="padding:20px 10px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="container email-container" style="width:100%;max-width:600px;margin:0 auto;background-color:#faf7ef;">
 
-        <!-- Inner container -->
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="container" style="width:100%; max-width:600px; margin:0 auto; background-color:#faf7ef;">
+        <tr><td class="pad-mobile header-cell" style="padding:24px 24px 6px;background-color:#faf7ef;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:14px;">
+            <tr><td style="padding:0;"><div style="height:3px;background-color:#c8a84e;border-radius:14px 14px 0 0;font-size:1px;line-height:1px;">&nbsp;</div></td></tr>
+            <tr><td align="center" style="padding:13px 16px 0;"><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">Auto Insurance Quote</div></td></tr>
+            <tr><td style="padding:12px 14px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td width="56%" align="center" valign="middle" style="padding-right:12px;"><img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency" width="170" style="display:block;width:100%;max-width:170px;height:auto;margin:0 auto;"></td>
+              <td width="44%" align="center" valign="middle" style="padding-left:14px;border-left:1px solid #e8e0cf;"><img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}}" width="118" style="display:block;width:100%;max-width:118px;height:auto;margin:0 auto;"></td>
+            </tr></table></td></tr>
+          </table>
+        </td></tr>
 
-          <!-- ============ HEADER (condensed dual-logo container) ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:24px 24px 6px;" bgcolor="#faf7ef">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:14px;">
-                <!-- Gold top accent -->
-                <tr><td style="padding:0;"><div style="height:3px; background-color:#C8A84E; border-radius:14px 14px 0 0; font-size:1px; line-height:1px;">&nbsp;</div></td></tr>
-                <!-- Eyebrow -->
-                <tr>
-                  <td align="center" style="padding:13px 16px 0;">
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2.6px; text-transform:uppercase; color:#97712a; font-weight:700;">Auto Insurance Quote</div>
-                  </td>
-                </tr>
-                <!-- Dual-logo row -->
-                <tr>
-                  <td style="padding:12px 14px 16px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td width="56%" align="center" valign="middle" style="padding-right:12px;">
-                          <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency" width="170" style="display:block; width:100%; max-width:170px; height:auto; margin:0 auto;">
-                        </td>
-                        <td width="44%" align="center" valign="middle" style="padding-left:14px; border-left:1px solid #e8e0cf;">
-                          <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}}" width="118" style="display:block; width:100%; max-width:118px; height:auto; margin:0 auto;">
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td style="padding:0 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="2" style="height:2px;background-color:#c8a84e;font-size:1px;line-height:1px;">&nbsp;</td></tr></table></td></tr>
 
-          <!-- ============ HERO IMAGE ============ -->
-          <tr>
-            <td align="center" style="padding:22px 16px 0 16px; font-size:0; line-height:0;">
-              <img src="{{HERO_IMAGE_URL}}" alt="Auto quote prepared for {{PREPARED_FOR}}" width="568" style="display:block; width:100%; max-width:568px; height:auto; margin:0 auto; border:1px solid #e8e0cf; border-radius:14px;">
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:20px 16px 6px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;letter-spacing:2.2px;text-transform:uppercase;color:#97712a;font-weight:600;" class="gold-label">Prepared for {{PREPARED_FOR}}</div><h1 class="h1-mobile serif dark-text" style="margin:8px 0 0;font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.2;font-weight:600;color:#2b241a;">Your <span style="color:#97712a;font-style:italic;">auto quote</span> for {{VEHICLE_COUNT_WORD}} vehicles is ready.</h1></td></tr>
 
-          <!-- ============ HERO ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 6px;">
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; letter-spacing:2.4px; text-transform:uppercase; color:#97712a; font-weight:600;">Prepared for {{PREPARED_FOR}}</div>
-              <h1 class="h1-mobile serif" style="margin:10px 0 0; font-family:'Playfair Display',Georgia,serif; font-size:22px; line-height:1.18; font-weight:600; color:#2b241a; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">Your <span style="color:#97712a; font-style:italic;">auto quote</span> for {{VEHICLE_COUNT_WORD}} vehicles is ready.</h1>
-            </td>
-          </tr>
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:14px 34px 6px; font-family:'Poppins',Arial,sans-serif; font-size:15px; line-height:1.65; color:#5f584a;">
-              <p style="margin:0 0 12px;"><strong style="color:#2b241a;">Thank you for the opportunity to shop your auto coverage.</strong> I put together this quote from {{CARRIER_NAME}} so the numbers that matter are easy to read &mdash; no digging through the carrier PDF.</p>
-              <p style="margin:0;">If it looks good, use the button below, call <strong style="color:#2b241a;">336-835-1993</strong>, or just reply &mdash; I'll walk you through the final details before anything is submitted.</p>
-            </td>
-          </tr>
+        <tr><td align="center" style="padding:14px 16px 0;font-size:0;line-height:0;">
+          <img src="{{HERO_IMAGE_URL}}" alt="Auto quote prepared for {{PREPARED_FOR}}" width="568" height="270" class="image-frame image-mobile" style="display:block;width:100%;max-width:568px;height:auto;margin:0 auto;border:1px solid #e8e0cf;border-radius:16px;">
+        </td></tr>
 
-          <!-- Signature line -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:14px 34px 0;">
-              <span class="serif" style="font-family:'Playfair Display',Georgia,serif; font-style:italic; font-size:18px; color:#97712a;">Bill Layne</span>
-              <span style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#8c8472; padding-left:10px;">Your Local Independent Agent</span>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:20px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-gold-border" style="background-color:#ffffff;border:2px solid #c8a84e;border-radius:18px;"><tr><td style="padding:22px 20px 16px;">
+          <div style="font-family:Poppins,Arial,sans-serif;font-size:10px;letter-spacing:2.2px;text-transform:uppercase;color:#97712a;font-weight:700;text-align:center;" class="gold-label">&#128274; Start Today</div>
+          <div class="serif start-mobile dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:42px;font-weight:700;color:#2b241a;line-height:1;letter-spacing:-0.5px;padding-top:4px;text-align:center;">{{DOWN_PAYMENT}}</div>
+          <div style="font-family:Poppins,Arial,sans-serif;font-size:12px;color:#8c8472;padding-top:5px;text-align:center;" class="sub-text">Down today — then {{INSTALLMENT_COUNT}} payments of {{INSTALLMENT_AMT}}</div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:14px 0;"><tr><td height="1" style="height:1px;background-color:#e8e0cf;font-size:1px;line-height:1px;">&nbsp;</td></tr></table>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td class="stack stack-pad" width="50%" valign="top" style="padding-right:6px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="card-cream" style="background-color:#f7f1e4;border:1px solid #c8a84e;border-radius:12px;"><tr><td align="center" style="padding:14px 10px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:8px;letter-spacing:1.6px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">Est. Monthly</div><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#2b241a;padding-top:3px;">{{MONTHLY_PAYMENT}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;color:#97712a;font-weight:600;padding-top:2px;" class="gold-label">6-month term</div></td></tr></table></td>
+            <td class="stack" width="50%" valign="top" style="padding-left:6px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:12px;"><tr><td align="center" style="padding:14px 10px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:8px;letter-spacing:1.6px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">Pay in Full</div><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:700;color:#2b241a;padding-top:3px;">{{PAY_IN_FULL}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;color:#2b8a3e;font-weight:700;padding-top:2px;">Saves {{PIF_SAVINGS}}</div></td></tr></table></td>
+          </tr></table>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:14px auto 0;"><tr><td bgcolor="#f7f1e4" class="card-cream" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:20px;padding:4px 14px;font-family:Poppins,Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#97712a;">Quote #{{QUOTE_NUMBER}} · Effective {{EFFECTIVE_DATE}}</td></tr></table>
+        </td></tr></table></td></tr>
 
-          <!-- ============ PREMIUM (monthly-first) ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:22px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #C8A84E; border-radius:16px;">
-                <tr>
-                  <td align="center" style="padding:24px 20px;">
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; letter-spacing:2.4px; text-transform:uppercase; color:#97712a; font-weight:600;">Est. Monthly Payment</div>
-                    <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:40px; font-weight:700; color:#2b241a; line-height:1; letter-spacing:-0.5px; padding-top:6px;">{{MONTHLY_PAYMENT}}</div>
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:13px; color:#8c8472; padding-top:6px;">Quote #{{QUOTE_NUMBER}} &nbsp;&middot;&nbsp; {{TERM_LENGTH}} term</div>
-                    <!-- Two payment options -->
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;">
-                      <tr>
-                        <td class="stack stack-pad" width="50%" valign="top" style="padding-right:6px;">
-                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" style="background-color:#f7f1e4; border:1px solid #C8A84E; border-radius:12px;"><tr><td align="center" style="padding:14px 12px;">
-                            <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.6px; text-transform:uppercase; color:#97712a; font-weight:700;">Pay in Full</div>
-                            <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:24px; font-weight:700; color:#2b241a; padding-top:4px;">{{PAY_IN_FULL}}</div>
-                            <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; color:#97712a; font-weight:600; padding-top:3px;">Saves {{PIF_SAVINGS}}</div>
-                          </td></tr></table>
-                        </td>
-                        <td class="stack" width="50%" valign="top" style="padding-left:6px;">
-                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td align="center" style="padding:14px 12px;">
-                            <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.6px; text-transform:uppercase; color:#97712a; font-weight:700;">Monthly Plan</div>
-                            <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:24px; font-weight:700; color:#2b241a; padding-top:4px;">{{TERM_TOTAL}}</div>
-                            <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; color:#8c8472; padding-top:3px;">{{DOWN_PAYMENT}} down + {{INSTALLMENT_COUNT}} &times; {{INSTALLMENT_AMT}}</div>
-                          </td></tr></table>
-                        </td>
-                      </tr>
-                    </table>
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:14px auto 0;"><tr>
-                      <td bgcolor="#f7f1e4" style="background-color:#f7f1e4; border:1px solid #e8e0cf; border-radius:20px; padding:5px 14px; font-family:'Poppins',Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#97712a;">&#9679; Quote &nbsp;&middot;&nbsp; Effective {{EFFECTIVE_DATE}}</td>
-                    </tr></table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:12px 16px 0;font-family:Poppins,Arial,sans-serif;font-size:14px;line-height:1.65;color:#5f584a;" class="sub-text"><p style="margin:0;">I shopped this across our carriers and <strong style="color:#2b241a;" class="dark-text">{{CARRIER_NAME}} came out on top</strong> for your {{VEHICLE_COUNT_WORD}} vehicles — the best price-and-coverage combo of the bunch.</p></td></tr>
+        <tr><td class="pad-mobile" style="padding:10px 16px 0;"><span class="serif" style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:17px;color:#97712a;">Bill Layne</span><span style="font-family:Poppins,Arial,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8c8472;padding-left:10px;" class="faint-text">Your Local Independent Agent</span></td></tr>
 
-          <!-- ============ WE SHOPPED YOUR RATE ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:18px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:2px solid #C8A84E; border-radius:16px;">
-                <tr>
-                  <td style="padding:18px 20px;">
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#97712a; font-weight:700;">&#9679; We Shopped Your Rate</div>
-                    <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:18px; font-weight:700; color:#2b241a; padding-top:6px;">Compared across our carriers &mdash; this was the best fit.</div>
-                    <p style="margin:9px 0 0; font-family:'Poppins',Arial,sans-serif; font-size:13px; line-height:1.6; color:#5f584a;">As an independent agency we shop your coverage across our carriers &mdash; including Progressive, Nationwide, Travelers, and others. For your vehicles, <strong style="color:#2b241a;">{{CARRIER_NAME}}</strong> delivered the strongest combination of price and coverage.</p>
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;">
-                      <tr>
-                        <td bgcolor="#f7f1e4" style="background-color:#f7f1e4; border:1px solid #e8e0cf; border-radius:10px; padding:12px 15px;">
-                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                            <td valign="middle">
-                              <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#2b241a;">{{CARRIER_NAME}}</div>
-                              <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; color:#8c8472; padding-top:2px;">{{CARRIER_LEGAL}} &middot; your selected quote</div>
-                            </td>
-                            <td align="right" valign="middle">
-                              <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#C8A84E" style="background-color:#C8A84E; border-radius:4px; padding:5px 11px; font-family:'Poppins',Arial,sans-serif; font-size:12px; font-weight:700; color:#2b241a;">{{TERM_TOTAL}} / {{TERM_LENGTH}}</td></tr></table>
-                            </td>
-                          </tr></table>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:20px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-gold-border" style="background-color:#ffffff;border:2px solid #c8a84e;border-radius:16px;"><tr><td style="padding:16px 18px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">&#128269; We Shopped Your Rate</div><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;color:#2b241a;padding-top:5px;">Compared across our carriers — this was the best fit.</div><p style="margin:7px 0 0;font-family:Poppins,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5f584a;" class="sub-text">As an independent agency, I compare Progressive, Nationwide, Travelers and more on every quote. <strong style="color:#2b241a;" class="dark-text">Here&rsquo;s the carrier I placed you with:</strong></p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:11px;"><tr><td bgcolor="#f7f1e4" class="card-cream" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:10px;padding:11px 14px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#2b241a;">{{CARRIER_NAME}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;color:#8c8472;padding-top:2px;" class="faint-text">{{CARRIER_LEGAL}} · your selected quote</div></td><td align="right" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#c8a84e" style="background-color:#c8a84e;border-radius:5px;padding:5px 11px;font-family:Poppins,Arial,sans-serif;font-size:12px;font-weight:700;color:#2b241a;">{{TERM_TOTAL}} / {{TERM_LENGTH}}</td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr>
 
-          <!-- ============ QUOTE STAT CARDS (2x2 -> 1 col mobile) ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:14px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td class="stack stack-pad" width="50%" valign="top" style="padding-right:6px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:13px 15px;">
-                      <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:#97712a; font-weight:600;">Carrier</div>
-                      <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:17px; font-weight:700; color:#2b241a; padding-top:5px;">{{CARRIER_NAME}}</div>
-                    </td></tr></table>
-                  </td>
-                  <td class="stack stack-pad" width="50%" valign="top" style="padding-left:6px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:13px 15px;">
-                      <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:#97712a; font-weight:600;">Policy Type</div>
-                      <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:17px; font-weight:700; color:#2b241a; padding-top:5px;">{{POLICY_TYPE}}</div>
-                    </td></tr></table>
-                  </td>
-                </tr>
-                <tr><td colspan="2" height="12" style="height:12px; font-size:1px; line-height:1px;">&nbsp;</td></tr>
-                <tr>
-                  <td class="stack stack-pad" width="50%" valign="top" style="padding-right:6px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:13px 15px;">
-                      <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:#97712a; font-weight:600;">Effective Date</div>
-                      <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:17px; font-weight:700; color:#2b241a; padding-top:5px;">{{EFFECTIVE_DATE}}</div>
-                    </td></tr></table>
-                  </td>
-                  <td class="stack" width="50%" valign="top" style="padding-left:6px;">
-                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:13px 15px;">
-                      <div style="font-family:'Poppins',Arial,sans-serif; font-size:9px; letter-spacing:1.8px; text-transform:uppercase; color:#97712a; font-weight:600;">{{TERM_LENGTH}} Premium</div>
-                      <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:17px; font-weight:700; color:#2b241a; padding-top:5px;">{{TERM_TOTAL}}</div>
-                    </td></tr></table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td align="center" class="pad-mobile" style="padding:20px 16px 4px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 10px;"><tr><td align="center" bgcolor="#c8a84e" style="background-color:#c8a84e;border-radius:10px;" class="cta-btn"><a href="{{QUOTE_ACTION_URL}}" target="_blank" class="btn-link" style="display:inline-block;padding:16px 36px;font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2b241a;text-decoration:none;border-radius:10px;">&#10003; Lock In This Quote</a></td></tr></table><div style="font-family:Poppins,Arial,sans-serif;font-size:13px;color:#5f584a;line-height:1.5;" class="sub-text">Fastest: <strong style="color:#2b241a;" class="dark-text">reply YES</strong> — I'll confirm your payment option before anything is submitted. Or call <a href="tel:3368351993" style="color:#97712a;font-weight:600;text-decoration:none;">336-835-1993</a></div></td></tr>
 
-          <!-- ============ POLICY-WIDE COVERAGE ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:18px; color:#2b241a; font-weight:700;">Coverage at a glance</td>
-                  <td align="right" style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#97712a; font-weight:600;">All vehicles</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:10px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:14px;">
-                <tr><td style="padding:6px 18px;">
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Poppins',Arial,sans-serif;">
-                    <tr><td style="padding:10px 0; border-bottom:1px solid #ece3d2; font-size:14px; color:#5f584a;">Bodily Injury Liability</td><td align="right" class="serif" style="padding:10px 0; border-bottom:1px solid #ece3d2; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{BODILY_INJURY}}</td></tr>
-                    <tr><td style="padding:10px 0; border-bottom:1px solid #ece3d2; font-size:14px; color:#5f584a;">Property Damage Liability</td><td align="right" class="serif" style="padding:10px 0; border-bottom:1px solid #ece3d2; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{PROPERTY_DAMAGE}}</td></tr>
-                    <tr><td style="padding:10px 0; border-bottom:1px solid #ece3d2; font-size:14px; color:#5f584a;">Uninsured / Underinsured Motorist BI</td><td align="right" class="serif" style="padding:10px 0; border-bottom:1px solid #ece3d2; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{UM_UIM_BI}}</td></tr>
-                    <tr><td style="padding:10px 0; border-bottom:1px solid #ece3d2; font-size:14px; color:#5f584a;">Uninsured Motorist Property Damage</td><td align="right" class="serif" style="padding:10px 0; border-bottom:1px solid #ece3d2; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{UM_PD}}</td></tr>
-                    <tr><td style="padding:10px 0; font-size:14px; color:#5f584a;">Medical Payments</td><td align="right" class="serif" style="padding:10px 0; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{MED_PAY}}</td></tr>
-                  </table>
-                </td></tr>
-              </table>
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; color:#8c8472; padding:8px 2px 0; line-height:1.5;">Liability, Uninsured/Underinsured Motorist, and Medical Payments apply across every vehicle on the policy.</div>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:24px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:17px;color:#2b241a;font-weight:700;">Coverage at a glance</td><td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:600;" class="gold-label">All vehicles</td></tr></table></td></tr>
+        <tr><td class="pad-mobile" style="padding:8px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:14px;"><tr><td style="padding:4px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Poppins,Arial,sans-serif;"><tr><td style="padding:10px 0;border-bottom:1px solid #ece3d2;font-size:13px;color:#5f584a;" class="sub-text">Bodily Injury Liability</td><td align="right" class="serif" style="padding:10px 0;border-bottom:1px solid #ece3d2;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{BODILY_INJURY}}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #ece3d2;font-size:13px;color:#5f584a;" class="sub-text">Property Damage Liability</td><td align="right" class="serif" style="padding:10px 0;border-bottom:1px solid #ece3d2;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{PROPERTY_DAMAGE}}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #ece3d2;font-size:13px;color:#5f584a;" class="sub-text">Uninsured / Underinsured Motorist BI</td><td align="right" class="serif" style="padding:10px 0;border-bottom:1px solid #ece3d2;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{UM_UIM_BI}}</td></tr><tr><td style="padding:10px 0;border-bottom:1px solid #ece3d2;font-size:13px;color:#5f584a;" class="sub-text">Uninsured Motorist Property Damage</td><td align="right" class="serif" style="padding:10px 0;border-bottom:1px solid #ece3d2;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{UM_PD}}</td></tr><tr><td style="padding:10px 0;font-size:13px;color:#5f584a;" class="sub-text">Medical Payments</td><td align="right" class="serif" style="padding:10px 0;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{MED_PAY}}</td></tr></table></td></tr></table><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;color:#8c8472;padding:6px 2px 0;line-height:1.5;" class="faint-text">Liability, UM/UIM, and Medical Payments apply across every vehicle on the policy.</div></td></tr>
 
-          <!-- ============ COVERAGE BY VEHICLE ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:18px; color:#2b241a; font-weight:700;">Coverage by vehicle</td>
-                  <td align="right" style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#97712a; font-weight:600;">Per vehicle</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:24px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:17px;color:#2b241a;font-weight:700;">Coverage by vehicle</td><td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:600;" class="gold-label">{{VEHICLE_COUNT_WORD}} vehicles</td></tr></table></td></tr>
 
-          <!-- >>> REPEAT THIS "Vehicle card" <tr> ONCE PER VEHICLE (N = 1, 2, 3 ...) <<< -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:12px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:14px;">
-                <tr><td style="background-color:#f7f1e4; border-left:4px solid #C8A84E; border-radius:14px 14px 0 0; padding:13px 18px;">
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                    <td valign="middle">
-                      <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#2b241a;">{{VEHICLE_N}}</div>
-                      <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#8c8472; padding-top:3px;">VIN &bull;&bull;{{VEHICLE_N_VIN}} &nbsp;&middot;&nbsp; {{VEHICLE_N_USE}}</div>
-                    </td>
-                    <td align="right" valign="middle">
-                      <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#C8A84E" style="background-color:#C8A84E; border-radius:4px; padding:5px 11px; font-family:'Poppins',Arial,sans-serif; font-size:11px; font-weight:700; color:#2b241a;">{{VEHICLE_N_PREMIUM}}</td></tr></table>
-                    </td>
-                  </tr></table>
-                </td></tr>
-                <tr><td style="padding:4px 18px 8px;">
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Poppins',Arial,sans-serif;">
-                    <tr><td style="padding:9px 0; border-bottom:1px solid #ece3d2; font-size:14px; color:#5f584a;">Comprehensive Deductible</td><td align="right" class="serif" style="padding:9px 0; border-bottom:1px solid #ece3d2; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{VEHICLE_N_COMP}}</td></tr>
-                    <tr><td style="padding:9px 0; font-size:14px; color:#5f584a;">Collision Deductible</td><td align="right" class="serif" style="padding:9px 0; font-family:'Playfair Display',Georgia,serif; font-size:15px; font-weight:700; color:#97712a;">{{VEHICLE_N_COLL}}</td></tr>
-                  </table>
-                </td></tr>
-              </table>
-            </td>
-          </tr>
-          <!-- >>> END Vehicle card <<< -->
+        <!-- >>> REPEAT THIS "Vehicle card" <tr> ONCE PER VEHICLE (N = 1, 2, 3 ...) <<< -->
+        <tr><td class="pad-mobile" style="padding:10px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:14px;"><tr><td style="background-color:#f7f1e4;border-left:4px solid #c8a84e;border-radius:14px 14px 0 0;padding:12px 16px;" class="card-cream"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;color:#2b241a;">{{VEHICLE_N}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;color:#8c8472;padding-top:2px;" class="faint-text">VIN &bull;&bull;{{VEHICLE_N_VIN}} &nbsp;&middot;&nbsp; {{VEHICLE_N_USE}}</div></td><td align="right" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#c8a84e" style="background-color:#c8a84e;border-radius:5px;padding:5px 10px;font-family:Poppins,Arial,sans-serif;font-size:11px;font-weight:700;color:#2b241a;">{{VEHICLE_N_PREMIUM}}</td></tr></table></td></tr></table></td></tr><tr><td style="padding:4px 16px 10px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Poppins,Arial,sans-serif;"><tr><td style="padding:8px 0;border-bottom:1px solid #ece3d2;font-size:13px;color:#5f584a;" class="sub-text">Comprehensive Deductible</td><td align="right" class="serif" style="padding:8px 0;border-bottom:1px solid #ece3d2;font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#97712a;">{{VEHICLE_N_COMP}}</td></tr><tr><td style="padding:8px 0;font-size:13px;color:#5f584a;" class="sub-text">Collision Deductible</td><td align="right" style="padding:8px 0;font-family:Poppins,Arial,sans-serif;font-size:13px;font-weight:500;color:#8c8472;" class="faint-text">{{VEHICLE_N_COLL}}</td></tr></table></td></tr></table></td></tr>        <!-- >>> END Vehicle card <<< -->
 
-          <!-- ============ YOUR DRIVERS (clean stacked rows, NO avatars) ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:18px; color:#2b241a; font-weight:700;">Your drivers</td>
-                  <td align="right" style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#97712a; font-weight:600;">Rated</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <!-- Primary driver (gold "Primary" badge) -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:12px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:15px 18px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td valign="middle">
-                    <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#2b241a;">{{DRIVER_1_NAME}}</div>
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#8c8472; padding-top:3px;">{{DRIVER_1_DETAIL}}</div>
-                  </td>
-                  <td align="right" valign="middle">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#C8A84E" style="background-color:#C8A84E; border-radius:4px; padding:4px 10px; font-family:'Poppins',Arial,sans-serif; font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:#2b241a;">Primary</td></tr></table>
-                  </td>
-                </tr></table>
-              </td></tr></table>
-            </td>
-          </tr>
-          <!-- >>> REPEAT THIS "Additional driver" <tr> per extra driver (neutral badge) <<< -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:12px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:12px;"><tr><td style="padding:15px 18px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td valign="middle">
-                    <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:16px; font-weight:700; color:#2b241a;">{{DRIVER_2_NAME}}</div>
-                    <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#8c8472; padding-top:3px;">{{DRIVER_2_DETAIL}}</div>
-                  </td>
-                  <td align="right" valign="middle">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#ece3d2" style="background-color:#ece3d2; border-radius:4px; padding:4px 10px; font-family:'Poppins',Arial,sans-serif; font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:#97712a;">Insured</td></tr></table>
-                  </td>
-                </tr></table>
-              </td></tr></table>
-            </td>
-          </tr>
-          <!-- >>> END Additional driver <<< -->
+        <tr><td class="pad-mobile" style="padding:24px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:17px;color:#2b241a;font-weight:700;">Your drivers</td><td align="right" style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:600;" class="gold-label">Rated</td></tr></table></td></tr>
+        <tr><td class="pad-mobile" style="padding:10px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:12px;"><tr><td style="padding:14px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;color:#2b241a;">{{DRIVER_1_NAME}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;color:#8c8472;padding-top:2px;" class="faint-text">{{DRIVER_1_DETAIL}}</div></td><td align="right" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#c8a84e" style="background-color:#c8a84e;border-radius:5px;padding:4px 10px;font-family:Poppins,Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#2b241a;">Primary</td></tr></table></td></tr></table></td></tr></table></td></tr>
+        <!-- >>> REPEAT THIS "Additional driver" <tr> per extra driver (neutral badge) <<< -->
+        <tr><td class="pad-mobile" style="padding:8px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:12px;"><tr><td style="padding:14px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;color:#2b241a;">{{DRIVER_2_NAME}}</div><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;color:#8c8472;padding-top:2px;" class="faint-text">{{DRIVER_2_DETAIL}}</div></td><td align="right" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#ece3d2" style="background-color:#ece3d2;border-radius:5px;padding:4px 10px;font-family:Poppins,Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#97712a;" class="card-cream">Insured</td></tr></table></td></tr></table></td></tr></table></td></tr>
 
-          <!-- ============ DISCOUNTS APPLIED ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:14px;"><tr><td style="padding:16px 18px;">
-                <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:16px; color:#2b241a; font-weight:700; padding-bottom:10px;">Discounts applied</div>
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:'Poppins',Arial,sans-serif; font-size:13px;">
-                  <tr>
-                    <td width="50%" valign="top" style="padding:5px 10px 5px 0; color:#5f584a;">&#10003; {{DISCOUNT_1}}</td>
-                    <td width="50%" valign="top" style="padding:5px 0 5px 10px; color:#5f584a;">&#10003; {{DISCOUNT_2}}</td>
-                  </tr>
-                  <tr>
-                    <td width="50%" valign="top" style="padding:5px 10px 5px 0; color:#5f584a;">&#10003; {{DISCOUNT_3}}</td>
-                    <td width="50%" valign="top" style="padding:5px 0 5px 10px; color:#5f584a;">&#10003; {{DISCOUNT_4}}</td>
-                  </tr>
-                  <tr>
-                    <td width="50%" valign="top" style="padding:5px 10px 5px 0; color:#5f584a;">&#10003; {{DISCOUNT_5}}</td>
-                    <td width="50%" valign="top" style="padding:5px 0 5px 10px; color:#5f584a;">&#10003; {{DISCOUNT_6}}</td>
-                  </tr>
-                  <tr>
-                    <td width="50%" valign="top" style="padding:5px 10px 5px 0; color:#5f584a;">&#10003; {{DISCOUNT_7}}</td>
-                    <td width="50%" valign="top" style="padding:5px 0 5px 10px; color:#5f584a;">&#10003; {{DISCOUNT_8}}</td>
-                  </tr>
-                </table>
-              </td></tr></table>
-            </td>
-          </tr>
+        <!-- >>> END Additional driver <<< -->
 
-          <!-- ============ CTA BUTTON (Contact Us) ============ -->
-          <tr>
-            <td align="center" class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:30px 34px 4px;">
-              <div class="serif" style="font-family:'Playfair Display',Georgia,serif; font-size:22px; font-weight:700; color:#2b241a; line-height:1.14;">Ready to move forward?</div>
-              <p style="margin:10px 0 18px; font-family:'Poppins',Arial,sans-serif; font-size:14px; line-height:1.6; color:#5f584a;">Tap below, call <strong style="color:#2b241a;">336-835-1993</strong>, or reply &mdash; I'll confirm the details and payment option before anything is submitted.</p>
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
-                <tr>
-                  <td align="center" bgcolor="#C8A84E" style="background-color:#C8A84E; border-radius:8px;">
-                    <a href="{{QUOTE_ACTION_URL}}" target="_blank" class="button-link" style="display:inline-block; padding:15px 34px; font-family:Georgia,'Playfair Display',serif; font-size:16px; font-weight:bold; color:#2b241a; text-decoration:none; border-radius:8px;">&#9989; Contact Us</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:20px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:14px;"><tr><td style="padding:14px 16px;"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;color:#2b241a;font-weight:700;padding-bottom:10px;">&#127881; Discounts applied</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Poppins,Arial,sans-serif;font-size:12px;"><tr><td width="50%" valign="top" style="padding:4px 8px 4px 0;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_1}}</td><td width="50%" valign="top" style="padding:4px 0 4px 8px;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_2}}</td></tr><tr><td valign="top" style="padding:4px 8px 4px 0;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_3}}</td><td valign="top" style="padding:4px 0 4px 8px;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_4}}</td></tr><tr><td valign="top" style="padding:4px 8px 4px 0;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_5}}</td><td valign="top" style="padding:4px 0 4px 8px;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_6}}</td></tr><tr><td valign="top" style="padding:4px 8px 4px 0;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_7}}</td><td valign="top" style="padding:4px 0 4px 8px;color:#5f584a;" class="sub-text">&#10003; {{DISCOUNT_8}}</td></tr></table></td></tr></table></td></tr>
 
-          <!-- ============ BUNDLE CROSS-SELL P.S. — CONDITIONAL: include ONLY if Homeowner discount present ============ -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:26px 34px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" style="background-color:#f7f1e4; border:1px solid #e8e0cf; border-radius:14px;"><tr><td style="padding:16px 18px;">
-                <div style="font-family:'Poppins',Arial,sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#97712a; font-weight:700;">P.S. &mdash; One More Way to Save</div>
-                <p style="margin:8px 0 0; font-family:'Poppins',Arial,sans-serif; font-size:13px; line-height:1.6; color:#5f584a;">You're already earning the <strong style="color:#2b241a;">Homeowner discount</strong> on this auto quote. If we also handle your home insurance, you could stack a multi-policy discount on both. Want me to take a quick look at your homeowners coverage? Just reply or call &mdash; no obligation.</p>
-              </td></tr></table>
-            </td>
-          </tr>
+        <tr><td align="center" class="pad-mobile" style="padding:26px 16px 6px;"><div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#2b241a;line-height:1.2;">Ready to move forward?</div><p style="margin:8px 0 16px;font-family:Poppins,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5f584a;" class="sub-text">Tap below, call <strong style="color:#2b241a;" class="dark-text">336-835-1993</strong>, or reply <strong style="color:#2b241a;" class="dark-text">YES</strong> — I'll confirm your payment option before anything is submitted.</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr><td align="center" bgcolor="#c8a84e" style="background-color:#c8a84e;border-radius:10px;" class="cta-btn"><a href="{{QUOTE_ACTION_URL}}" target="_blank" class="btn-link" style="display:inline-block;padding:15px 36px;font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2b241a;text-decoration:none;border-radius:10px;">&#10003; Lock In This Quote</a></td></tr></table></td></tr>
 
-          <!-- Disclaimer -->
-          <tr>
-            <td class="pad-mobile" style="-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; padding:22px 34px 4px; font-family:'Poppins',Arial,sans-serif; font-size:11px; line-height:1.5; color:#8c8472;">
-              This is a quote only and is subject to underwriting and rating guidelines. It is not an insurance policy and does not bind coverage. Premium and payment amounts may change if the information provided changes. Coverage would be provided through {{CARRIER_NAME}} ({{CARRIER_LEGAL}}), Quote #{{QUOTE_NUMBER}}, effective {{EFFECTIVE_DATE}}. Your issued policy, declarations, and carrier forms control the actual coverage.
-            </td>
-          </tr>
+        <tr><td align="center" style="padding:24px 16px 0;font-size:0;line-height:0;"><img src="https://i.imgur.com/29vLG1K.png" alt="Bill Layne Insurance Agency in Elkin North Carolina" width="568" height="300" class="image-frame image-mobile" style="display:block;width:100%;max-width:568px;height:auto;margin:0 auto;border:1px solid #e8e0cf;border-radius:16px;"></td></tr>
 
-          <!-- ============ FOOTER (full 2026 sequence, light concierge, NO agent chip) ============ -->
-          <tr>
-            <td align="center" style="padding:26px 24px 30px;">
-              <!-- 1. Gold accent line -->
-              <div style="height:3px; width:70px; background-color:#C8A84E; font-size:1px; line-height:1px; margin:0 auto 20px;">&nbsp;</div>
-              <!-- 2. BLI logo on a light chip -->
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 14px;">
-                <tr>
-                  <td bgcolor="#ffffff" align="center" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:10px; padding:10px 16px;">
-                    <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency" width="150" style="display:block;">
-                  </td>
-                </tr>
-              </table>
-              <!-- 3-6. Name / address / phone / email / website -->
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:13px; font-weight:600; color:#2b241a;">Bill Layne Insurance Agency</div>
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; line-height:1.7; color:#5f584a; padding-top:5px;">
-                1283 N Bridge St, Elkin NC 28621<br>
-                <a href="tel:3368351993" style="color:#97712a; text-decoration:none; font-weight:600;">336-835-1993</a> &nbsp;|&nbsp;
-                <a href="mailto:Save@BillLayneInsurance.com" style="color:#97712a; text-decoration:none; font-weight:600;">Save@BillLayneInsurance.com</a><br>
-                <a href="https://www.billlayneinsurance.com" style="color:#97712a; text-decoration:none; font-weight:600;">BillLayneInsurance.com</a> &nbsp;|&nbsp; Est. 2005 &nbsp;|&nbsp; NC License #6571216
-              </div>
-              <!-- 7. Social row -->
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; padding-top:12px;">
-                <a href="https://www.facebook.com/dollarbillagency" style="color:#97712a; text-decoration:none; padding:0 6px;">Facebook</a><span style="color:#8c8472;">|</span>
-                <a href="https://www.youtube.com/@ncautoandhome" style="color:#97712a; text-decoration:none; padding:0 6px;">YouTube</a><span style="color:#8c8472;">|</span>
-                <a href="https://www.instagram.com/ncautoandhome" style="color:#97712a; text-decoration:none; padding:0 6px;">Instagram</a><span style="color:#8c8472;">|</span>
-                <a href="https://x.com/shopsavecompare" style="color:#97712a; text-decoration:none; padding:0 6px;">X</a>
-              </div>
-              <!-- 8. Google badge -->
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:12px auto 0;"><tr>
-                <td bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #e8e0cf; border-radius:8px; padding:8px 16px;">
-                  <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-                    <td style="padding-right:8px; vertical-align:middle;"><img src="https://i.imgur.com/nDFmjxh.png" alt="Google" width="18" height="18" style="display:block; border:0;"></td>
-                    <td style="vertical-align:middle; font-family:'Poppins',Arial,sans-serif; font-size:12px; font-weight:700; color:#2b241a;">4.9 &#9733;&#9733;&#9733;&#9733;&#9733; &nbsp;&middot;&nbsp; Google Reviews</td>
-                  </tr></table>
-                </td>
-              </tr></table>
-              <!-- 9. Facebook follow -->
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#5f584a; padding-top:12px;">Follow us on <a href="https://www.facebook.com/dollarbillagency" style="color:#97712a; text-decoration:none; font-weight:600;">Facebook @dollarbillagency</a> for tips &amp; updates.</div>
-              <!-- 10. Messenger inline -->
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#5f584a; padding-top:6px;">Get quote updates via Messenger: <a href="https://m.me/dollarbillagency" style="color:#97712a; text-decoration:none; font-weight:600;">m.me/dollarbillagency</a></div>
-              <!-- 11. CAN-SPAM + unsubscribe -->
-              <div style="font-family:'Poppins',Arial,sans-serif; font-size:11px; line-height:1.6; color:#8c8472; padding-top:14px;">
-                You're receiving this because you requested a quote from Bill Layne Insurance Agency.<br>
-                <a href="mailto:Save@BillLayneInsurance.com?subject=Unsubscribe" style="color:#C8A84E; text-decoration:underline;">Unsubscribe</a>
-              </div>
-            </td>
-          </tr>
+        <tr><td class="pad-mobile" style="padding:14px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="card-white" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:16px;"><tr><td style="padding:17px 18px;">
+          <div style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">About Bill Layne Insurance</div>
+          <div class="serif dark-text" style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;color:#2b241a;padding-top:6px;line-height:1.25;">Local, independent, and easy to reach.</div>
+          <p style="margin:8px 0 0;font-family:Poppins,Arial,sans-serif;font-size:13px;line-height:1.65;color:#5f584a;" class="sub-text">You're not dealing with a call center. We're an independent agency in Elkin, NC, helping local drivers compare options, understand payments, and protect what matters without pressure.</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:13px;"><tr>
+            <td class="stack stack-pad" width="33.33%" valign="top" style="padding-right:5px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="review-chip" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:10px;"><tr><td align="center" style="padding:10px 6px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;color:#97712a;font-weight:700;" class="gold-label">4.9 ★★★★★</div><div style="font-family:Poppins,Arial,sans-serif;font-size:9px;color:#8c8472;padding-top:2px;" class="faint-text">Google Reviews</div></td></tr></table></td>
+            <td class="stack stack-pad" width="33.33%" valign="top" style="padding-left:5px;padding-right:5px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="review-chip" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:10px;"><tr><td align="center" style="padding:10px 6px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;color:#97712a;font-weight:700;" class="gold-label">Elkin, NC</div><div style="font-family:Poppins,Arial,sans-serif;font-size:9px;color:#8c8472;padding-top:2px;" class="faint-text">Local agency</div></td></tr></table></td>
+            <td class="stack" width="33.33%" valign="top" style="padding-left:5px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="review-chip" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:10px;"><tr><td align="center" style="padding:10px 6px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;color:#97712a;font-weight:700;" class="gold-label">Since 2005</div><div style="font-family:Poppins,Arial,sans-serif;font-size:9px;color:#8c8472;padding-top:2px;" class="faint-text">NC License 6571216</div></td></tr></table></td>
+          </tr></table>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="review-chip" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:12px;margin-top:12px;"><tr><td style="padding:12px 14px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle" width="22"><img src="https://i.imgur.com/nDFmjxh.png" alt="Google" width="18" height="18" style="display:block;border:0;"></td><td valign="middle" style="font-family:Poppins,Arial,sans-serif;font-size:12px;line-height:1.5;color:#5f584a;" class="sub-text"><strong style="color:#2b241a;" class="dark-text">Small-town service, multiple carrier choices.</strong> We shop, explain, and help you make the next step simple.</td></tr></table></td></tr></table>
+        </td></tr></table></td></tr>
 
-        </table>
-        <!-- /container -->
-      </td>
-    </tr>
+        <tr><td class="pad-mobile" style="padding:20px 16px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f1e4" class="bundle-card" style="background-color:#f7f1e4;border:1px solid #e8e0cf;border-radius:14px;"><tr><td style="padding:14px 16px;"><div style="font-family:Poppins,Arial,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#97712a;font-weight:700;" class="gold-label">&#128176; P.S. — One More Way to Save</div><p style="margin:7px 0 0;font-family:Poppins,Arial,sans-serif;font-size:13px;line-height:1.6;color:#5f584a;" class="sub-text">You're already earning the <strong style="color:#2b241a;" class="dark-text">Homeowner discount</strong> on this quote. If we also handle your home insurance, you could stack a multi-policy discount on both. Want me to take a quick look? <strong style="color:#2b241a;" class="dark-text">Reply or call — no obligation.</strong></p></td></tr></table></td></tr>
+
+        <tr><td class="pad-mobile disclaimer-text" style="padding:18px 16px 4px;font-family:Poppins,Arial,sans-serif;font-size:10px;line-height:1.55;color:#8c8472;">This is a quote only and is subject to underwriting and rating guidelines. It is not an insurance policy and does not bind coverage. Premium and payment amounts may change if the information provided changes. Coverage would be provided through {{CARRIER_NAME}} — {{CARRIER_LEGAL}}, Quote #{{QUOTE_NUMBER}}, effective {{EFFECTIVE_DATE}}. Your issued policy, declarations, and carrier forms control the actual coverage.</td></tr>
+
+        <tr><td align="center" style="padding:24px 22px 28px;" class="footer-area"><div style="height:3px;width:70px;background-color:#c8a84e;font-size:1px;line-height:1px;margin:0 auto 18px;">&nbsp;</div><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 12px;"><tr><td bgcolor="#ffffff" align="center" class="footer-logo-chip" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:10px;padding:9px 14px;"><img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance Agency" width="140" style="display:block;"></td></tr></table><div style="font-family:Poppins,Arial,sans-serif;font-size:13px;font-weight:600;color:#2b241a;" class="dark-text">Bill Layne Insurance Agency</div><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;line-height:1.8;color:#5f584a;padding-top:5px;" class="sub-text">1283 N Bridge St, Elkin, NC 28621<br><a href="tel:3368351993" style="color:#97712a;text-decoration:none;font-weight:600;">336-835-1993</a> &nbsp;&nbsp; <a href="mailto:Save@BillLayneInsurance.com" style="color:#97712a;text-decoration:none;font-weight:600;">Save@BillLayneInsurance.com</a><br><a href="https://www.billlayneinsurance.com" target="_blank" style="color:#97712a;text-decoration:none;font-weight:600;">BillLayneInsurance.com</a> · Est. 2005 · NC License 6571216</div><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:12px auto 0;"><tr><td bgcolor="#ffffff" class="google-chip" style="background-color:#ffffff;border:1px solid #e8e0cf;border-radius:8px;padding:7px 14px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right:7px;vertical-align:middle;"><img src="https://i.imgur.com/nDFmjxh.png" alt="Google" width="16" height="16" style="display:block;border:0;"></td><td style="vertical-align:middle;font-family:Poppins,Arial,sans-serif;font-size:12px;font-weight:700;color:#2b241a;" class="dark-text">4.9 ★★★★★ · Google Reviews</td></tr></table></td></tr></table><div style="font-family:Poppins,Arial,sans-serif;font-size:11px;padding-top:11px;"><a href="https://www.facebook.com/dollarbillagency" target="_blank" style="color:#97712a;text-decoration:none;padding:0 6px;">Facebook</a><span style="color:#8c8472;">|</span><a href="https://www.youtube.com/ncautoandhome" target="_blank" style="color:#97712a;text-decoration:none;padding:0 6px;">YouTube</a><span style="color:#8c8472;">|</span><a href="https://www.instagram.com/ncautoandhome" target="_blank" style="color:#97712a;text-decoration:none;padding:0 6px;">Instagram</a><span style="color:#8c8472;">|</span><a href="https://x.com/shopsavecompare" target="_blank" style="color:#97712a;text-decoration:none;padding:0 6px;">X</a></div><div style="font-family:Poppins,Arial,sans-serif;font-size:10px;line-height:1.6;color:#8c8472;padding-top:14px;" class="disclaimer-text">You're receiving this because you requested a quote from Bill Layne Insurance Agency.<br><a href="mailto:Save@BillLayneInsurance.com?subject=Unsubscribe" style="color:#c8a84e;text-decoration:underline;">Unsubscribe</a></div></td></tr>
+
+      </table>
+    </td></tr>
   </table>
 </body>
 </html>

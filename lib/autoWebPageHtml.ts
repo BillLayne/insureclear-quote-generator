@@ -367,25 +367,32 @@ const discountsHtml = (data: AutoQuoteData) => {
     .join('\n');
 };
 
+const autoGeneralAudioUrl = 'https://quote-template-studio.pages.dev/audio/bill-layne-auto-insurance-general.mp3';
+const autoAudioProfileImageUrl = 'https://i.imgur.com/h00mpPA.jpeg';
+const autoGeneralAudioScript =
+  'This general audio guide explains the basic parts of auto insurance, including liability, uninsured motorist, comprehensive, collision, deductibles, and common payment choices. It is not a custom reading of the exact limits on this page, so the written quote below is still the source for the customer-specific details.';
+
 const audioSectionHtml = (audioReview?: GeneratedAudioReview | null) => {
-  if (!audioReview?.audioDataUrl) return '';
+  const audioSrc = audioReview?.audioDataUrl || autoGeneralAudioUrl;
+  const mimeType = audioReview?.mimeType || 'audio/mpeg';
+  const script = audioReview?.script || autoGeneralAudioScript;
+  const isCustomReview = Boolean(audioReview?.audioDataUrl);
+
   return `  <!-- ================= AUDIO ================= -->
   <section id="audio">
     <div class="audio-card">
-      <div class="audio-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-      </div>
+      <img class="audio-profile" src="${escapeHtml(autoAudioProfileImageUrl)}" alt="Bill Layne Insurance audio guide" width="64" height="64" loading="lazy">
       <div style="flex:1 1 280px;min-width:240px">
-        <span class="eyebrow">60-Second Audio Review</span>
-        <h3>Listen to your auto quote in plain English</h3>
-        <p>A friendly walkthrough of your drivers, vehicles, and coverage choices on this page.</p>
+        <span class="eyebrow">${isCustomReview ? '60-Second Audio Review' : 'General Auto Coverage Guide'}</span>
+        <h3>${isCustomReview ? 'Listen to your auto quote in plain English' : 'Learn what auto insurance covers'}</h3>
+        <p>${isCustomReview ? 'A friendly walkthrough of your drivers, vehicles, and coverage choices on this page.' : 'A short general explanation of liability, uninsured motorist, comprehensive, collision, deductibles, and common payment choices.'}</p>
         <audio controls preload="metadata">
-          <source src="${escapeHtml(audioReview.audioDataUrl)}" type="${escapeHtml(audioReview.mimeType || 'audio/mpeg')}">
+          <source src="${escapeHtml(audioSrc)}" type="${escapeHtml(mimeType)}">
           Your browser does not support audio playback.
         </audio>
         <details>
-          <summary>Read the short script</summary>
-          <p>${escapeHtml(audioReview.script)}</p>
+          <summary>${isCustomReview ? 'Read the short script' : 'What this audio explains'}</summary>
+          <p>${escapeHtml(script)}</p>
         </details>
       </div>
     </div>

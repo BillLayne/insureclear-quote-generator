@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>{{CLIENT_NAME}} | Fast Start Auto Quote | Bill Layne Insurance</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="A mobile-first nonstandard auto quote prepared by Bill Layne Insurance Agency in Elkin, NC." />
+  <link rel="icon" href="https://i.imgur.com/lxu9nfT.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!--
+  ============================================================
+  BILL LAYNE INSURANCE — FAST START NONSTANDARD AUTO TEMPLATE
+  Single file. No build step. Mobile-first.
+  Purpose: parser-ready HTML template for younger / nonstandard auto quotes.
+  Fill all {{TOKENS}} from parsed PDF data.
+  If a section is unused, hide or delete that section before final render.
+  ============================================================
+  -->
+
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-2: #0d1016;
+      --card: #141922;
+      --card-2: #1b2230;
+      --text: #f7f8fb;
+      --muted: #a7adbb;
+      --line: rgba(255,255,255,.10);
+      --line-2: rgba(255,255,255,.06);
+      --gold: #D4A843;
+      --gold-2: #ffd976;
+      --blue: #38BDF8;
+      --green: #22C55E;
+      --green-soft: rgba(34,197,94,.12);
+      --orange: #F59E0B;
+      --orange-soft: rgba(245,158,11,.12);
+      --radius: 22px;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --display: 'Bricolage Grotesque', system-ui, sans-serif;
+      --body: 'Outfit', system-ui, sans-serif;
+      --hero-image: url('{{HERO_IMAGE_URL}}');
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: var(--body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56,189,248,.15), transparent 28%),
+        radial-gradient(circle at 90% 0%, rgba(212,168,67,.16), transparent 30%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      line-height: 1.6;
+      font-size: 16px;
+      padding-bottom: 112px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display:block; max-width:100%; height:auto; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    .wrap { width: min(1080px, calc(100% - 18px)); margin: 0 auto; }
+
+    .progress {
+      position: fixed; top: 0; left: 0; z-index: 90; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--gold), var(--blue), var(--green));
+      transition: width .12s linear;
+    }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 80;
+      backdrop-filter: blur(14px);
+      background: rgba(5,5,5,.86);
+      border-bottom: 1px solid var(--line);
+      font-size: 11px; letter-spacing: .13em; text-transform: uppercase; font-weight: 800;
+    }
+    .topbar .wrap {
+      min-height: 44px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .top-left, .top-right { display:flex; align-items:center; gap:8px; }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--green); box-shadow: 0 0 0 6px rgba(34,197,94,.12); }
+    .top-right { color: var(--gold-2); }
+
+    .minibar {
+      position: fixed; top:0; left:0; right:0; z-index:70; background: rgba(5,5,5,.94); backdrop-filter: blur(14px); border-bottom:1px solid var(--line);
+      transform: translateY(-110%); transition: transform .3s ease;
+    }
+    .minibar.show { transform: translateY(0); }
+    .minibar .wrap { min-height: 58px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .mb-price { display:flex; flex-direction:column; min-width:0; line-height:1.1; }
+    .mb-price b { font-size: 20px; color: var(--gold-2); font-weight:900; }
+    .mb-price span { font-size: 12px; color: var(--muted); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mb-actions { display:flex; align-items:center; gap:8px; }
+    .mb-actions a { border-radius:999px; padding:9px 14px; min-height:38px; display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:900; }
+    .mb-text { background: var(--gold); color:#111; }
+    .mb-start { background: var(--blue); color:#05131b; }
+
+    header { padding: 18px 0 10px; }
+    .head-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand, .carrier { display:flex; align-items:center; gap:10px; }
+    .brand img { height: 52px; }
+    .carrier { background: rgba(255,255,255,.04); border:1px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+    .carrier img { max-height: 34px; }
+
+    .hero {
+      margin-top: 10px; border-radius: 30px; overflow:hidden; border:1px solid var(--line); box-shadow: var(--shadow);
+      background:
+        linear-gradient(90deg, rgba(5,7,11,.88) 0%, rgba(5,7,11,.72) 36%, rgba(5,7,11,.40) 58%, rgba(5,7,11,.52) 100%),
+        radial-gradient(circle at 80% 12%, rgba(56,189,248,.16), transparent 28%),
+        radial-gradient(circle at 12% 88%, rgba(212,168,67,.14), transparent 30%),
+        var(--hero-image) center/cover no-repeat;
+    }
+    .hero-grid { display:grid; gap:22px; padding: 18px; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 16px; }
+    .hero-meta { align-items:center; margin-bottom: 12px; }
+    .hero-meta .client-chip { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; justify-content:center; }
+    .chip {
+      display:inline-flex; align-items:center; gap:6px; padding:7px 11px; border-radius:999px;
+      border:1px solid var(--line); background: rgba(255,255,255,.05); color: rgba(255,255,255,.88);
+      font-size: 12px; font-weight: 800; line-height:1;
+    }
+    .chip.gold { background: var(--gold); color:#111; border-color: var(--gold); }
+    .chip.blue { background: rgba(56,189,248,.12); color:#bae6fd; border-color: rgba(56,189,248,.28); }
+    .chip.green { background: rgba(34,197,94,.12); color:#bbf7d0; border-color: rgba(34,197,94,.28); }
+    h1,h2,h3 { font-family: var(--display); letter-spacing: -.03em; }
+    h1 { font-size: clamp(34px, 8vw, 66px); line-height: .94; font-weight: 800; }
+    .ready-headline { white-space:normal; }
+    .accent { color: var(--gold-2); }
+    .hero-copy p { margin-top: 14px; max-width: 620px; color: rgba(255,255,255,.84); font-size: 16px; }
+    .mobile-summary { display:grid; gap:10px; margin-top:16px; }
+    .mobile-pill { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 15px; border-radius:18px; background: rgba(255,255,255,.06); border:1px solid var(--line); }
+    .mobile-pill span { color: var(--muted); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+    .mobile-pill b { font-size:20px; font-weight:900; color: var(--gold-2); }
+    .jump-row { display:grid; grid-template-columns: repeat(3,1fr); gap:8px; margin-top:14px; }
+    .jump-chip { min-height:44px; border-radius:14px; background: rgba(255,255,255,.05); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; text-align:center; padding:0 10px; font-size:12px; font-weight:900; color: var(--text); }
+    .phone-note { margin-top:12px; color: var(--muted); font-size:13px; }
+    .hero-actions { display:grid; grid-template-columns:1fr; gap:10px; margin-top: 18px; }
+    .btn {
+      width:100%; min-height: 54px; padding: 0 18px; border-radius: 16px; font-weight: 900; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border:0; cursor:pointer; transition: transform .18s ease, opacity .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--gold); color:#111; }
+    .btn-blue { background: var(--blue); color:#05131b; }
+    .btn-ghost { background: rgba(255,255,255,.05); color: var(--text); border:1px solid var(--line); }
+
+    .price-card {
+      border-radius: 26px; overflow:hidden; border:1px solid rgba(255,255,255,.15);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+    }
+    .price-top { padding: 20px; border-bottom:1px solid var(--line); }
+    .price-label { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; color: var(--muted); font-size:11px; text-transform: uppercase; letter-spacing: .16em; font-weight: 900; }
+    .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background: var(--orange-soft); color:#fde68a; border:1px solid rgba(245,158,11,.25); font-size:11px; text-transform:none; letter-spacing:0; }
+    .down { font-size: clamp(44px, 11vw, 72px); line-height: .95; font-weight: 900; color: var(--gold-2); font-variant-numeric: tabular-nums; }
+    .down small { display:block; font-size:14px; color: var(--muted); margin-top: 8px; font-weight:800; letter-spacing:0; }
+    .hero-total-strip { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+    .hero-total-strip div { padding:11px 12px; border-radius:15px; background:rgba(0,0,0,.26); border:1px solid var(--line); min-width:0; }
+    .hero-total-strip span { display:block; color:var(--muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.12em; font-weight:900; margin-bottom:3px; white-space:nowrap; }
+    .hero-total-strip b { display:block; color:var(--text); font-size:16px; font-weight:900; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .micro { margin-top: 12px; padding: 12px 13px; border-radius: 15px; background: rgba(0,0,0,.26); border:1px solid var(--line); color: rgba(255,255,255,.8); font-size: 13px; }
+    .price-body { padding: 16px 20px 20px; display:grid; gap:10px; }
+    .row { display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--line-2); }
+    .row:last-child { border-bottom:0; }
+    .row span { color: var(--muted); font-size:13px; font-weight:700; }
+    .row b { text-align:right; font-weight:900; font-size:18px; font-variant-numeric: tabular-nums; }
+
+    .audio-card {
+      display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:18px; border-radius:22px;
+      background: linear-gradient(135deg, rgba(56,189,248,.12), rgba(212,168,67,.09), rgba(255,255,255,.04));
+      border:1px solid var(--line); box-shadow: 0 14px 34px rgba(0,0,0,.20);
+    }
+    .audio-profile {
+      width:64px; height:64px; border-radius:50%; object-fit:cover; flex:0 0 auto;
+      border:3px solid rgba(255,255,255,.86); box-shadow:0 12px 28px rgba(0,0,0,.28);
+    }
+    .audio-body { flex:1 1 280px; min-width:0; }
+    .audio-card h3 { font-size:21px; line-height:1.08; margin-bottom:5px; }
+    .audio-card p { color:var(--muted); font-size:14px; margin-bottom:10px; }
+    .audio-card audio { width:100%; max-width:640px; display:block; }
+    .audio-note { margin-top:9px; color:rgba(255,255,255,.62); font-size:12px; line-height:1.45; }
+    .audio-card h3, .audio-card p, .audio-note { overflow-wrap:anywhere; white-space:normal; }
+
+    section { margin-top: 34px; }
+    .section-head { margin-bottom: 14px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; color: var(--gold-2); font-size:12px; text-transform:uppercase; letter-spacing:.15em; font-weight:900; margin-bottom:8px; }
+    h2 { font-size: clamp(26px, 6vw, 40px); line-height: 1.02; font-weight:800; }
+    .lede { max-width: 760px; color: var(--muted); font-size: 15px; margin-top: 8px; }
+    .card { background: rgba(20,25,34,.9); border:1px solid var(--line); border-radius: var(--radius); box-shadow: 0 12px 30px rgba(0,0,0,.18); overflow:hidden; }
+    .notice { padding:18px; border-left: 6px solid var(--orange); background: linear-gradient(135deg, rgba(245,158,11,.11), rgba(20,25,34,.9)); }
+    .notice h3 { font-size: 19px; margin-bottom: 6px; }
+    .notice p { color: rgba(255,255,255,.78); font-size: 14px; }
+    details.info { margin-top: 12px; border-radius: 16px; overflow:hidden; background: rgba(0,0,0,.24); border:1px solid var(--line); }
+    details.info summary { list-style:none; cursor:pointer; min-height:48px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 15px; font-weight:900; color: var(--gold-2); }
+    details.info summary::-webkit-details-marker { display:none; }
+    .info-body { padding: 0 15px 15px; color: rgba(255,255,255,.77); font-size:14px; }
+    .info-body ul { margin: 8px 0 0 18px; }
+    .info-body li { margin: 6px 0; }
+
+    .logo-strip { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; }
+    .logo-tile {
+      min-height: 78px; border-radius: 18px; background:#fff; display:flex; align-items:center; justify-content:center; padding:14px; position:relative;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .logo-tile img { max-width:132px; max-height:36px; object-fit:contain; }
+    .logo-tile.best::after {
+      content:"Best fit"; position:absolute; top:-9px; right:10px; background:var(--gold); color:#111; font-size:10px; font-weight:900; padding:4px 8px; border-radius:999px; text-transform:uppercase;
+    }
+
+    .drivers, .vehicle-grid, .discount-grid, .steps { display:grid; gap:12px; }
+    .driver, .vehicle-note, .discount, .step { padding: 17px; border-radius: 20px; background: rgba(255,255,255,.05); border:1px solid var(--line); }
+    .iconbox {
+      width: 40px; height: 40px; border-radius: 14px; display:flex; align-items:center; justify-content:center;
+      margin-bottom: 10px; font-weight: 900; background: var(--green-soft); color:#bbf7d0; border:1px solid rgba(34,197,94,.24);
+    }
+    .warn .iconbox { background: var(--orange-soft); color:#fde68a; border-color: rgba(245,158,11,.24); }
+    .driver h3, .vehicle-note h3, .discount h3, .step h3 { font-size: 17px; margin-bottom: 4px; }
+    .driver p, .vehicle-note p, .discount p, .step p { color: var(--muted); font-size: 13px; }
+
+    .driver-top, .vehicle-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom: 12px; }
+    .avatar, .veh-ico {
+      width: 44px; height: 44px; border-radius: 16px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+      background: rgba(212,168,67,.12); color: var(--gold-2); border:1px solid rgba(212,168,67,.24); font-weight:900;
+    }
+    .sub { color: var(--muted); font-size: 13px; font-weight:700; margin-top: 3px; }
+    .factor-list, .veh-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px; }
+    .factor, .veh-chip {
+      border-radius:999px; padding:6px 10px; background: rgba(0,0,0,.24); border:1px solid var(--line); font-size:12px; font-weight:800; color: rgba(255,255,255,.84);
+    }
+
+    .vehicle { padding:0; overflow:hidden; background: rgba(255,255,255,.05); border:1px solid var(--line); border-radius:22px; }
+    .vehicle-head { padding:18px; background: linear-gradient(135deg, rgba(212,168,67,.16), rgba(56,189,248,.09)); border-bottom:1px solid var(--line); }
+    .vehicle-body { padding: 16px 18px 18px; }
+    .mini-ledger { display:grid; gap:8px; }
+    .mini-row { display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid var(--line-2); }
+    .mini-row:last-child { border-bottom:0; }
+    .mini-row span { color: var(--muted); font-size:13px; font-weight:700; }
+    .mini-row b { text-align:right; font-size:14px; font-weight:900; }
+
+    .decoder { overflow:hidden; }
+    .decoder-head { display:flex; justify-content:space-between; gap:12px; padding:15px 18px; background: rgba(212,168,67,.12); border-bottom:1px solid var(--line); color: var(--gold-2); font-size:12px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    details.cov, details.qa { border-bottom:1px solid var(--line-2); }
+    details.cov:last-child, details.qa:last-child { border-bottom:0; }
+    details.cov summary, details.qa summary { list-style:none; cursor:pointer; min-height: 58px; padding:16px 18px; display:flex; align-items:center; gap:12px; }
+    details.cov summary::-webkit-details-marker, details.qa summary::-webkit-details-marker { display:none; }
+    .cov-icon {
+      width: 38px; height: 38px; border-radius: 14px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+      background: rgba(56,189,248,.11); color:#bae6fd; border:1px solid rgba(56,189,248,.24); font-weight:900;
+    }
+    .cov-name { flex: 1 1 auto; min-width: 0; }
+    .cov-name strong, .q { display:block; font-size:15px; font-weight:900; }
+    .cov-name span { display:block; font-size:12px; color: var(--muted); font-weight:700; margin-top:1px; }
+    .cov-limit { text-align:right; font-size:14px; font-weight:900; color: var(--gold-2); white-space:nowrap; }
+    .cov-body, .qa-body { padding: 0 18px 18px 68px; color: rgba(255,255,255,.78); font-size:14px; }
+    .plain { margin-top:10px; padding:12px 13px; border-radius:15px; background: rgba(212,168,67,.1); border:1px solid rgba(212,168,67,.22); font-size:13px; }
+
+    .plans { display:grid; gap:12px; }
+    .plan {
+      position:relative; text-align:left; cursor:pointer; border:2px solid var(--line); border-radius:22px; background: rgba(255,255,255,.05); color:var(--text); padding:20px 18px 18px;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .plan:hover { transform: translateY(-2px); border-color: rgba(56,189,248,.40); }
+    .plan.is-selected { border-color: var(--gold); box-shadow: 0 14px 36px rgba(212,168,67,.18); background: linear-gradient(180deg, rgba(212,168,67,.12), rgba(255,255,255,.05)); }
+    .badge {
+      position:absolute; top:-11px; left:16px; padding:5px 11px; border-radius:999px; background:var(--gold); color:#111; font-size:10px; font-weight:900; letter-spacing:.08em; text-transform:uppercase;
+    }
+    .plan-check {
+      position:absolute; top:16px; right:16px; width:24px; height:24px; border-radius:50%; border:2px solid var(--line);
+      display:flex; align-items:center; justify-content:center; font-weight:900; color:#111;
+    }
+    .plan.is-selected .plan-check { background: var(--gold); border-color: var(--gold); }
+    .plan-name { display:block; padding-right:36px; color: var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.12em; font-weight:900; }
+    .plan-amt { display:block; margin-top:8px; color: var(--gold-2); font-size:32px; line-height:1; font-weight:900; }
+    .plan-amt small { font-size:14px; color: var(--muted); font-weight:800; }
+    .plan-sub { display:block; margin-top:8px; min-height:38px; color: var(--muted); font-size:13px; }
+    .plan-total { margin-top:12px; padding-top:12px; border-top:1px solid var(--line-2); color: rgba(255,255,255,.80); font-size:13px; }
+    .plan-note { margin-top: 12px; padding: 13px 15px; border-radius:18px; background: rgba(0,0,0,.25); border:1px solid var(--line); color: var(--muted); font-size:13px; }
+    .plan-note b { color: var(--gold-2); }
+
+    .faq { overflow:hidden; }
+    footer {
+      margin-top: 42px; padding: 30px 0 34px; border-top:1px solid var(--line); text-align:center; color: var(--muted);
+    }
+    footer img { width: 78px; margin: 0 auto 12px; }
+    footer .name { color: var(--text); font-weight:900; font-size:15px; }
+    footer p { font-size:13px; margin-top: 4px; }
+    .disc { max-width: 860px; margin: 16px auto 0; color: rgba(255,255,255,.56); font-size:12px; line-height:1.55; }
+
+    .sticky {
+      position:fixed; left:0; right:0; bottom:0; z-index:90; background: rgba(5,5,5,.96); backdrop-filter: blur(15px);
+      border-top:1px solid var(--line); box-shadow: 0 -14px 34px rgba(0,0,0,.35); padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    }
+    .sticky .srow { display:grid; grid-template-columns: 1.05fr 1.25fr .85fr; gap:8px; max-width:1080px; margin:0 auto; }
+    .sticky .btn { min-height:54px; padding:0 8px; font-size:13px; border-radius:15px; }
+    .sticky .btn-call { background: linear-gradient(135deg,#e0f2fe,#f8fafc); color:#06121f; border:1px solid rgba(56,189,248,.42); box-shadow:0 10px 24px rgba(56,189,248,.12); }
+
+    @media (min-width: 720px) {
+      .wrap { width: min(1080px, calc(100% - 28px)); }
+      .hero-grid { grid-template-columns: minmax(0,1fr) 395px; align-items:center; padding: 36px; }
+      .hero-actions { display:flex; flex-wrap:wrap; }
+      .hero-grid > .jump-row { grid-column:1 / -1; width:min(520px,100%); margin:0 auto; }
+      .btn { width:auto; min-height:50px; }
+      .mobile-summary { display:none; }
+      .logo-strip { grid-template-columns: repeat(5,1fr); }
+      .drivers, .vehicle-grid, .discount-grid, .steps { grid-template-columns: repeat(3,1fr); }
+      .plans { grid-template-columns: repeat(3,1fr); }
+    }
+    @media (min-width: 960px) {
+      body { padding-bottom: 0; }
+      .sticky { display:none; }
+    }
+    @media (max-width: 520px) {
+      .topbar { font-size: 9.5px; }
+      .top-right { display:none; }
+      header { padding:10px 0 6px; }
+      .head-row { gap:8px; }
+      .brand img { height:40px; max-width:184px; object-fit:contain; }
+      .carrier { padding:7px 10px; border-radius:14px; }
+      .carrier img { max-height:26px; max-width:116px; }
+      .hero { margin-top:6px; border-radius:24px; }
+      .hero-grid { display:flex; flex-direction:column; padding:14px; gap:10px; }
+      .hero-meta { display:grid; grid-template-columns:auto minmax(0,1fr); gap:7px; margin-bottom:10px; }
+      .hero-meta .chip { min-height:32px; padding:6px 10px; font-size:11px; }
+      h1.ready-headline { font-size:clamp(24px, 6.9vw, 30px); line-height:1; white-space:nowrap; letter-spacing:-.045em; }
+      .hero-copy p { margin-top:9px; font-size:14px; line-height:1.36; }
+      .price-card { border-radius:20px; }
+      .price-top { padding:14px; border-bottom:0; }
+      .price-label { margin-bottom:8px; font-size:10px; letter-spacing:.12em; }
+      .pill { padding:5px 8px; font-size:10px; }
+      .down { font-size:clamp(39px, 11vw, 46px); }
+      .down small { font-size:12px; margin-top:5px; }
+      .hero-total-strip { margin-top:10px; gap:7px; }
+      .hero-total-strip div { padding:9px 10px; border-radius:13px; }
+      .hero-total-strip span { font-size:9.5px; }
+      .hero-total-strip b { font-size:14px; }
+      .micro { margin-top:9px; padding:9px 10px; font-size:12.5px; line-height:1.35; }
+      .price-body { display:none; }
+      .jump-row { margin-top:10px; gap:7px; }
+      .jump-chip { min-height:40px; border-radius:13px; font-size:11.5px; }
+      .hero-actions { display:none; }
+      .logo-strip { grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px; }
+      .logo-tile { min-height: 88px; padding: 12px; border-radius: 16px; }
+      .logo-tile img { max-width: 112px; max-height: 30px; }
+      .logo-tile.best::after { top: 8px; right: 8px; font-size: 9px; padding: 3px 7px; }
+      .logo-tile:first-child { grid-column: 1 / -1; min-height: 92px; }
+      .audio-card { display:block; padding:16px; border-radius:20px; max-width:100%; overflow:hidden; }
+      .audio-body { display:block; min-width:0; max-width:100%; }
+      .audio-profile { width:56px; height:56px; margin-bottom:10px; }
+      .audio-card p, .audio-card audio, .audio-note { max-width:100%; min-width:0; }
+      .audio-card h3 { font-size:18px; }
+      .cov-body, .qa-body { padding-left:18px; }
+      .cov-limit { display:none; }
+      .mb-actions .mb-start { display:none; }
+    }
+    @media print {
+      .sticky, .minibar, .progress, .topbar, .hero-actions { display:none !important; }
+      body { background:#fff; color:#111; padding-bottom:0; }
+    }
+  </style>
+</head>
+<body
+  data-client="{{CLIENT_NAME}}"
+  data-carrier="{{CARRIER_NAME}}"
+  data-quote="{{QUOTE_NUMBER}}"
+  data-down="{{LOWEST_DOWN_PAYMENT}}"
+  data-monthly="{{LOWEST_MONTHLY_PAYMENT}}"
+  data-effective="{{QUOTE_DATE}}"
+  data-phone="{{AGENCY_PHONE_RAW}}"
+  data-sms-phone="{{AGENCY_SMS_RAW}}"
+>
+  <div class="progress" id="progress"></div>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="top-left"><span class="dot"></span><span>Bill Layne Insurance</span></div>
+      <div class="top-right">Final reports required before binding</div>
+    </div>
+  </div>
+
+  <div class="minibar" id="minibar" aria-hidden="true">
+    <div class="wrap">
+      <div class="mb-price">
+        <b id="mbPrice">{{LOWEST_DOWN_PAYMENT}} down</b>
+        <span id="mbPlan">Lowest Start selected • {{LOWEST_MONTHLY_PAYMENT}}/mo</span>
+      </div>
+      <div class="mb-actions">
+        <a class="mb-text" id="miniTextBtn" href="#">Text</a>
+        <a class="mb-start" id="miniStartBtn" href="#quote-start">Start</a>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="wrap head-row">
+      <div class="brand">
+        <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance logo" width="208" height="52" />
+      </div>
+      <div class="carrier">
+        <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" width="124" height="34" />
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="chips hero-meta">
+            <span class="chip gold">Prepared {{QUOTE_DATE}}</span>
+            <span class="chip client-chip">{{CLIENT_DISPLAY_NAMES}}</span>
+          </div>
+          <h1 class="ready-headline">Your Auto Quote <span class="accent">Is Ready</span></h1>
+          <p>{{HERO_INTRO_TEXT}}</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" id="heroStartBtn" href="#quote-start">Start Policy</a>
+            <a class="btn btn-blue" id="heroTextBtn" href="#">Text</a>
+            <a class="btn btn-ghost" id="heroCallBtn" href="tel:{{AGENCY_PHONE_RAW}}">Call</a>
+          </div>
+        </div>
+
+        <aside class="price-card" aria-label="Payment summary">
+          <div class="price-top">
+            <div class="price-label">
+              <span>Start Today</span>
+              <span class="pill">Reports pending</span>
+            </div>
+            <div class="down">{{LOWEST_DOWN_PAYMENT}}<small>down payment estimate</small></div>
+            <div class="hero-total-strip">
+              <div><span>Carrier</span><b>{{CARRIER_NAME}}</b></div>
+              <div><span>6-month total</span><b>{{TOTAL_TERM_PREMIUM}}</b></div>
+            </div>
+            <div class="micro">Then <strong>{{LOWEST_PAYMENT_COUNT}}</strong> monthly payments of <strong>{{LOWEST_MONTHLY_PAYMENT}}</strong>.</div>
+          </div>
+          <div class="price-body">
+            <div class="row"><span>Paid-in-full option</span><b>{{PAID_IN_FULL_TOTAL}}</b></div>
+            <div class="row"><span>Quote number</span><b>{{QUOTE_NUMBER}}</b></div>
+          </div>
+        </aside>
+
+        <div class="jump-row">
+          <a class="jump-chip" href="#quote-start">Payments</a>
+          <a class="jump-chip" href="#vehicles">Vehicles</a>
+          <a class="jump-chip" href="#faq">FAQ</a>
+        </div>
+      </div>
+    </section>
+
+{{AUDIO_SECTION_HTML}}
+
+    <section>
+      <div class="card notice">
+        <h3>Important: this quote can change after final review.</h3>
+        <p>{{RATE_CHANGE_DISCLOSURE}}</p>
+        <details class="info">
+          <summary>
+            What could change the rate?
+            <span>⌄</span>
+          </summary>
+          <div class="info-body">
+            <ul>
+              <li>{{RATE_CHANGE_REASON_1}}</li>
+              <li>{{RATE_CHANGE_REASON_2}}</li>
+              <li>{{RATE_CHANGE_REASON_3}}</li>
+              <li>{{RATE_CHANGE_REASON_4}}</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="eyebrow">Shopped For You</span>
+        <h2>We shopped the market for your best available rate.</h2>
+      </div>
+      <div class="logo-strip">
+        <div class="logo-tile best"><img src="{{MARKET_LOGO_1}}" alt="{{MARKET_NAME_1}} logo" width="132" height="36" loading="lazy" /></div>
+        <div class="logo-tile"><img src="{{MARKET_LOGO_2}}" alt="{{MARKET_NAME_2}} logo" width="132" height="36" loading="lazy" /></div>
+        <div class="logo-tile"><img src="{{MARKET_LOGO_3}}" alt="{{MARKET_NAME_3}} logo" width="132" height="36" loading="lazy" /></div>
+        <div class="logo-tile"><img src="{{MARKET_LOGO_4}}" alt="{{MARKET_NAME_4}} logo" width="132" height="36" loading="lazy" /></div>
+        <div class="logo-tile"><img src="{{MARKET_LOGO_5}}" alt="{{MARKET_NAME_5}} logo" width="132" height="36" loading="lazy" /></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="eyebrow">Drivers</span>
+        <h2>Who is on the quote?</h2>
+      </div>
+      <div class="drivers">
+        <article class="driver">
+          <div class="driver-top">
+            <div>
+              <h3>{{DRIVER_1_NAME}}</h3>
+              <div class="sub">{{DRIVER_1_SUB}}</div>
+            </div>
+            <div class="avatar">1</div>
+          </div>
+          <div class="factor-list">
+            <span class="factor">{{DRIVER_1_TAG_1}}</span>
+            <span class="factor">{{DRIVER_1_TAG_2}}</span>
+            <span class="factor">{{DRIVER_1_TAG_3}}</span>
+          </div>
+        </article>
+
+        <article class="driver">
+          <div class="driver-top">
+            <div>
+              <h3>{{DRIVER_2_NAME}}</h3>
+              <div class="sub">{{DRIVER_2_SUB}}</div>
+            </div>
+            <div class="avatar">2</div>
+          </div>
+          <div class="factor-list">
+            <span class="factor">{{DRIVER_2_TAG_1}}</span>
+            <span class="factor">{{DRIVER_2_TAG_2}}</span>
+            <span class="factor">{{DRIVER_2_TAG_3}}</span>
+          </div>
+        </article>
+
+        <article class="driver">
+          <div class="driver-top">
+            <div>
+              <h3>{{HOUSEHOLD_CARD_TITLE}}</h3>
+              <div class="sub">{{HOUSEHOLD_CARD_SUB}}</div>
+            </div>
+            <div class="avatar">+</div>
+          </div>
+          <p>{{HOUSEHOLD_CARD_TEXT}}</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="vehicles">
+      <div class="section-head">
+        <span class="eyebrow">Vehicles</span>
+        <h2>Vehicle-by-vehicle breakdown.</h2>
+      </div>
+
+      <div class="vehicle-grid">
+        {{VEHICLE_CARDS_HTML}}
+      </div>
+    </section>
+
+    <section>
+      <article class="vehicle-note">
+        <h3>{{VEHICLE_NOTICE_TITLE}}</h3>
+        <p>{{VEHICLE_NOTICE_TEXT}}</p>
+      </article>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="eyebrow">Plain-English Decoder</span>
+        <h2>Tap a coverage to see what it means.</h2>
+      </div>
+      <div class="card decoder">
+        <div class="decoder-head"><span>Coverage</span><span>Your Limit</span></div>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_1_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_1_TITLE}}</strong><span>{{COV_1_SUB}}</span></span>
+            <span class="cov-limit">{{COV_1_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_1_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_1_PLAIN}}</div></div>
+        </details>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_2_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_2_TITLE}}</strong><span>{{COV_2_SUB}}</span></span>
+            <span class="cov-limit">{{COV_2_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_2_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_2_PLAIN}}</div></div>
+        </details>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_3_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_3_TITLE}}</strong><span>{{COV_3_SUB}}</span></span>
+            <span class="cov-limit">{{COV_3_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_3_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_3_PLAIN}}</div></div>
+        </details>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_4_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_4_TITLE}}</strong><span>{{COV_4_SUB}}</span></span>
+            <span class="cov-limit">{{COV_4_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_4_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_4_PLAIN}}</div></div>
+        </details>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_5_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_5_TITLE}}</strong><span>{{COV_5_SUB}}</span></span>
+            <span class="cov-limit">{{COV_5_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_5_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_5_PLAIN}}</div></div>
+        </details>
+
+        <details class="cov">
+          <summary>
+            <span class="cov-icon">{{COV_6_CODE}}</span>
+            <span class="cov-name"><strong>{{COV_6_TITLE}}</strong><span>{{COV_6_SUB}}</span></span>
+            <span class="cov-limit">{{COV_6_LIMIT}}</span>
+            <span>⌄</span>
+          </summary>
+          <div class="cov-body">{{COV_6_BODY}}<div class="plain"><strong>Plain English:</strong> {{COV_6_PLAIN}}</div></div>
+        </details>
+      </div>
+    </section>
+
+    <section id="quote-start">
+      <div class="section-head">
+        <span class="eyebrow">Payment Options</span>
+        <h2>Choose what works today.</h2>
+      </div>
+      <div class="plans" id="plans">
+        <button class="plan is-selected" type="button" data-name="{{PLAN_1_NAME}}" data-display="{{PLAN_1_DISPLAY}}" data-mini="{{PLAN_1_MINI}}">
+          <span class="badge">Lowest Start</span>
+          <span class="plan-check">✓</span>
+          <span class="plan-name">{{PLAN_1_NAME}}</span>
+          <span class="plan-amt">{{PLAN_1_DOWN}} <small>down</small></span>
+          <span class="plan-sub">{{PLAN_1_SUB}}</span>
+          <span class="plan-total">{{PLAN_1_TOTAL_LABEL}} <b>{{PLAN_1_TOTAL_VALUE}}</b></span>
+        </button>
+
+        <button class="plan" type="button" data-name="{{PLAN_2_NAME}}" data-display="{{PLAN_2_DISPLAY}}" data-mini="{{PLAN_2_MINI}}">
+          <span class="plan-check">✓</span>
+          <span class="plan-name">{{PLAN_2_NAME}}</span>
+          <span class="plan-amt">{{PLAN_2_DOWN}} <small>{{PLAN_2_DOWN_LABEL}}</small></span>
+          <span class="plan-sub">{{PLAN_2_SUB}}</span>
+          <span class="plan-total">{{PLAN_2_TOTAL_LABEL}} <b>{{PLAN_2_TOTAL_VALUE}}</b></span>
+        </button>
+
+        <button class="plan" type="button" data-name="{{PLAN_3_NAME}}" data-display="{{PLAN_3_DISPLAY}}" data-mini="{{PLAN_3_MINI}}">
+          <span class="plan-check">✓</span>
+          <span class="plan-name">{{PLAN_3_NAME}}</span>
+          <span class="plan-amt">{{PLAN_3_DOWN}} <small>{{PLAN_3_DOWN_LABEL}}</small></span>
+          <span class="plan-sub">{{PLAN_3_SUB}}</span>
+          <span class="plan-total">{{PLAN_3_TOTAL_LABEL}} <b>{{PLAN_3_TOTAL_VALUE}}</b></span>
+        </button>
+      </div>
+      <p class="plan-note">Selected plan: <b id="selectedPlan">{{PLAN_1_NAME}} - {{PLAN_1_DISPLAY}}</b>.</p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="eyebrow">Discounts</span>
+        <h2>Credits already helping this quote.</h2>
+      </div>
+      <div class="discount-grid">
+        <article class="discount">
+          <div class="iconbox">%</div>
+          <h3>{{DISCOUNT_1_TITLE}}</h3>
+          <p>{{DISCOUNT_1_TEXT}}</p>
+        </article>
+        <article class="discount">
+          <div class="iconbox">✓</div>
+          <h3>{{DISCOUNT_2_TITLE}}</h3>
+          <p>{{DISCOUNT_2_TEXT}}</p>
+        </article>
+        <article class="discount">
+          <div class="iconbox">✓</div>
+          <h3>{{DISCOUNT_3_TITLE}}</h3>
+          <p>{{DISCOUNT_3_TEXT}}</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="card" style="overflow:hidden;">
+        <div style="display:grid; gap:0;">
+          <img src="{{SECTION_IMAGE_URL}}" alt="{{SECTION_IMAGE_ALT}}" width="1200" height="1500" loading="lazy" style="width:100%; aspect-ratio:4/5; object-fit:cover; max-height:520px;" />
+          <div style="padding:18px; background:linear-gradient(135deg, rgba(20,25,34,.96), rgba(13,17,24,.96)); border-top:1px solid var(--line);">
+            <div class="eyebrow" style="margin-bottom:6px;">{{SECTION_IMAGE_EYEBROW}}</div>
+            <h3 style="font-size:26px; line-height:1.02;">{{SECTION_IMAGE_HEADLINE}}</h3>
+            <p style="margin-top:8px; color:var(--muted); font-size:14px; max-width:56ch;">{{SECTION_IMAGE_COPY}}</p>
+            <div style="margin-top:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+              <a href="{{GOOGLE_REVIEWS_URL}}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:0 15px; border-radius:999px; background:var(--gold); color:#111; font-size:13px; font-weight:900;">Read Our Google Reviews</a>
+              <span style="color:var(--muted); font-size:13px; font-weight:800;">{{GOOGLE_RATING}} rating | {{GOOGLE_REVIEW_COUNT}} local reviews</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="eyebrow">What We Need</span>
+        <h2>Simple next steps.</h2>
+      </div>
+      <div class="steps">
+        <article class="step"><h3>{{STEP_1_TITLE}}</h3><p>{{STEP_1_TEXT}}</p></article>
+        <article class="step"><h3>{{STEP_2_TITLE}}</h3><p>{{STEP_2_TEXT}}</p></article>
+        <article class="step"><h3>{{STEP_3_TITLE}}</h3><p>{{STEP_3_TEXT}}</p></article>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions shoppers usually ask.</h2>
+      </div>
+      <div class="card faq">
+        <details class="qa">
+          <summary><span class="q">{{FAQ_1_Q}}</span><span>⌄</span></summary>
+          <div class="qa-body">{{FAQ_1_A}}</div>
+        </details>
+        <details class="qa">
+          <summary><span class="q">{{FAQ_2_Q}}</span><span>⌄</span></summary>
+          <div class="qa-body">{{FAQ_2_A}}</div>
+        </details>
+        <details class="qa">
+          <summary><span class="q">{{FAQ_3_Q}}</span><span>⌄</span></summary>
+          <div class="qa-body">{{FAQ_3_A}}</div>
+        </details>
+        <details class="qa">
+          <summary><span class="q">{{FAQ_4_Q}}</span><span>⌄</span></summary>
+          <div class="qa-body">{{FAQ_4_A}}</div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance logo" width="78" height="78" loading="lazy" />
+    <div class="name">Bill Layne Insurance Agency</div>
+    <p>{{AGENCY_ADDRESS_LINE}}</p>
+    <p>{{AGENCY_EMAIL}} • {{AGENCY_WEBSITE}}</p>
+    <div class="disc">{{FOOTER_DISCLOSURE}}</div>
+  </footer>
+
+  <div class="sticky">
+    <div class="srow">
+      <a class="btn btn-blue" id="stickyTextBtn" href="#">Text</a>
+      <a class="btn btn-primary" href="#quote-start">Start Policy</a>
+      <a class="btn btn-call" href="tel:{{AGENCY_PHONE_RAW}}">Call</a>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const hero = document.getElementById('hero');
+      const minibar = document.getElementById('minibar');
+      const progress = document.getElementById('progress');
+      const plans = document.querySelectorAll('.plan');
+      const selectedPlan = document.getElementById('selectedPlan');
+      const mbPrice = document.getElementById('mbPrice');
+      const mbPlan = document.getElementById('mbPlan');
+      const heroTextBtn = document.getElementById('heroTextBtn');
+      const stickyTextBtn = document.getElementById('stickyTextBtn');
+      const miniTextBtn = document.getElementById('miniTextBtn');
+      const phone = document.body.dataset.smsPhone || document.body.dataset.phone || '13368351993';
+      const client = document.body.dataset.client || 'Customer';
+
+      function updateTextLinks(planName){
+        const msg = encodeURIComponent('Hi Bill, I reviewed the ' + client + ' auto quote and want to talk about the ' + planName + ' option.');
+        const href = 'sms:' + phone + '?body=' + msg;
+        heroTextBtn.href = href;
+        stickyTextBtn.href = href;
+        miniTextBtn.href = href;
+      }
+
+      plans.forEach(plan => {
+        plan.addEventListener('click', () => {
+          plans.forEach(p => p.classList.remove('is-selected'));
+          plan.classList.add('is-selected');
+          const name = plan.dataset.name;
+          const display = plan.dataset.display;
+          const mini = plan.dataset.mini;
+          selectedPlan.textContent = name + ' - ' + display;
+          const parts = mini.split('•');
+          mbPrice.textContent = parts[0].trim();
+          mbPlan.textContent = name + ' selected' + (parts[1] ? ' • ' + parts[1].trim() : '');
+          updateTextLinks(name);
+        });
+      });
+
+      updateTextLinks('{{PLAN_1_NAME}}');
+
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const scrolled = (h.scrollTop || document.body.scrollTop);
+        const height = h.scrollHeight - h.clientHeight;
+        progress.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+        if (hero.getBoundingClientRect().bottom < 0) minibar.classList.add('show'); else minibar.classList.remove('show');
+      }, { passive:true });
+    })();
+  </script>
+</body>
+</html>

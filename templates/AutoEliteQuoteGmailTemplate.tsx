@@ -5,7 +5,7 @@ import { quoteActionHref } from './shared/EmailParts';
 import { normalizeHeroImageUrl } from '../lib/heroImage';
 import autoEliteQuoteTemplate from './email/AUTO_ELITE_QUOTE_TEMPLATE.html?raw';
 
-const defaultHeroImageUrl = 'https://i.imgur.com/ccUL6ng.jpeg';
+const defaultHeroImageUrl = 'https://i.imgur.com/0ejD7K7.jpeg';
 
 const escapeHtml = (value: string | number | undefined | null) =>
   String(value ?? '')
@@ -191,11 +191,8 @@ const maybeRemoveBundleCard = (html: string, data: AutoQuoteData) => {
 // styles are matched from the template so this stays correct if the template is re-synced.
 const cleanDiscountGrid = (html: string) =>
   html
-    .replace(/>&#10003;\s*<\/td>/g, '>&nbsp;</td>')
-    .replace(
-      /\s*<tr>\s*<td width="50%" valign="top" style="padding:5px 10px 5px 0; color:#5f584a;">&nbsp;<\/td>\s*<td width="50%" valign="top" style="padding:5px 0 5px 10px; color:#5f584a;">&nbsp;<\/td>\s*<\/tr>/g,
-      '',
-    );
+    .replace(/(<td\b[^>]*>)&#10003;\s*<\/td>/g, '$1&nbsp;</td>')
+    .replace(/\s*<tr>\s*<td\b[^>]*>&nbsp;<\/td>\s*<td\b[^>]*>&nbsp;<\/td>\s*<\/tr>/g, '');
 
 export const autoEliteQuoteSubject = (data: AutoQuoteData) => {
   const vehicleWord = numberWord(data.vehicles.length || 1);

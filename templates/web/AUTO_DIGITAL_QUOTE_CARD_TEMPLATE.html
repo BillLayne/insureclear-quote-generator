@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{{TITLE}}</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap");
+    :root {
+      --brand-primary: {{BRAND_PRIMARY}};
+      --brand-secondary: {{BRAND_SECONDARY}};
+      --brand-surface: {{BRAND_SURFACE}};
+      --brand-ink: {{BRAND_INK}};
+      --brand-accent: {{BRAND_ACCENT}};
+      --hero-image: url("{{HERO_IMAGE}}");
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #eef4f9 0%, #f8fafc 44%, #eef2f7 100%);
+      color: #172033;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { width: min(100%, 476px); margin: 0 auto; padding: 12px 10px 96px; }
+    .hero {
+      min-height: 430px;
+      border-radius: 0 0 24px 24px;
+      padding: 22px 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(5,23,48,.72) 0%, rgba(10,39,76,.38) 36%, rgba(8,22,38,.10) 60%, rgba(255,255,255,.90) 81%, rgba(255,255,255,.98) 100%),
+        var(--hero-image) center / cover no-repeat,
+        linear-gradient(135deg, var(--brand-primary), #10284a);
+      box-shadow: 0 24px 55px rgba(15,23,42,.20);
+    }
+    .top-row, .quote-band, .mini-grid, .cta-actions, .sticky-actions { display: grid; gap: 10px; }
+    .top-row { grid-template-columns: 120px 1fr; align-items: center; }
+    .logo-box {
+      height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.94);
+      color: var(--brand-ink);
+      box-shadow: 0 12px 28px rgba(15,23,42,.18);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .05em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .logo-box img { max-width: 100%; max-height: 34px; object-fit: contain; }
+    .status-pill {
+      justify-self: end;
+      min-height: 36px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(4,20,40,.42);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 360px;
+      margin: 46px 0 10px;
+      color: #fff;
+      font-size: 35px;
+      line-height: .95;
+      letter-spacing: 0;
+      text-shadow: 0 3px 18px rgba(0,0,0,.42);
+    }
+    .hero-copy {
+      max-width: 390px;
+      margin: 0;
+      color: rgba(255,255,255,.96);
+      font-size: 13px;
+      line-height: 1.42;
+      font-weight: 900;
+      text-shadow: 0 2px 12px rgba(0,0,0,.40);
+    }
+    .quote-band { grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
+    .quote-chip {
+      min-height: 74px;
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 14px;
+      padding: 12px 13px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 10px 22px rgba(15,23,42,.10);
+      color: #172033;
+    }
+    .chip-label, .eyebrow, .premium-label, .mini-stat span, .scroll-quote-meta span {
+      display: block;
+      color: #75849a;
+      font-size: 9px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .chip-value { display: block; margin-top: 5px; font-size: 17px; line-height: 1.1; font-weight: 950; color: #10284a; }
+    .section {
+      margin-top: 12px;
+      border: 1px solid rgba(23,32,51,.08);
+      border-radius: 18px;
+      background: rgba(255,255,255,.97);
+      box-shadow: 0 16px 35px rgba(15,23,42,.08);
+      overflow: hidden;
+    }
+    .section-header { padding: 18px 18px 10px; }
+    .section-title { margin: 4px 0 6px; color: #10284a; font-size: 22px; line-height: 1.05; font-weight: 950; }
+    .section-copy { margin: 0; color: #64748b; font-size: 12px; line-height: 1.45; font-weight: 800; }
+    .section-body { padding: 8px 14px 14px; }
+    .premium-card {
+      border-radius: 16px;
+      padding: 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand-primary), #10284a);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+    }
+    .premium-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .premium-label { color: rgba(255,255,255,.72); }
+    .premium-amount { display: block; margin-top: 4px; font-size: 41px; line-height: .95; font-weight: 950; letter-spacing: 0; }
+    .ready-badge {
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      padding: 8px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.12);
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+    .mini-grid { grid-template-columns: repeat(2,1fr); margin-top: 16px; }
+    .mini-stat { border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 11px; background: rgba(255,255,255,.12); }
+    .mini-stat span { color: rgba(255,255,255,.66); }
+    .mini-stat strong { display: block; margin-top: 5px; color: #fff; font-size: 14px; line-height: 1.15; }
+    .fine-print { margin: 14px 0 0; color: rgba(255,255,255,.88); font-size: 11px; line-height: 1.45; font-weight: 800; }
+    .row-list, .vehicle-list, .check-list, .resource-list { display: grid; gap: 9px; }
+    .person-row, .check-row, .resource-row {
+      min-height: 64px;
+      border: 1px solid #e5eaf0;
+      border-radius: 14px;
+      padding: 11px 12px;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 11px;
+      align-items: center;
+      background: #fff;
+    }
+    .icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef6ff;
+      color: var(--brand-primary);
+    }
+    .person-row strong, .check-row strong, .resource-row strong { display: block; color: #172033; font-size: 13px; line-height: 1.2; }
+    .person-row span, .check-row span, .resource-row span { display: block; margin-top: 4px; color: #64748b; font-size: 11px; line-height: 1.35; font-weight: 800; }
+    .vehicle-card, .coverage-card {
+      border: 1px solid #e5eaf0;
+      border-radius: 15px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .vehicle-summary, .coverage-summary {
+      min-height: 72px;
+      padding: 12px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 42px minmax(0,1fr) auto;
+      gap: 11px;
+      align-items: center;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .vehicle-title, .coverage-title { display: block; color: #172033; font-size: 13px; line-height: 1.2; font-weight: 950; }
+    .vehicle-meta, .coverage-meta { display: block; margin-top: 3px; color: #64748b; font-size: 11px; line-height: 1.35; font-weight: 800; }
+    .vehicle-premium { color: #059669; font-size: 13px; font-weight: 950; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+    .coverage-table { padding: 0 12px 12px; display: grid; gap: 8px; }
+    .coverage-line {
+      border-radius: 12px;
+      padding: 10px 11px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 10px;
+      background: #f8fafc;
+    }
+    .coverage-line strong { display: block; color: #172033; font-size: 12px; }
+    .coverage-line span { display: block; margin-top: 3px; color: #64748b; font-size: 10px; font-weight: 800; }
+    .coverage-value { color: #10284a; font-size: 12px; font-weight: 950; text-align: right; }
+    .discount-grid { display: flex; gap: 7px; flex-wrap: wrap; }
+    .discount-chip { border: 1px solid #dbe7f6; border-radius: 999px; padding: 8px 10px; display: inline-flex; align-items: center; gap: 6px; background: #f1f7ff; color: var(--brand-primary); font-size: 11px; font-weight: 950; }
+    .agent-trust-card { border-radius: 16px; overflow: hidden; border: 1px solid #e5eaf0; background: #fff; }
+    .agent-trust-photo img { width: 100%; height: 210px; display: block; object-fit: cover; object-position: center; }
+    .agent-trust-copy { padding: 14px; }
+    .agent-trust-copy strong { display: block; color: #10284a; font-size: 17px; line-height: 1.15; }
+    .agent-trust-copy > span { display: block; margin-top: 6px; color: #64748b; font-size: 12px; line-height: 1.45; font-weight: 800; }
+    .review-card { margin-top: 12px; border-radius: 14px; padding: 12px; background: #f8fafc; border: 1px solid #e5eaf0; }
+    .review-stars { display: flex; gap: 2px; color: #f59e0b; }
+    .review-stars svg { fill: currentColor; stroke: currentColor; filter: drop-shadow(0 1px 1px rgba(146, 64, 14, .18)); }
+    .review-text { margin: 7px 0 5px; color: #172033; font-size: 12px; line-height: 1.45; font-weight: 900; }
+    .review-source { color: #64748b; font-size: 10px; font-weight: 950; letter-spacing: .10em; text-transform: uppercase; }
+    .cta-panel {
+      border-radius: 18px;
+      padding: 17px;
+      background: linear-gradient(135deg, var(--brand-primary), #10284a);
+      color: #fff;
+      display: grid;
+      gap: 14px;
+    }
+    .cta-panel strong { display: block; font-size: 19px; line-height: 1.1; }
+    .cta-panel span { display: block; margin-top: 6px; color: rgba(255,255,255,.82); font-size: 12px; line-height: 1.45; font-weight: 800; }
+    .cta-actions { grid-template-columns: 1fr; }
+    .cta-button {
+      min-height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--brand-ink);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 22px rgba(15,23,42,.18);
+    }
+    .cta-button.secondary { color: #fff; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18); box-shadow: none; }
+    .scroll-quote-header {
+      position: fixed;
+      top: env(safe-area-inset-top);
+      left: 50%;
+      z-index: 28;
+      width: min(100% - 20px, 476px);
+      min-height: 66px;
+      transform: translate(-50%, calc(-100% - 14px));
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 0 0 18px 18px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 35px rgba(15,23,42,.16);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .scroll-quote-header.is-visible { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+    .scroll-quote-meta strong { color: var(--brand-ink); font-size: 22px; line-height: 1; font-weight: 950; }
+    .scroll-start-button {
+      flex: 0 0 auto;
+      min-height: 44px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 14px;
+      color: #fff;
+      background: var(--brand-primary);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 22px rgba(15,23,42,.18);
+    }
+    .sticky-actions {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 20;
+      width: min(100%, 476px);
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,.92);
+      border-top: 1px solid rgba(23,32,51,.10);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 -12px 28px rgba(15,23,42,.10);
+    }
+    .sticky-actions a {
+      min-height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #fff;
+      background: var(--brand-primary);
+      font-size: 12px;
+      line-height: 1.1;
+      font-weight: 950;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 22px rgba(15,23,42,.16);
+    }
+    .sticky-actions a.secondary { background: #13253d; }
+    .footer-note { margin: 16px 0 0; text-align: center; color: #6d7d95; font-size: 10px; line-height: 1.4; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
+    @media (min-width: 920px) {
+      .page { width: min(100%, 980px); padding-inline: 18px; }
+      .hero { min-height: 350px; }
+      h1 { max-width: 540px; font-size: 40px; }
+      .hero-copy { max-width: 540px; }
+      .quote-band { grid-template-columns: repeat(4, 1fr); }
+      .desktop-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; align-items: start; }
+      .wide-section { grid-column: 1 / -1; }
+      .agent-trust-card { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); }
+      .agent-trust-photo img { min-height: 245px; height: 100%; }
+      .sticky-actions, .scroll-quote-header { width: min(100% - 36px, 980px); padding-inline: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="scroll-quote-header" id="scroll-quote-header" aria-label="Quote monthly payment and binding action">
+    <div class="scroll-quote-meta"><span>Monthly Estimate</span><strong>{{MONTHLY}}</strong></div>
+    <a class="scroll-start-button" href="{{START_URL}}" target="_blank" rel="noopener"><i data-lucide="shield-check"></i> Start Policy</a>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="top-row">
+          <div class="logo-box">{{CARRIER_MARK_HTML}}</div>
+          <div class="status-pill"><i data-lucide="file-check-2"></i> Auto Quote</div>
+        </div>
+        <h1>{{CUSTOMER_NAME}}, your auto quote is ready</h1>
+        <p class="hero-copy">Review the {{DOWN_PAYMENT}} down payment, {{MONTHLY}} monthly estimate, drivers, vehicles, and coverages before binding.</p>
+      </div>
+      <div class="quote-band">
+        <div class="quote-chip"><span class="chip-label">Down Payment</span><strong class="chip-value">{{DOWN_PAYMENT}}</strong></div>
+        <div class="quote-chip"><span class="chip-label">Monthly</span><strong class="chip-value">{{MONTHLY}}</strong></div>
+        <div class="quote-chip"><span class="chip-label">Company</span><strong class="chip-value">{{CARRIER_NAME}}</strong></div>
+        <div class="quote-chip"><span class="chip-label">Quote Number</span><strong class="chip-value">{{QUOTE_NUMBER}}</strong></div>
+      </div>
+    </section>
+
+    <div class="desktop-grid">
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Quote Summary</div><h2 class="section-title">Estimated premium</h2><p class="section-copy">Use this as the readable version of the quote before final underwriting, payment, and carrier acceptance.</p></div>
+        <div class="section-body">
+          <div class="premium-card">
+            <div class="premium-top"><div><span class="premium-label">Monthly Estimate</span><strong class="premium-amount">{{MONTHLY}}</strong></div><div class="ready-badge"><i data-lucide="clock-3"></i> Ready</div></div>
+            <div class="mini-grid">
+              <div class="mini-stat"><span>Due To Start</span><strong>{{DOWN_PAYMENT}}</strong></div>
+              <div class="mini-stat"><span>Policy Term</span><strong>{{TERM}}</strong></div>
+              <div class="mini-stat"><span>Effective</span><strong>{{EFFECTIVE_DATE}}</strong></div>
+              <div class="mini-stat"><span>Total Quote</span><strong>{{TOTAL_PREMIUM}}</strong></div>
+            </div>
+            <p class="fine-print">Quote is subject to final underwriting, signed applications, reports, payment, and company approval.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Drivers</div><h2 class="section-title">Drivers listed</h2><p class="section-copy">Confirm names, license status, household drivers, and any excluded or unlisted drivers.</p></div>
+        <div class="section-body"><div class="row-list">{{DRIVERS_HTML}}</div></div>
+      </section>
+
+      <section class="section wide-section">
+        <div class="section-header"><div class="eyebrow">Vehicles</div><h2 class="section-title">Vehicle coverage ledger</h2><p class="section-copy">Tap each vehicle to expand the quoted coverages, deductibles, rental, roadside, and notes for that auto.</p></div>
+        <div class="section-body"><div class="vehicle-list">{{VEHICLES_HTML}}</div></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Limits</div><h2 class="section-title">Coverage snapshot</h2><p class="section-copy">Plain-language guide to the major coverages shown in the quote.</p></div>
+        <div class="section-body"><div class="vehicle-list">{{COVERAGE_HTML}}</div></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Savings</div><h2 class="section-title">Discounts included</h2><p class="section-copy">These can change if reports, payment plan, driver details, or documents change before issue.</p></div>
+        <div class="section-body"><div class="discount-grid">{{DISCOUNTS_HTML}}</div></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Before Binding</div><h2 class="section-title">Review these details</h2><p class="section-copy">A quick checklist before asking the agency to start the policy.</p></div>
+        <div class="section-body"><div class="check-list">{{CHECKLIST_HTML}}</div></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Local Help</div><h2 class="section-title">Bill Layne Insurance can review it with you</h2><p class="section-copy">Call before binding if you want us to compare limits, deductibles, vehicles, or payment options.</p></div>
+        <div class="section-body">
+          <div class="agent-trust-card">
+            <div class="agent-trust-photo"><img src="{{AGENT_PHOTO}}" alt="Bill Layne Insurance helping customers review an insurance quote"></div>
+            <div class="agent-trust-copy">
+              <strong>We can walk through the quote before you bind</strong>
+              <span>Ask about drivers, deductibles, discounts, excluded vehicles, lienholders, and payment timing before starting the policy.</span>
+              <div class="review-card"><div class="review-stars" aria-label="5 star Google rating"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div><p class="review-text">{{REVIEW_TEXT}}</p><div class="review-source">{{REVIEW_SOURCE}}</div></div>
+            </div>
+          </div>
+          <div class="resource-list" style="margin-top:10px;">
+            <a class="resource-row" href="tel:3368351993"><div class="icon-wrap"><i data-lucide="phone-call"></i></div><div><strong>Call agency</strong><span>Main Bill Layne Insurance office line.</span></div></a>
+            <a class="resource-row" href="{{START_URL}}" target="_blank" rel="noopener"><div class="icon-wrap"><i data-lucide="shield-check"></i></div><div><strong>Start policy</strong><span>Open the request page and send a notice to the agency.</span></div></a>
+            <a class="resource-row" href="https://www.sendbilldocs.com/" target="_blank" rel="noopener"><div class="icon-wrap"><i data-lucide="upload-cloud"></i></div><div><strong>Send documents</strong><span>Upload proof, photos, titles, declarations pages, or prior insurance.</span></div></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Next Step</div><h2 class="section-title">Ready to start the binding process?</h2><p class="section-copy">Use the button below to let Bill Layne Insurance know you are ready for the next step on this auto quote.</p></div>
+        <div class="section-body"><div class="cta-panel"><div><strong>Start the binding process</strong><span>This opens our request page and sends a notice to the agency email so we can help with the application, payment, signatures, and final carrier approval steps.</span></div><div class="cta-actions"><a class="cta-button" href="{{START_URL}}" target="_blank" rel="noopener"><i data-lucide="shield-check"></i> Start Policy</a><a class="cta-button secondary" href="tel:3368351993"><i data-lucide="phone-call"></i> Call Agency</a></div></div></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><div class="eyebrow">Important</div><h2 class="section-title">Quote only, not coverage</h2><p class="section-copy">This digital quote card is a customer reference summary. It is not an ID card and does not bind, change, or prove coverage.</p></div>
+        <div class="section-body"><div class="check-row"><div class="icon-wrap"><i data-lucide="alert-circle"></i></div><div><strong>Coverage is not bound yet</strong><span>Coverage starts only after the application is accepted by the company, the required payment is processed, and Bill Layne Insurance confirms the policy has been issued or bound.</span></div></div></div>
+      </section>
+    </div>
+    <div class="footer-note">Auto quote digital card - Bill Layne Insurance Agency</div>
+  </main>
+
+  <nav class="sticky-actions" aria-label="Quote actions">
+    <a href="tel:3368351993"><i data-lucide="phone-call"></i> Call Agency</a>
+    <a class="secondary" href="{{START_URL}}" target="_blank" rel="noopener"><i data-lucide="shield-check"></i> Start Policy</a>
+  </nav>
+  <script>
+    (function () {
+      var header = document.getElementById("scroll-quote-header");
+      var update = function () { if (header) header.classList.toggle("is-visible", window.scrollY > 260); };
+      update();
+      window.addEventListener("scroll", update, { passive: true });
+      if (window.lucide) window.lucide.createIcons();
+    })();
+  </script>
+</body>
+</html>

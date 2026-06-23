@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your 2026 Auto Quote | Bill Layne Insurance</title>
+  <meta name="description" content="Your real auto quote, priced and ready. See your payment, what's covered, and start coverage today with a local North Carolina agent." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://i.imgur.com">
+  <link rel="preload" as="image" href="https://i.imgur.com/hsgl3Kpl.jpg" media="(max-width: 779px)" fetchpriority="high">
+  <link rel="preload" as="image" href="https://i.imgur.com/hsgl3Kph.jpg" media="(min-width: 780px)">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --color-bg:#0E1525; --color-surface:#162033; --color-surface-2:#1B2940;
+      --color-border:rgba(255,255,255,0.10);
+      --color-text:#F5F7FB; --color-text-muted:#AAB4C8;
+      --color-primary:#46D7FF; --color-primary-strong:#22C7F6;
+      --color-money:#F3BE4B; --color-success:#3CD17F; --color-danger:#FF6B81;
+      --shadow-card:0 16px 40px rgba(0,0,0,0.28);
+      --radius-lg:24px; --radius-md:18px;
+      --font-display:'Space Grotesk',sans-serif; --font-body:'Inter',sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{font-family:var(--font-body);background:linear-gradient(180deg,#0B1321,#0E1525 35%,#111B2E);color:var(--color-text);line-height:1.5;overflow-x:hidden;-webkit-tap-highlight-color:rgba(70,215,255,.18)}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(1120px,calc(100% - 24px));margin:0 auto}
+
+    .topbar{position:sticky;top:0;z-index:40;background:rgba(11,19,33,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--color-border)}
+    .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:50px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#cfeeff}
+    .topbar .tb-carrier{color:var(--color-primary);font-weight:900;display:inline-flex;align-items:center;padding:11px 4px;text-align:right}
+
+    /* ===== HERO ===== */
+    .hero-new{
+      background-color:#060a12;
+      background-image:radial-gradient(125% 85% at 50% 0%, rgba(20,30,48,0.55) 0%, rgba(6,10,18,0.92) 55%, rgba(4,7,13,0.98) 100%), url('https://i.imgur.com/hsgl3Kpl.jpg');
+      background-position:center top;background-size:cover;background-repeat:no-repeat;
+      padding:30px 18px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;
+      border-radius:28px;margin-top:8px;box-shadow:var(--shadow-card);border:1px solid var(--color-border);position:relative;overflow:hidden;
+    }
+    .hero-new-content{display:flex;flex-direction:column;align-items:center;width:100%}
+    .hero-new-actions{display:flex;flex-direction:column;align-items:center;width:100%}
+    .hero-top-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(70,215,255,0.35);border-radius:999px;padding:8px 18px;font-size:12px;font-weight:800;color:#eaf6ff;background:rgba(8,14,24,0.72);letter-spacing:.12em;margin-bottom:18px;text-transform:uppercase}
+    .hero-top-badge .check{background:#22C7F6;color:#06121b;border-radius:50%;width:18px;height:18px;display:inline-flex;justify-content:center;align-items:center;font-size:11px;font-weight:900}
+    .hero-top-badge .dot{color:rgba(255,255,255,0.45);font-weight:900}
+    .hero-name{font-family:var(--font-display);font-weight:700;color:#fff;font-size:clamp(21px,6.2vw,28px);letter-spacing:-.01em;margin-bottom:4px;text-shadow:0 2px 10px rgba(0,0,0,0.6)}
+    .hero-title{display:flex;flex-direction:column;line-height:.9;margin-bottom:12px;text-transform:uppercase;font-family:var(--font-display)}
+    .hero-title .line1{font-size:clamp(32px,9.2vw,46px);font-weight:700;color:#fff;letter-spacing:-.03em;text-shadow:0 4px 14px rgba(0,0,0,0.65)}
+    .hero-title .line2{font-size:clamp(45px,13vw,60px);font-weight:700;color:#F3BE4B;letter-spacing:-.04em;text-shadow:0 4px 26px rgba(243,190,75,0.38),0 4px 12px rgba(0,0,0,0.6)}
+    .hero-sub{color:#c9d4e4;font-size:clamp(12.5px,3.6vw,15px);max-width:none;margin:6px auto 20px;line-height:1.35;text-shadow:0 2px 4px rgba(0,0,0,0.8);white-space:nowrap}
+
+    .hero-price-card{background:rgba(9,14,24,0.92);border:2px solid #F3BE4B;border-radius:18px;padding:18px 18px 16px;width:100%;max-width:420px;position:relative;box-shadow:0 0 28px rgba(243,190,75,0.22),inset 0 0 16px rgba(243,190,75,0.08);text-align:left;margin-bottom:16px}
+    .hero-price-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;margin-bottom:16px}
+    .carrier-pill{background:#fff;color:#0f2233;padding:7px 14px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:38px;min-width:120px}
+    .carrier-pill img{width:104px;max-width:30vw;max-height:24px;object-fit:contain;display:block}
+    .agent-pill{display:inline-flex;align-items:center;border:1px solid rgba(243,190,75,0.55);color:#F3BE4B;background:rgba(243,190,75,0.08);border-radius:999px;padding:10px 11px;font-size:11px;font-weight:800;white-space:nowrap;letter-spacing:.02em;text-transform:uppercase}
+    .hero-payment-ribbon{background:#F3BE4B;color:#1a1205;font-weight:900;font-size:12px;padding:7px 14px;display:inline-block;border-radius:8px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .hero-price-amount{font-family:var(--font-display);font-size:clamp(48px,14.5vw,80px);font-weight:700;color:#fff;line-height:.95;letter-spacing:-.04em;display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+    .hero-price-down{font-size:clamp(18px,4.6vw,26px);color:#F3BE4B;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+    .hero-price-sub{color:#dce8f6;font-size:15px}
+    .hero-price-sub strong{color:#F3BE4B}
+    .hero-price-fine{color:#9fb0c6;font-size:12.5px;margin-top:8px}
+    .hero-steps{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:5px;margin-top:14px;padding:9px 10px;border:1px solid rgba(255,255,255,0.13);border-radius:14px;background:rgba(255,255,255,0.045);font-size:clamp(9.5px,2.6vw,11.5px);width:100%;overflow:hidden}
+    .hero-steps .steps-label{font-weight:900;color:#fff;letter-spacing:-.01em;white-space:nowrap;flex:0 0 auto}
+    .hero-steps .step{display:inline-flex;align-items:center;gap:4px;color:#dce8f6;white-space:nowrap;min-width:0}
+    .hero-steps .step-num{width:19px;height:19px;border-radius:50%;background:#F3BE4B;color:#1a1205;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:10.5px;flex:0 0 auto;box-shadow:0 2px 8px rgba(243,190,75,.24)}
+    .hero-btn-group{width:100%;max-width:420px;display:flex;flex-direction:column;gap:11px;margin-bottom:14px}
+    .hero-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:17px 20px;border-radius:14px;font-weight:900;font-size:16px;text-transform:uppercase;letter-spacing:.03em;text-decoration:none;transition:transform .15s,opacity .15s}
+    .hero-btn>span:nth-child(2){flex:1;text-align:center}
+    .hero-btn:active{transform:scale(0.985)}
+    .hero-btn-yellow{background:linear-gradient(180deg,#FCE08A 0%,#F3BE4B 100%);color:#1a1205;box-shadow:0 8px 22px rgba(243,190,75,0.4)}
+    .hero-btn-ghost{background:rgba(255,255,255,0.045);color:#fff;border:1px solid rgba(255,255,255,0.14)}
+    .hero-btn-ghost:active{background:rgba(255,255,255,0.08)}
+    .hero-btn-ghost .lead{color:var(--color-primary)}
+    .hero-btn-icon{width:24px;display:flex;justify-content:center;align-items:center;flex:0 0 auto}
+    .hero-btn-icon svg{display:block}
+    .hero-btn-dollar{font-size:22px;font-weight:900;line-height:1}
+    .hero-nopressure{color:#9fb0c6;font-size:14px;text-align:center;margin-top:4px}
+
+    /* ===== TRUST BAR ===== */
+    .trustbar{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+    .trustbar .ti{display:flex;align-items:center;gap:10px;background:rgba(22,32,51,.6);border:1px solid var(--color-border);border-radius:14px;padding:12px 14px}
+    .trustbar .ti .tic{width:34px;height:34px;border-radius:10px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:rgba(70,215,255,.12);border:1px solid rgba(70,215,255,.25);color:#b7f0ff}
+    .trustbar .ti.gold .tic{background:rgba(243,190,75,.14);border-color:rgba(243,190,75,.3);color:#ffe3a0}
+    .trustbar .ti b{display:block;font-size:13px;color:#fff;font-weight:800;line-height:1.15}
+    .trustbar .ti span{display:block;font-size:11px;color:var(--color-text-muted)}
+
+    /* ===== SECTIONS ===== */
+    section{margin-top:38px}
+    .eyebrow{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--color-money);margin-bottom:8px}
+    h2{font-family:var(--font-display);letter-spacing:-.03em;line-height:1.02;font-size:clamp(26px,6vw,40px)}
+    h3{font-family:var(--font-display);letter-spacing:-.02em}
+    .section-sub{color:var(--color-text-muted);font-size:15px;margin-top:8px;max-width:560px}
+
+    .card{background:rgba(22,32,51,.95);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-card)}
+    .grid-3{display:grid;gap:12px}
+    .grid-2{display:grid;gap:12px}
+    .step-section{background:linear-gradient(135deg,rgba(22,32,51,.96),rgba(16,27,45,.94));border:1px solid rgba(70,215,255,.16);border-radius:24px;padding:24px 20px;box-shadow:var(--shadow-card);position:relative;overflow:hidden}
+    .step-section::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--color-money),var(--color-primary));opacity:.9}
+    .step-section .eyebrow,.finalcta .eyebrow{display:inline-flex;align-items:center;width:max-content;max-width:100%;padding:7px 12px;border-radius:999px;background:rgba(243,190,75,.13);border:1px solid rgba(243,190,75,.36);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset;margin-bottom:12px;font-size:13px;color:#ffe3a0;letter-spacing:.12em}
+    .step-section h2{max-width:720px}
+
+    .btn{min-height:54px;padding:0 20px;border-radius:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px;transition:transform .15s,opacity .15s}
+    .btn:active{transform:scale(.98)}
+    .btn-primary{background:linear-gradient(180deg,#FCE08A 0%,#F3BE4B 100%);color:#1a1205;box-shadow:0 8px 22px rgba(243,190,75,.32)}
+    .btn-secondary{background:var(--color-primary);color:#07131e}
+    .btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--color-border);color:#fff}
+    .btn-block{width:100%}
+
+    /* Payment selector */
+    .payselect{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+    .payopt{position:relative;cursor:pointer;text-align:left;background:rgba(22,32,51,.6);border:1px solid var(--color-border);border-radius:16px;padding:16px 14px 14px;color:#fff;font-family:var(--font-body);transition:border-color .15s,background .15s,transform .1s}
+    .payopt:active{transform:scale(.99)}
+    .payopt .payopt-name{display:block;font-weight:800;font-size:15px;line-height:1.1}
+    .payopt .payopt-meta{display:block;font-size:12px;color:var(--color-text-muted);margin-top:3px}
+    .payopt .payopt-tag{position:absolute;top:-10px;left:12px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;border-radius:999px;background:var(--color-primary);color:#07131e}
+    .payopt .payopt-tag.gold{background:var(--color-money);color:#1a1205}
+    .payopt.is-active{border-color:var(--color-money);background:rgba(243,190,75,.10);box-shadow:0 0 0 1px var(--color-money) inset}
+    .payresult{margin-top:14px;background:rgba(9,14,24,.85);border:1px solid rgba(243,190,75,.35);border-radius:20px;padding:22px 20px;box-shadow:0 0 26px rgba(243,190,75,.12)}
+    .payresult-big{font-family:var(--font-display);font-size:clamp(46px,13vw,68px);font-weight:700;color:#fff;line-height:.95;letter-spacing:-.04em}
+    .payresult-cap{color:var(--color-money);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+    .payresult-line{color:#dce8f6;font-size:15px;margin-top:12px}
+    .payresult-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 16px}
+    .paychip{font-size:12.5px;font-weight:800;color:#ffe3a0;background:rgba(243,190,75,.12);border:1px solid rgba(243,190,75,.3);border-radius:999px;padding:6px 12px}
+    .paynote{font-size:13px;color:var(--color-text-muted)}
+    .allin{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .allin .mini{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#cfe9d8;background:rgba(60,209,127,.10);border:1px solid rgba(60,209,127,.25);border-radius:999px;padding:6px 12px}
+
+    /* Coverage */
+    .chip{padding:7px 11px;border-radius:999px;border:1px solid var(--color-border);background:rgba(255,255,255,.05);font-size:12px;font-weight:800}
+    .chip.primary{background:rgba(70,215,255,.14);color:#b7f0ff}
+    .chip.money{background:rgba(243,190,75,.14);color:#ffe3a0;border-color:rgba(243,190,75,.3)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .driver h3{margin-bottom:6px}
+    .icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;margin-bottom:10px;background:rgba(70,215,255,.12);border:1px solid rgba(70,215,255,.25);color:#b7f0ff;font-family:var(--font-display)}
+    .decoder{overflow:hidden;padding:0}
+    .decoder details{border-bottom:1px solid rgba(255,255,255,.06)}
+    .decoder details:last-child{border-bottom:0}
+    .decoder summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 18px}
+    .decoder summary::-webkit-details-marker{display:none}
+    .covicon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(70,215,255,.12);border:1px solid rgba(70,215,255,.25);color:#b7f0ff;font-weight:900;flex:0 0 auto}
+    .covname{flex:1}.covname strong{display:block}.covname span{display:block;color:var(--color-text-muted);font-size:12px}
+    .covplus{color:var(--color-money);font-size:22px;font-weight:700;transition:transform .2s}
+    .decoder details[open] .covplus{transform:rotate(45deg)}
+    .covbody{padding:0 18px 18px 18px;color:#dce8f6;font-size:14px}
+    .minirow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+    .minirow:last-child{border-bottom:0}.minirow span{color:var(--color-text-muted);font-size:13px}.minirow strong{font-size:14px}
+    .glossary{display:grid;gap:10px;margin-top:14px}
+    .gloss{display:flex;gap:12px;background:rgba(22,32,51,.55);border:1px solid var(--color-border);border-radius:14px;padding:14px 16px}
+    .gloss .gic{flex:0 0 auto;color:var(--color-primary)}
+    .gloss b{display:block;font-size:14px;color:#fff}
+    .gloss p{font-size:13px;color:var(--color-text-muted);margin-top:2px}
+    .lawnote{margin-top:14px;padding:14px 16px;border-radius:14px;background:rgba(243,190,75,.10);border:1px solid rgba(243,190,75,.25);color:#ffe9c2;font-size:13.5px;line-height:1.5}
+
+    /* Why Bill */
+    #why{text-align:center}
+    #why h2{max-width:760px;margin:0 auto}
+    .whybill{background:linear-gradient(135deg,rgba(243,190,75,.08),rgba(70,215,255,.05));border:1px solid var(--color-border);border-radius:18px;overflow:hidden;margin:18px auto 0;max-width:680px}
+    #why .whybill{text-align:left}
+    .whybill-photo{width:100%;height:auto;display:block;border-bottom:1px solid var(--color-border)}
+    .whybill-body{padding:22px}
+    .whybill h3{font-size:17px;margin-bottom:8px}
+    .whybill p{color:#d7e2f1;font-size:14.5px;line-height:1.55}
+    .whybill .sig{margin-top:10px;font-family:var(--font-display);color:var(--color-money);font-size:16px}
+
+    /* Reviews */
+    .review-stars{color:var(--color-money);letter-spacing:2px;font-size:15px}
+    .reviews .card h3{font-size:16px;margin:8px 0 6px}
+    .reviews .card p{color:var(--color-text-muted);font-size:13.5px}
+    .rating-hero{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;background:rgba(22,32,51,.6);border:1px solid var(--color-border);border-radius:16px;padding:16px 18px}
+    .rating-hero .big-num{font-family:var(--font-display);font-size:40px;font-weight:700;color:#fff;line-height:1}
+    .rating-hero .rh-meta{font-size:13px;color:var(--color-text-muted)}
+
+    /* FAQ */
+    .faq details{border:1px solid var(--color-border);border-radius:14px;background:rgba(22,32,51,.55);margin-bottom:10px;overflow:hidden}
+    .faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;font-weight:700;font-size:15px;color:#fff}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary .q-ic{flex:0 0 auto;color:var(--color-money);font-size:22px;font-weight:700;transition:transform .2s}
+    .faq details[open] summary .q-ic{transform:rotate(45deg)}
+    .faq .faq-a{padding:0 18px 16px;color:var(--color-text-muted);font-size:14px;line-height:1.55}
+
+    /* Final CTA */
+    .finalcta{margin-top:40px;background:linear-gradient(135deg,#0f172a 0%,#15324a 50%,#0f5a4f 100%);border:1px solid var(--color-border);border-radius:28px;padding:34px 22px;text-align:center;box-shadow:var(--shadow-card)}
+    .finalcta h2{color:#fff}
+    .finalcta p{color:#cfe0ee;font-size:15px;max-width:520px;margin:10px auto 20px}
+    .finalcta .cta-row{display:grid;gap:10px;max-width:420px;margin:0 auto}
+    .finalcta .reassure{margin-top:16px;font-size:12.5px;color:#acc4d6}
+
+    footer{margin-top:42px;padding:30px 12px 34px;border-top:1px solid var(--color-border);text-align:center;color:var(--color-text-muted)}
+    footer img{width:78px;height:auto;margin:0 auto 12px}
+    footer .name{color:var(--color-text);font-weight:900;font-size:15px}
+    footer p{font-size:13px;margin-top:4px}
+    footer .social-icon-svg{transition:fill .2s}
+    footer a:hover .social-icon-svg{fill:var(--color-primary)}
+    footer .social-links a{display:inline-flex;align-items:center;justify-content:center;padding:9px;border-radius:12px}
+    footer .social-links a:active{background:rgba(255,255,255,.06)}
+    footer .disc{max-width:860px;margin:16px auto 0;color:rgba(245,247,251,.56);font-size:12px;line-height:1.55}
+
+    .mobile-sticky-actions{display:none}
+
+    @media (max-width:640px){
+      section{margin-top:30px}
+      .step-section{padding:22px 16px;border-radius:22px}
+      .payselect{grid-template-columns:1fr}
+      .payopt .payopt-tag{position:static;display:inline-flex;margin-bottom:8px}
+      .hero-new{border-radius:22px;padding:26px 16px 24px}
+      .hero-sub{max-width:none;margin:6px auto 18px;white-space:nowrap}
+      .hero-price-card{box-shadow:0 0 32px rgba(243,190,75,.3),inset 0 0 18px rgba(243,190,75,.1)}
+      body{padding-bottom:86px}
+      .mobile-sticky-actions{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:90;display:grid;width:min(440px,calc(100vw - 16px));grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:10px 10px calc(10px + env(safe-area-inset-bottom));background:rgba(5,10,18,.94);backdrop-filter:blur(16px);border-top:1px solid var(--color-border);box-shadow:0 -16px 34px rgba(0,0,0,.38)}
+      .mobile-sticky-actions a{min-width:0;min-height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;white-space:nowrap;padding:0 4px;overflow:hidden}
+      .mobile-sticky-actions .call{background:#22C7F6;border:1px solid rgba(70,215,255,.6);color:#07131e;box-shadow:0 8px 18px rgba(34,199,246,.28)}
+      .mobile-sticky-actions .bind{background:var(--color-money);color:#131313}
+      .mobile-sticky-actions .text{background:var(--color-primary);color:#07131e}
+    }
+
+    @media (max-width:360px){
+      .hero-price-amount{font-size:clamp(38px,12.5vw,54px)}
+      .payselect{grid-template-columns:1fr}
+      .payopt{padding:13px 14px 12px}
+      .payopt .payopt-tag{top:-9px}
+    }
+
+    @media (min-width:780px){
+      .hero-new{flex-direction:row;justify-content:space-between;align-items:center;text-align:left;padding:56px 50px;gap:44px;background-image:radial-gradient(125% 85% at 50% 0%, rgba(20,30,48,0.55) 0%, rgba(6,10,18,0.92) 55%, rgba(4,7,13,0.98) 100%), url('https://i.imgur.com/hsgl3Kph.jpg')}
+      .hero-new-content{align-items:flex-start;flex:1}
+      .hero-new-actions{align-items:stretch;max-width:440px;flex-shrink:0}
+      .hero-top-badge{font-size:13px;padding:9px 22px;margin-bottom:24px}
+      .hero-name{font-size:clamp(28px,3vw,40px);margin-bottom:6px}
+      .hero-title{align-items:flex-start;line-height:.86}
+      .hero-title .line1{font-size:clamp(46px,5vw,72px);letter-spacing:-.03em}
+      .hero-title .line2{font-size:clamp(60px,7vw,100px);letter-spacing:-.04em;margin-top:-4px}
+      .hero-sub{margin:18px 0 0 0;text-align:left;max-width:none;font-size:18px}
+      .hero-price-amount{font-size:clamp(62px,6vw,88px)}
+      .hero-nopressure{width:100%;text-align:center}
+      .trustbar{grid-template-columns:repeat(4,1fr)}
+      .grid-3{grid-template-columns:repeat(3,1fr)}
+      .grid-2{grid-template-columns:repeat(2,1fr)}
+      .finalcta .cta-row{grid-template-columns:repeat(3,1fr);max-width:none}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="wrap"><div>BILL LAYNE INSURANCE</div><div class="tb-carrier" data-q="carrier"></div></div></div>
+  <main class="wrap">
+
+    <!-- HERO -->
+    <section class="hero-new">
+      <div class="hero-new-content">
+        <div class="hero-top-badge"><span class="check">&#10003;</span> REAL QUOTE <span class="dot">&bull;</span> PRICE SHOWN</div>
+        <p class="hero-name" data-q="greeting"></p>
+        <div class="hero-title"><span class="line1">Your Auto Quote</span><span class="line2">Is Ready</span></div>
+        <p class="hero-sub">Start coverage after final review and payment.</p>
+      </div>
+      <div class="hero-new-actions">
+        <div class="hero-price-card">
+          <div class="hero-price-top">
+            <div class="carrier-pill" aria-label="Insurance carrier logo">
+              <img id="heroCarrierLogo" src="" alt="" width="104" height="24" loading="eager" decoding="async">
+            </div>
+            <a class="agent-pill" data-href="tel" href="tel:13368351993">Local Agent Help</a>
+          </div>
+          <div class="hero-payment-ribbon">Today's Down Payment</div>
+          <div class="hero-price-amount"><span data-q="heroBig"></span> <span class="hero-price-down">Down</span></div>
+          <div class="hero-price-sub" data-q="heroLine"></div>
+          <div class="hero-price-fine">Final review and payment required to start coverage.</div>
+          <div class="hero-steps">
+            <span class="steps-label">Easy as</span>
+            <span class="step"><span class="step-num">1</span> Pick payment</span>
+            <span class="step"><span class="step-num">2</span> Review</span>
+            <span class="step"><span class="step-num">3</span> Contact us</span>
+          </div>
+        </div>
+        <div class="hero-btn-group">
+          <a href="#payment" class="hero-btn hero-btn-yellow">
+            <span class="hero-btn-icon hero-btn-dollar">$</span>
+            <span>Pick My Payment</span>
+            <span class="hero-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </a>
+          <a href="#covered" class="hero-btn hero-btn-ghost">
+            <span class="hero-btn-icon lead"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+            <span>Review My Coverage</span>
+            <span class="hero-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </a>
+          <a href="#review" class="hero-btn hero-btn-ghost">
+            <span class="hero-btn-icon lead"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg></span>
+            <span>Contact Us To Start</span>
+            <span class="hero-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </a>
+        </div>
+        <p class="hero-nopressure">No pressure. Local help when you are ready.</p>
+      </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trustbar">
+      <div class="ti gold"><div class="tic"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21l1.18-6.88-5-4.87 7.1-1.01L12 2z"/></svg></div><div><b data-q="ratingLine">4.9 / 5 rated</b><span>Local Google reviews</span></div></div>
+      <div class="ti"><div class="tic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-3.5 7.5-8.5 9C7.5 19.5 4 17 4 12V6l8-3 8 3v6z"/></svg></div><div><b>Licensed in NC</b><span>Real, regulated coverage</span></div></div>
+      <div class="ti"><div class="tic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div><div><b>Local since 2005</b><span>On N Bridge St, Elkin</span></div></div>
+      <div class="ti"><div class="tic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div><b>Secure &amp; private</b><span>We never sell your info</span></div></div>
+    </div>
+
+    <!-- PAYMENT SELECTOR -->
+    <section id="payment" class="step-section">
+      <div class="eyebrow">Step 1 &middot; Your payment</div>
+      <h2>Pick the plan that fits you.</h2>
+      <p class="section-sub">Tap an option to see exactly what you'd pay. All current discounts are already applied.</p>
+
+      <div class="payselect" id="paySelect" role="radiogroup" aria-label="Choose a payment plan"></div>
+
+      <div class="payresult">
+        <div class="payresult-big" id="payBig"></div>
+        <div class="payresult-cap" id="payCap"></div>
+        <div class="payresult-line" id="payLine"></div>
+        <div class="payresult-foot">
+          <span class="paychip" id="payTotal"></span>
+          <span class="paynote" id="payNote"></span>
+        </div>
+        <a class="btn btn-primary btn-block" id="payCta" data-href="start" href="#" target="_blank" rel="noopener">Start with this plan</a>
+        <div class="allin">
+          <span class="mini">&#10003; Discounts applied</span>
+          <span class="mini">&#10003; No hidden fees</span>
+          <span class="mini">&#10003; No obligation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COVERAGE -->
+    <section id="covered" class="step-section">
+      <div class="eyebrow">Step 2 &middot; What's protected</div>
+      <h2>See exactly what you're covered for.</h2>
+      <p class="section-sub">Your drivers, vehicles, and coverage explained in plain English &mdash; no insurance jargon.</p>
+
+      <div class="chip money" style="display:inline-flex;margin:16px 0;" data-q="effectiveLine"></div>
+
+      <h3 style="margin-top:18px;font-size:18px;">Drivers Included</h3>
+      <div class="grid-2" id="driversWrap" style="margin-top:12px;"></div>
+
+      <h3 style="margin-top:22px;font-size:18px;">Your vehicles</h3>
+      <div class="card decoder" id="vehiclesWrap" style="margin-top:12px;"></div>
+
+      <h3 style="margin-top:22px;font-size:18px;">What these coverages actually mean</h3>
+      <div class="glossary">
+        <div class="gloss"><span class="gic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><div><b>Liability (50/100/50)</b><p>If an accident is your fault, this pays for the other people's injuries and property &mdash; up to $50K per person / $100K per accident for injuries, and $50K for property damage.</p></div></div>
+        <div class="gloss"><span class="gic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 3"/></svg></span><div><b>Comprehensive</b><p>Covers your vehicle for things that aren't a crash &mdash; theft, hail, fire, vandalism, or hitting a deer. You'd pay the deductible, insurance covers the rest.</p></div></div>
+        <div class="gloss"><span class="gic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="6" rx="1"/><path d="M5 11l1.5-4h11L19 11"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg></span><div><b>Collision</b><p>Repairs or replaces your vehicle after a crash, no matter who's at fault. The deductible is what you pay before coverage kicks in.</p></div></div>
+        <div class="gloss"><span class="gic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M5 8h9a3 3 0 0 1 0 6H7"/></svg></span><div><b>Deductible</b><p>The part of a claim you pay yourself. A lower deductible means less out of pocket when something happens; a higher one usually lowers your premium.</p></div></div>
+      </div>
+
+      <div class="lawnote"><strong>Good to know:</strong> Your 50/100/50 liability meets North Carolina's required minimums for 2026. Want stronger protection or a different deductible? Just ask us &mdash; we'll re-quote it in minutes.</div>
+
+      <h3 style="margin-top:22px;font-size:18px;">Discounts already working for you</h3>
+      <div class="chips" id="discountsWrap" style="margin-top:10px;"></div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="finalcta" id="review">
+      <div class="eyebrow">Step 3 &middot; Start coverage</div>
+      <h2>Ready to get covered today?</h2>
+      <p>Your rate is held and your discounts are locked in. Let's make sure everything's right and get you protected &mdash; no pressure, no obligation.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" data-href="start" href="#" target="_blank" rel="noopener">Start my coverage</a>
+        <a class="btn btn-secondary" data-href="sms" href="sms:3368279065?body=Hi%2C%20I%20reviewed%20my%20auto%20quote%20and%20I'm%20ready%20to%20start.">Text Us</a>
+        <a class="btn btn-ghost" data-href="tel" href="tel:13368351993">Call (336) 835-1993</a>
+      </div>
+      <div class="reassure">Licensed North Carolina agent &middot; Coverage bound only after carrier confirmation</div>
+    </section>
+
+    <!-- WHY BILL -->
+    <section id="why">
+      <div class="eyebrow">Why people choose us</div>
+      <h2>A real local agent &mdash; not a 1-800 number.</h2>
+      <div class="whybill">
+        <img class="whybill-photo" id="agentPhoto" alt="" width="640" height="427" loading="lazy" decoding="async">
+        <div class="whybill-body">
+          <h3>A quick note from Bill</h3>
+          <p data-q="agentNote"></p>
+          <div class="sig" data-q="agentSig"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews">
+      <div class="eyebrow">What neighbors say</div>
+      <h2>Trusted across Surry County and beyond.</h2>
+      <div class="rating-hero">
+        <div class="big-num" data-q="ratingNumber"></div>
+        <div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rh-meta" data-q="ratingMeta"></div></div>
+      </div>
+      <div class="grid-3" id="reviewsWrap" style="margin-top:14px;"></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="eyebrow">Questions, answered</div>
+      <h2>Everything you might be wondering.</h2>
+      <div style="margin-top:18px;">
+        <details open><summary>Is the price shown the final price? <span class="q-ic">+</span></summary><div class="faq-a">It's your real quoted price with every current discount already applied. We confirm every detail with you before anything becomes final &mdash; so there are no surprises later.</div></details>
+        <details><summary>How soon can I be covered? <span class="q-ic">+</span></summary><div class="faq-a">Often the same day. Once we review your quote together and you make the first payment, your coverage can start today and you'll get proof of insurance right away.</div></details>
+        <details><summary>Can I change my coverage, vehicles, or drivers? <span class="q-ic">+</span></summary><div class="faq-a">Absolutely &mdash; this is a starting point, not a contract. Tell us what you'd like to adjust (higher limits, a different deductible, add or remove a vehicle) and we'll re-quote it on the spot.</div></details>
+        <details><summary>Am I obligated to buy? <span class="q-ic">+</span></summary><div class="faq-a">No. There's zero obligation. Review your quote, ask as many questions as you want, and decide only when you're comfortable.</div></details>
+        <details><summary>What happens if I have a claim? <span class="q-ic">+</span></summary><div class="faq-a">You call us &mdash; a real local person &mdash; and we walk you through every step. You're backed by your carrier's nationwide claims network, with a neighbor in your corner.</div></details>
+        <details><summary>Is my information secure? <span class="q-ic">+</span></summary><div class="faq-a">Yes. Your details stay between you and Bill Layne Insurance. We never sell your information, and we only use it to set up and service your coverage.</div></details>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <img src="https://i.imgur.com/lxu9nfT.png" alt="Bill Layne Insurance logo" width="78" height="78" loading="lazy" decoding="async" />
+    <div class="name">Bill Layne Insurance Agency</div>
+    <p>1283 N Bridge St, Elkin, NC 28621</p>
+    <p style="margin-top:8px;">
+      <a href="mailto:Save@BillLayneInsurance.com" style="color:var(--color-primary);font-weight:700;">Save@BillLayneInsurance.com</a>
+      <span style="margin:0 4px;">&bull;</span>
+      <a href="https://www.billlayneinsurance.com" target="_blank" style="color:var(--color-primary);font-weight:700;">billlayneinsurance.com</a>
+    </p>
+    <div class="social-links" style="display:flex;justify-content:center;gap:16px;margin:20px 0;">
+      <a href="#" target="_blank" aria-label="Facebook"><svg class="social-icon-svg" style="width:24px;height:24px;fill:var(--color-text-muted);" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+      <a href="#" target="_blank" aria-label="Instagram"><svg class="social-icon-svg" style="width:24px;height:24px;fill:var(--color-text-muted);" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    </div>
+    <div class="disc">This proposal page provides a summary of an auto insurance quote. Rates, coverages, discounts, and payment options are subject to carrier verification, underwriting approval, policy terms, and processing of the required initial payment. Coverage is not bound until confirmed by the carrier and Bill Layne Insurance Agency.</div>
+  </footer>
+
+  <nav class="mobile-sticky-actions" aria-label="Quote actions">
+    <a class="call" data-href="tel" href="tel:13368351993">Call Us</a>
+    <a class="bind" data-href="start" href="#" target="_blank" rel="noopener">Start Coverage</a>
+    <a class="text" data-href="sms" href="sms:3368279065?body=Hi%2C%20I%20reviewed%20my%20auto%20quote%20and%20I'm%20ready%20to%20start.">Text Us</a>
+  </nav>
+
+  <script>
+  /* =================================================================
+     EDIT ONLY THIS QUOTE BLOCK FOR EACH NEW CLIENT.
+     Everything on the page is built from these values.
+     ================================================================= */
+  var QUOTE = {
+    greeting: "Dustin & Michelle,",            /* shown above the headline */
+    carrier: "Progressive",
+    carrierLogo: "https://quote-template-studio.pages.dev/carrier-logos/progressive.png",
+    effectiveDate: "June 17, 2026",            /* "Coverage can start today - {date}" */
+
+    /* Payment plans. The FIRST plan is shown in the hero, so make it the down-payment option. */
+    plans: [
+      { id:"eft",  name:"6 payments",   meta:"Bank draft",     tag:"Best value",   gold:true,
+        big:"$152.44", cap:"Due today, then monthly",
+        line:"Then 5 monthly payments of $153.41.",
+        total:"6-month total: $964.45",
+        note:"Automatic bank draft - set it and forget it." },
+      { id:"full", name:"Paid in full", meta:"One payment",    tag:"Lowest total", gold:false,
+        big:"$863.45", cap:"Paid in full - one and done",
+        line:"A single payment with the pay-in-full discount already applied.",
+        total:"6-month total: $863.45 - your lowest total",
+        note:"No monthly bills to think about." },
+      { id:"card", name:"6 payments",   meta:"Debit / credit", tag:"",             gold:false,
+        big:"$152.44", cap:"Due today, then monthly",
+        line:"Then 5 monthly payments of $155.41.",
+        total:null,
+        note:"Pay with any debit or credit card." }
+    ],
+
+    drivers: ["Dustin Sparks", "Michelle Sparks"],
+
+    vehicles: [
+      { name:"1997 Ford F-250", liability:"50/100 BI, 50 PD", comp:"Not on this vehicle", collision:"Not on this vehicle", rental:"Not on this vehicle", towing:"Not on this vehicle", premium:"$141.91" },
+      { name:"2015 Ford Edge",  liability:"50/100 BI, 50 PD", comp:"$100 deductible",      collision:"$500 deductible",     rental:"Not on this vehicle", towing:"Not on this vehicle", premium:"$366.77" },
+      { name:"2014 GMC Sierra", liability:"50/100 BI, 50 PD", comp:"$100 deductible",      collision:"$500 deductible",     rental:"Not on this vehicle", towing:"Not on this vehicle", premium:"$377.77" }
+    ],
+
+    discounts: ["EFT auto-pay", "Paperless", "Quote advance"],
+
+    agent: {
+      photo: "https://i.imgur.com/fqclJPIl.jpg",
+      photoAlt: "Bill Layne with insurance clients",
+      note: "When you call us, a real person answers - usually me or someone on my team right here in Elkin. We've helped North Carolina families protect what matters since 2005, across all 100 counties. No phone trees, no chatbots, no pressure. Just honest advice and a price you can actually understand. When you have a claim, we're the ones in your corner.",
+      signature: "- Bill Layne"
+    },
+
+    /* Reviews. Paste your real Google reviews here (a short title + the quote). */
+    ratingNumber: "4.9",
+    ratingMeta: "Based on local Google reviews of Bill Layne Insurance Agency",
+    reviews: [
+      { title:"Fast and friendly", body:"Customers mention quick responses, easy switching, and saving money without the hassle." },
+      { title:"Explains everything clearly", body:"We turn the insurance fine print into plain English so you always know what you're buying." },
+      { title:"There when it counts", body:"From the first quote to a claim years later, you get a local team that actually picks up the phone." }
+    ],
+
+    /* Links. "start" is the per-client review/bind URL; tel and sms are the agency defaults. */
+    links: {
+      tel: "tel:13368351993",
+      sms: "sms:3368279065?body=Hi%2C%20I%20reviewed%20my%20auto%20quote%20and%20I'm%20ready%20to%20start.",
+      start: "https://quote-template-studio.pages.dev/quote-action?action=application_review&clientName=Dustin%20Sparks&templateType=nonstandard-auto-young-driver&carrier=Progressive&quoteNumber=Review&premium=%24152.44%20down&subject=Progressive%20Auto%20Quote%20Review"
+    }
+  };
+  /* ===================== END QUOTE BLOCK ===================== */
+
+  (function(){
+    function init(){
+      var Q = QUOTE;
+      function esc(s){ var d=document.createElement('div'); d.textContent=(s==null?'':String(s)); return d.innerHTML; }
+      function boldMoney(s){ return esc(s).replace(/(\$[0-9][0-9,]*(?:\.[0-9]+)?)/g,'<strong>$1</strong>'); }
+      function setText(k,v){ var e=document.querySelectorAll('[data-q="'+k+'"]'); for(var i=0;i<e.length;i++) e[i].textContent=v; }
+      function setHTML(k,v){ var e=document.querySelectorAll('[data-q="'+k+'"]'); for(var i=0;i<e.length;i++) e[i].innerHTML=v; }
+
+      setText('greeting', Q.greeting);
+      setText('carrier', Q.carrier);
+      setText('effectiveLine', '✓ Coverage can start today - ' + Q.effectiveDate);
+      setText('agentNote', Q.agent.note);
+      setText('agentSig', Q.agent.signature);
+      setText('ratingNumber', Q.ratingNumber);
+      setText('ratingMeta', Q.ratingMeta);
+      setText('ratingLine', Q.ratingNumber + ' / 5 rated');
+
+      var p0 = Q.plans[0] || {};
+      setText('heroBig', p0.big || '');
+      setHTML('heroLine', boldMoney(p0.line || ''));
+
+      var carrierLogo=document.getElementById('heroCarrierLogo');
+      if(carrierLogo){
+        if(Q.carrierLogo){
+          carrierLogo.src=Q.carrierLogo;
+          carrierLogo.alt=(Q.carrier||'Insurance company')+' logo';
+          carrierLogo.style.display='block';
+        } else {
+          carrierLogo.style.display='none';
+        }
+      }
+
+      var photo=document.getElementById('agentPhoto');
+      if(photo && Q.agent && Q.agent.photo){ photo.src=Q.agent.photo; photo.alt=Q.agent.photoAlt||''; }
+
+      var dw=document.getElementById('driversWrap');
+      if(dw){ dw.innerHTML=Q.drivers.map(function(n){
+        var ini=esc(((n||'').trim().charAt(0)||'').toUpperCase());
+        return '<article class="card driver"><div class="icon">'+ini+'</div><h3>'+esc(n)+'</h3><p style="color:var(--color-text-muted);font-size:14px;">Listed driver on this '+esc(Q.carrier)+' policy.</p></article>';
+      }).join(''); }
+
+      var vw=document.getElementById('vehiclesWrap');
+      if(vw){ vw.innerHTML=Q.vehicles.map(function(v,i){
+        return '<details><summary><span class="covicon">'+(i+1)+'</span><span class="covname"><strong>'+esc(v.name)+'</strong><span>Tap to see coverage</span></span><span class="covplus">+</span></summary>'+
+          '<div class="covbody">'+
+          '<div class="minirow"><span>Liability</span><strong>'+esc(v.liability)+'</strong></div>'+
+          '<div class="minirow"><span>Comprehensive</span><strong>'+esc(v.comp)+'</strong></div>'+
+          '<div class="minirow"><span>Collision</span><strong>'+esc(v.collision)+'</strong></div>'+
+          '<div class="minirow"><span>Rental / Loss of Use</span><strong>'+esc(v.rental||'Not on this vehicle')+'</strong></div>'+
+          '<div class="minirow"><span>Towing / Roadside</span><strong>'+esc(v.towing||'Not on this vehicle')+'</strong></div>'+
+          '<div class="minirow"><span>Vehicle premium</span><strong>'+esc(v.premium)+'</strong></div>'+
+          '</div></details>';
+      }).join(''); }
+
+      var disc=document.getElementById('discountsWrap');
+      if(disc){ disc.innerHTML=Q.discounts.map(function(d){ return '<span class="chip primary">'+esc(d)+'</span>'; }).join(''); }
+
+      var rw=document.getElementById('reviewsWrap');
+      if(rw){ rw.innerHTML=Q.reviews.map(function(r){ return '<article class="card"><div class="review-stars">★★★★★</div><h3>'+esc(r.title)+'</h3><p>'+esc(r.body)+'</p></article>'; }).join(''); }
+
+      if(Q.links){
+        var setHref=function(key,val){ if(!val) return; var a=document.querySelectorAll('[data-href="'+key+'"]'); for(var i=0;i<a.length;i++) a[i].setAttribute('href',val); };
+        setHref('start', Q.links.start); setHref('tel', Q.links.tel); setHref('sms', Q.links.sms);
+      }
+
+      var sel=document.getElementById('paySelect');
+      var big=document.getElementById('payBig'),cap=document.getElementById('payCap'),line=document.getElementById('payLine'),total=document.getElementById('payTotal'),note=document.getElementById('payNote');
+      if(sel){
+        sel.innerHTML=Q.plans.map(function(p,i){
+          var tag=p.tag?('<span class="payopt-tag'+(p.gold?' gold':'')+'">'+esc(p.tag)+'</span>'):'';
+          return '<button class="payopt'+(i===0?' is-active':'')+'" type="button" role="radio" aria-checked="'+(i===0?'true':'false')+'" data-plan="'+esc(p.id)+'">'+tag+'<span class="payopt-name">'+esc(p.name)+'</span><span class="payopt-meta">'+esc(p.meta)+'</span></button>';
+        }).join('');
+        var byId={}; Q.plans.forEach(function(p){ byId[p.id]=p; });
+        var opts=Array.prototype.slice.call(sel.children);
+        function render(p){
+          if(!p) return;
+          if(big) big.textContent=p.big;
+          if(cap) cap.textContent=p.cap;
+          if(line) line.textContent=p.line;
+          if(note) note.textContent=p.note;
+          if(total){ if(p.total){ total.textContent=p.total; total.style.display=''; } else { total.style.display='none'; } }
+          opts.forEach(function(o){ var on=o.getAttribute('data-plan')===p.id; o.classList.toggle('is-active',on); o.setAttribute('aria-checked',on?'true':'false'); });
+        }
+        opts.forEach(function(o){
+          o.addEventListener('click',function(){ render(byId[o.getAttribute('data-plan')]); });
+          o.addEventListener('keydown',function(e){
+            if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); var n=opts[(opts.indexOf(o)+1)%opts.length]; n.focus(); n.click(); }
+            if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); var pr=opts[(opts.indexOf(o)-1+opts.length)%opts.length]; pr.focus(); pr.click(); }
+          });
+        });
+        render(Q.plans[0]);
+      }
+    }
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',init); } else { init(); }
+  })();
+  </script>
+</body>
+</html>

@@ -47,7 +47,9 @@ export function runIntegrityChecks(html: string): IntegrityResult {
     if (html.includes(banned)) errors.push(`Banned string found: "${banned}"`);
   });
 
-  if (!/Inter/.test(html)) warnings.push('Inter font reference missing');
+  if (!/(Inter|Poppins|Playfair Display|Newsreader)/.test(html)) {
+    warnings.push('Approved font reference missing');
+  }
 
   return { passed: errors.length === 0, errors, warnings, byteCount };
 }

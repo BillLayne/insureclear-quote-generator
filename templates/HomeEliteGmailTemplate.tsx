@@ -1,6 +1,7 @@
 import { BRAND } from '../config/brand';
 import { CARRIERS } from '../config/carriers';
 import type { HomeQuoteData } from '../types/home';
+import { resolveDigitalCardUrl } from '../lib/digitalCardLinks';
 import { normalizeHeroImageUrl } from '../lib/heroImage';
 import homeEliteTemplate from './email/HOME_ELITE_WELCOME.html?raw';
 
@@ -71,6 +72,7 @@ export function renderHomeEliteGmailHtml(data: HomeQuoteData) {
   const names = splitName(data);
   const carrierLogo = carrier.logoUrl || BRAND.logoUrl;
   const carrierWebsite = carrier.portalUrl || BRAND.websiteUrl;
+  const carrierCardUrl = resolveDigitalCardUrl(data.carrierId, data.digitalCardUrl);
   const homeImage = normalizeHeroImageUrl(data.heroImageUrl, defaultHomeImageUrl);
   const isDwelling = data.policyType.startsWith('DP');
   const policyHeadline = isDwelling ? 'dwelling' : 'homeowners';
@@ -93,7 +95,7 @@ export function renderHomeEliteGmailHtml(data: HomeQuoteData) {
     AddedCov3: escapeHtml(endorsements[2]?.name),
     AddedCov3Val: escapeHtml(endorsements[2]?.amount || 'Included'),
     AOPDeductible: escapeHtml(money(data.allPerilDeductible)),
-    CarrierCardURL: escapeHtml(carrierWebsite),
+    CarrierCardURL: escapeHtml(carrierCardUrl),
     CarrierClaimsPhone: escapeHtml(carrier.claimsPhone || BRAND.phone),
     CarrierLogoURL: escapeHtml(carrierLogo),
     CarrierName: escapeHtml(carrier.legalName || carrier.displayName),
@@ -105,6 +107,7 @@ export function renderHomeEliteGmailHtml(data: HomeQuoteData) {
     DocumentsURL: escapeHtml(carrierWebsite),
     DwellingA: escapeHtml(money(data.coverages.coverageA)),
     EffectiveDate: escapeHtml(formatDate(data.effectiveDate)),
+    ExpirationDate: escapeHtml(formatDate(data.expiryDate)),
     FirstName: escapeHtml(names.first),
     LastName: escapeHtml(names.last),
     LiabilityE: escapeHtml(money(data.coverages.coverageE)),

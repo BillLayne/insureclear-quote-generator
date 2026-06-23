@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{PAGE_TITLE}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap');
+
+    :root {
+      --pine: #1f4a3a;
+      --pine-dark: #163a2d;
+      --pine-soft: #2c5d44;
+      --cream: #faf7f0;
+      --paper: #fdfbf6;
+      --page: #f3efe7;
+      --line: #e3dccd;
+      --gold: #e6c98a;
+      --copper: #a9763a;
+      --sage: #e7efe8;
+      --sage-line: #d3e0d4;
+      --text: #3a4038;
+      --muted: #6e7268;
+      --quiet: #9aa093;
+      --shadow: 0 12px 34px rgba(31,74,58,.07);
+      --deep-shadow: 0 22px 55px rgba(31,74,58,.16);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: 'Hanken Grotesk', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; }
+    button, input, textarea { font: inherit; }
+
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background: var(--pine);
+      transition: opacity .32s ease, visibility .32s ease;
+    }
+    .loading-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loading-frame {
+      width: min(86vw, 520px);
+      aspect-ratio: 3 / 2;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(230,201,138,.34);
+      border-radius: 26px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.22);
+    }
+    .loading-frame svg {
+      width: 132px;
+      color: var(--gold);
+      animation: breathe 1.15s ease-in-out infinite alternate;
+    }
+
+    .page-wrap { padding-bottom: 88px; overflow-x: hidden; }
+    .section { max-width: 1060px; margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin: 0 0 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pine);
+      flex: 0 0 auto;
+    }
+    h1, h2, h3 {
+      color: var(--pine);
+      margin: 0;
+      line-height: 1.08;
+    }
+    h1, h2 { font-family: 'Newsreader', Georgia, serif; font-weight: 600; letter-spacing: 0; }
+    h1 { font-size: clamp(30px, 5.2vw, 52px); }
+    h2 { font-size: clamp(26px, 3.6vw, 38px); }
+    h3 { font-size: 16px; font-weight: 700; }
+    p { line-height: 1.6; }
+
+    .verify-bar { background: var(--pine-dark); color: #fff; }
+    .verify-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .verified-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #7fd1a3;
+      display: inline-block;
+    }
+    .mini-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 70;
+      background: rgba(22,58,45,.96);
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(22,39,31,.22);
+      transform: translateY(-110%);
+      opacity: 0;
+      transition: transform .22s ease, opacity .22s ease;
+    }
+    .mini-bar.show { transform: translateY(0); opacity: 1; }
+    .mini-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 20px;
+    }
+    .mini-amount {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: 19px;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .mini-unit {
+      font-family: 'Hanken Grotesk', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.7);
+    }
+    .mini-plan {
+      display: block;
+      font-size: 11px;
+      color: rgba(255,255,255,.78);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 62vw;
+    }
+    .mini-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--gold);
+      color: var(--pine-dark);
+      font-weight: 800;
+      font-size: 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .agency-header { background: var(--cream); border-bottom: 1px solid var(--line); }
+    .agency-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .agency-logo { height: 46px; width: auto; object-fit: contain; }
+    .carrier-logo { max-height: 38px; width: auto; object-fit: contain; }
+
+    .hero-title { padding-top: clamp(22px, 5vw, 40px); padding-bottom: clamp(2px, 1.5vw, 8px); }
+    .hero-title h1 span { font-style: italic; color: var(--copper); font-weight: 500; }
+    .hero-shell { padding-top: clamp(10px, 2.5vw, 18px); padding-bottom: clamp(20px, 3vw, 28px); }
+    .hero-photo {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--deep-shadow);
+      max-height: min(460px, calc(100svh - 150px));
+      background: var(--pine);
+      line-height: 0;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      max-height: min(460px, calc(100svh - 150px));
+    }
+    .garage-pill {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(22,39,31,.6);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .garage-pill svg { color: var(--gold); }
+    .hero-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(20px, 4vw, 40px);
+      align-items: flex-start;
+    }
+    .hero-payment {
+      flex: 1 1 380px;
+      max-width: 480px;
+      position: relative;
+      z-index: 2;
+      margin-top: clamp(-130px, -9vw, -58px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--pine);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 26px);
+      box-shadow: 0 26px 60px rgba(22,39,31,.32);
+      animation: rise .7s ease .12s both;
+    }
+    .payment-label-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .payment-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .payment-eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pine-soft);
+    }
+    .term-total {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .term-total b {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      color: var(--pine);
+      font-size: 15px;
+    }
+    .hero-price {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      margin: 12px 0 0;
+    }
+    .hero-price strong {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(46px, 7vw, 58px);
+      line-height: 1;
+      color: var(--pine);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .hero-price span { font-size: 18px; font-weight: 600; color: var(--muted); }
+    .hero-note { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+    .hero-divider { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
+    .term-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--quiet);
+    }
+    .term-premium {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: 24px;
+      color: var(--pine);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+    .applied-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--sage);
+      color: var(--pine);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--sage-line);
+      margin-top: 12px;
+    }
+    .quote-note { margin: 8px 0 0; font-size: 11.5px; font-style: italic; color: var(--quiet); line-height: 1.45; }
+    .hero-copy {
+      flex: 1 1 300px;
+      min-width: 0;
+      padding-top: clamp(16px, 2vw, 22px);
+    }
+    .chips {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .chip.primary { background: var(--sage); color: var(--pine); border-color: var(--sage-line); }
+    .chip.expires { color: var(--copper); border-color: #ecdcc0; }
+    .intro-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(24px, 3.2vw, 32px);
+      color: var(--pine);
+      margin: 8px 0;
+      line-height: 1.1;
+    }
+    .intro-copy { color: var(--muted); font-size: 15px; margin: 0; }
+
+    .audio-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+    }
+    .audio-card img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      flex: 0 0 auto;
+    }
+    .audio-card > div { flex: 1 1 280px; min-width: 240px; }
+    .audio-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      background: var(--pine);
+      color: #fff;
+      border: none;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 13px 22px 13px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(31,74,58,.22);
+    }
+    .audio-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--pine-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+    .audio-card audio { width: 100%; max-width: 420px; margin-top: 14px; display: block; }
+
+    .dark-band {
+      background: var(--pine);
+      color: #fff;
+      border-radius: 20px;
+      padding: clamp(28px, 4vw, 40px);
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      box-shadow: 0 22px 55px rgba(31,74,58,.2);
+    }
+    .dark-icon {
+      flex: 0 0 auto;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.1);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dark-band h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(20px, 2.6vw, 26px);
+      color: #fff;
+      margin: 0 0 8px;
+    }
+    .dark-band h3 span { color: var(--gold); font-style: italic; }
+    .dark-band p { font-size: 15.5px; color: rgba(255,255,255,.88); max-width: 680px; margin: 0; }
+
+    .section-block { padding-top: clamp(48px, 7vw, 80px); }
+    .section-intro { color: var(--muted); max-width: 660px; font-size: 16px; margin: 8px 0 24px; }
+    .drivers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .driver-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .driver-icon, .icon-chip {
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--sage);
+      color: var(--pine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .driver-card strong { display: block; font-size: 16px; color: var(--pine); line-height: 1.2; }
+    .driver-card span { display: block; font-size: 13px; color: var(--muted); }
+
+    .ledger {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .ledger-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--pine);
+      color: #fff;
+      padding: 15px 22px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .ledger-head span:last-child { color: var(--gold); }
+    .cov, .faq details { border-top: 1px solid var(--line); }
+    details:first-child { border-top: none; }
+    .cov summary {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      min-height: 44px;
+      list-style: none;
+    }
+    .cov summary::-webkit-details-marker, .faq summary::-webkit-details-marker { display: none; }
+    .cov .icon-chip { width: 36px; height: 36px; border-radius: 10px; }
+    .cov-name { flex: 1 1 auto; min-width: 0; }
+    .cov-name strong { display: block; font-size: 15.5px; color: var(--pine); }
+    .cov-name span { display: block; font-size: 13px; color: var(--muted); }
+    .cov-limit {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--pine);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .cov-limit small {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--quiet);
+    }
+    .chev { flex: 0 0 auto; color: var(--quiet); transition: transform .18s ease; }
+    details[open] .chev { transform: rotate(180deg); }
+    .cov-body {
+      padding: 0 22px 20px clamp(22px, 4vw, 72px);
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .cov-body p { margin: 0; }
+    .means {
+      margin-top: 12px !important;
+      padding: 11px 15px;
+      border-left: 4px solid var(--copper);
+      background: #f6efe2;
+      border-radius: 0 10px 10px 0;
+      font-size: 13.5px;
+    }
+    .means strong { color: var(--copper); }
+
+    .vehicle-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .vehicle-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      background: var(--pine);
+      color: #fff;
+      padding: 16px 22px;
+    }
+    .vehicle-icon {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.1);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .vehicle-title { flex: 1 1 auto; min-width: 0; }
+    .vehicle-title span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .vehicle-title strong { display: block; font-size: 18px; line-height: 1.2; }
+    .vehicle-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .vehicle-tag {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+    }
+    .vehicle-tag.gold { background: var(--gold); color: var(--pine-dark); font-weight: 700; }
+    .vehicle-subhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f1ede4;
+      color: var(--muted);
+      padding: 11px 22px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .deductible-callout {
+      margin-top: 4px;
+      background: #f6efe2;
+      border: 1px solid #ecdcc0;
+      border-left: 5px solid var(--copper);
+      border-radius: 18px;
+      padding: 22px 24px;
+    }
+    .deductible-callout h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: 19px;
+      color: var(--pine);
+      margin: 0 0 6px;
+    }
+    .deductible-callout p { font-size: 14.5px; margin: 0; }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+    .plan-card {
+      position: relative;
+      appearance: none;
+      text-align: left;
+      display: block;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 24px 18px 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      min-height: 176px;
+    }
+    .plan-card[aria-checked="true"] {
+      border: 2px solid var(--pine);
+      box-shadow: 0 18px 42px rgba(31,74,58,.16);
+      background: #fffdf8;
+    }
+    .recommended {
+      position: absolute;
+      top: -11px;
+      left: 18px;
+      background: var(--copper);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+    .plan-check {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--sage-line);
+      color: var(--pine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .plan-card[aria-checked="true"] .plan-check { background: var(--sage); border-color: var(--pine); }
+    .plan-card[aria-checked="false"] .plan-check svg { opacity: 0; }
+    .plan-name {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--quiet);
+      padding-right: 36px;
+    }
+    .plan-price { display: flex; align-items: baseline; gap: 5px; margin: 8px 0 2px; }
+    .plan-price strong {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: 31px;
+      color: var(--pine);
+      font-variant-numeric: tabular-nums;
+    }
+    .plan-price span { font-size: 14px; font-weight: 600; color: var(--quiet); }
+    .plan-sub { display: block; font-size: 13px; color: var(--muted); min-height: 38px; line-height: 1.45; }
+    .plan-total {
+      display: block;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--text);
+    }
+    .plan-total b { color: var(--pine); font-variant-numeric: tabular-nums; }
+
+    .discount-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-top: 6px; }
+    .discount-summary span:first-child { color: var(--muted); font-size: 16px; }
+    .discount-total {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 700;
+      font-size: 30px;
+      color: var(--pine-soft);
+    }
+    .discount-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .discount-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #eaf1ea;
+      border: 1px solid var(--sage-line);
+      border-radius: 13px;
+      padding: 13px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--pine-soft);
+    }
+
+    .trust-grid, .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    .trust-card, .step-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .trust-card img { width: 100%; height: 190px; object-fit: cover; display: block; }
+    .trust-card div, .step-card { padding: 18px 20px; }
+    .trust-card p, .step-card p { font-size: 14px; color: var(--muted); margin: 5px 0 0; }
+    .review-stars { color: #d8a64a; font-size: 15px; letter-spacing: 2px; }
+    .review-quote {
+      font-size: 13.5px !important;
+      color: var(--text) !important;
+      font-style: italic;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      margin-top: 10px !important;
+    }
+    .review-link { color: var(--pine); font-weight: 700; }
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--pine);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+    .cta-panel {
+      margin-top: 22px;
+      background: var(--pine);
+      border-radius: 20px;
+      padding: clamp(28px, 4vw, 40px);
+      text-align: center;
+      box-shadow: 0 22px 55px rgba(31,74,58,.2);
+    }
+    .cta-panel h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(22px, 3vw, 30px);
+      color: #fff;
+      margin: 0 0 18px;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .primary-cta, .secondary-cta, .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 15px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+    .primary-cta { background: var(--gold); color: var(--pine-dark); }
+    .card-cta {
+      background: #fff;
+      color: var(--pine);
+      border: 1px solid rgba(255,255,255,.72);
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+    }
+    .secondary-cta {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.4);
+      font-weight: 700;
+    }
+
+    .faq { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+    .faq summary {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      min-height: 44px;
+      font-weight: 700;
+      font-size: 15.5px;
+      color: var(--pine);
+      list-style: none;
+    }
+    .faq summary span { flex: 1 1 auto; }
+    .faq-answer { padding: 0 22px 20px; font-size: 14.5px; color: var(--text); }
+    .faq-answer p { margin: 0; }
+
+    footer {
+      margin-top: clamp(48px, 7vw, 80px);
+      border-top: 1px solid var(--line);
+      padding: 36px 20px 44px;
+      text-align: center;
+    }
+    .footer-logo { width: 82px; margin: 0 auto 12px; display: block; }
+    .footer-title { font-weight: 800; color: var(--pine); font-size: 15px; margin: 0; }
+    .footer-line { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+    .footer-line a { color: var(--pine); font-weight: 700; }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0 4px;
+    }
+    .social-links a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--pine);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 800;
+    }
+    .disclaimer {
+      max-width: 760px;
+      margin: 16px auto 0;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--quiet);
+    }
+    .disclaimer strong { color: var(--muted); }
+
+    .mobile-cta {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 60;
+      background: var(--cream);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -6px 18px rgba(31,74,58,.08);
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    }
+    .mobile-cta > div { display: flex; gap: 10px; max-width: 1060px; margin: 0 auto; }
+    .mobile-cta a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 48px;
+      padding: 0 16px;
+      border-radius: 13px;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .mobile-call { flex: 0 0 auto; background: var(--pine); color: #fff; }
+    .mobile-text { flex: 0 0 auto; background: #fff; color: var(--pine); border: 1px solid var(--line); }
+    .mobile-card { flex: 0 0 auto; background: #fff; color: var(--pine); border: 1px solid var(--line); }
+    .mobile-accept { flex: 1 1 auto; background: var(--gold); color: var(--pine-dark); }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes breathe {
+      from { opacity: .68; transform: scale(.96); }
+      to { opacity: 1; transform: scale(1.03); }
+    }
+
+    @media (max-width: 720px) {
+      .agency-logo { height: 40px; max-width: 46vw; }
+      .carrier-logo { max-height: 34px; max-width: 42vw; }
+      .hero-title { padding-top: 24px; }
+      .eyebrow { font-size: 11px; letter-spacing: .14em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .hero-photo { border-radius: 18px; }
+      .garage-pill { max-width: calc(100% - 28px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+      .hero-payment { flex-basis: 100%; max-width: none; margin-top: -34px; }
+      .hero-copy { flex-basis: 100%; padding-top: 8px; }
+      .payment-label-row { align-items: flex-start; }
+      .term-total { text-align: right; }
+      .cov summary { gap: 10px; padding: 16px; }
+      .cov .icon-chip { display: none; }
+      .cov-limit { font-size: 13.5px; max-width: 42%; overflow: hidden; text-overflow: ellipsis; }
+      .cov-body { padding: 0 16px 18px; }
+      .vehicle-head { padding: 16px; }
+      .vehicle-subhead { padding: 11px 16px; }
+      .discount-grid, .drivers-grid, .trust-grid, .steps-grid { grid-template-columns: 1fr; }
+      .dark-band { flex-direction: column; }
+      .audio-card { padding: 20px; }
+      .cta-row { flex-direction: column; }
+      .primary-cta, .secondary-cta { justify-content: center; width: 100%; }
+      .footer-line { line-height: 1.55; }
+    }
+
+    @media (min-width: 820px) {
+      .mobile-cta { display: none; }
+      .page-wrap { padding-bottom: 0; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .mini-bar, .mobile-cta, .loading-screen { display: none !important; }
+      .page-wrap { padding-bottom: 0; }
+      .section-block, .trust-card, .step-card, .vehicle-card, .ledger, .audio-card, .dark-band, .cta-panel { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div id="autoEliteLoading" class="loading-screen" aria-hidden="true">
+    <div class="loading-frame">
+      <svg viewBox="0 0 1200 800" role="img" aria-label="Auto quote loading">
+        <rect width="1200" height="800" fill="#1f4a3a"></rect>
+        <g transform="translate(432,232) scale(14)" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path>
+          <circle cx="7" cy="17" r="2"></circle>
+          <path d="M9 17h6"></path>
+          <circle cx="17" cy="17" r="2"></circle>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <!-- ================= VERIFY BAR ================= -->
+    <div class="verify-bar">
+      <div class="verify-inner">
+        <span style="display:inline-flex;align-items:center;gap:8px;"><span class="verified-dot"></span>Rates Verified</span>
+        <span style="color:var(--gold);">{{CARRIER_NAME}} Quote Review</span>
+      </div>
+    </div>
+
+    <!-- ================= MINI PRICE BAR (sticky on scroll) ================= -->
+    <div id="miniPriceBar" class="mini-bar">
+      <div class="mini-inner">
+        <div style="display:flex;flex-direction:column;line-height:1.15;min-width:0;">
+          <b class="mini-amount"><span data-mini-amount>{{MINI_AMT}}</span><span class="mini-unit"> <span data-mini-unit>{{MINI_UNIT}}</span></span></b>
+          <span class="mini-plan" data-mini-plan>{{MINI_PLAN_TEXT}}</span>
+        </div>
+        <a href="tel:{{AGENCY_PHONE_RAW}}" class="mini-call">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+          Call Us
+        </a>
+      </div>
+    </div>
+
+    <!-- ================= AGENCY HEADER (logos only) ================= -->
+    <header class="agency-header">
+      <div class="agency-inner">
+        <img src="{{AGENCY_LOGO_URL}}" alt="Bill Layne Insurance Agency logo" class="agency-logo">
+        <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" class="carrier-logo" loading="lazy">
+      </div>
+    </header>
+
+    <!-- ================= HERO TITLE ================= -->
+    <section class="section hero-title">
+      <div class="eyebrow">Prepared for {{CLIENT_NAME}} &middot; {{PREPARED_DATE}}</div>
+      <h1>Your auto quote, <span>explained clearly.</span></h1>
+    </section>
+
+    <!-- ================= HERO (vehicle photo + overlaid payment) ================= -->
+    <section class="section hero-shell">
+      <div class="hero-photo">
+        <img src="{{HERO_IMAGE_URL}}" alt="{{CLIENT_NAME}} auto quote vehicle photo">
+        <div class="garage-pill">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          {{GARAGING_LINE}}
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <aside id="heroPaymentCard" class="hero-payment">
+          <div class="payment-label-row">
+            <div class="payment-eyebrow">Recommended payment</div>
+            <div class="term-total"><b data-term-total>{{TERM_PREMIUM}}</b> / term</div>
+          </div>
+          <div class="hero-price">
+            <strong data-hero-amount>{{MINI_AMT}}</strong>
+            <span data-hero-unit>{{MINI_UNIT}}</span>
+          </div>
+          <p class="hero-note" data-hero-note>{{PAYMENT_NOTE}}</p>
+          <div class="hero-divider">
+            <div class="term-label">Total {{TERM_MONTHS}}-month term premium</div>
+            <div class="term-premium">{{TERM_PREMIUM}}</div>
+            <div class="applied-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              {{SAVINGS_LINE}}
+            </div>
+            <p style="margin:12px 0 0;font-size:13px;color:var(--muted);">This rate is locked through <strong style="color:var(--pine);">{{EXPIRY_DATE_SHORT}}</strong>.</p>
+            <p class="quote-note">Quote only, not a bound policy. Final premium may change once motor-vehicle, claims, prior-insurance, and underwriting reports are reviewed.</p>
+          </div>
+        </aside>
+
+        <div class="hero-copy">
+          <div class="chips">
+            <span class="chip primary">Personal Auto &middot; {{TERM_MONTHS}}-Month</span>
+            <span class="chip">Effective {{EFFECTIVE_DATE}}</span>
+            <span class="chip">Quote #{{QUOTE_NUMBER}}</span>
+            <span class="chip expires">Expires {{EXPIRY_DATE}}</span>
+          </div>
+
+          <div style="margin-top:clamp(20px,3vw,26px);">
+            <div class="eyebrow">Your quote, in plain English</div>
+            <div class="intro-title">Prepared for {{CLIENT_NAME}}</div>
+            <p class="intro-copy">This page turns your {{CARRIER_NAME}} quote into a simple review for your household in {{CLIENT_AREA}}: your price first, then every driver, every vehicle, and every coverage mapped out with no jargon.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= AUDIO ================= -->
+    <section class="section section-block">
+      <div class="audio-card">
+        <img src="{{AUDIO_PROFILE_URL}}" alt="Bill Layne Insurance audio guide" width="64" height="64" loading="lazy">
+        <div>
+          <div class="eyebrow">General Auto Coverage Guide</div>
+          <h3 style="font-family:'Newsreader', Georgia, serif;font-weight:600;font-size:clamp(18px,2.4vw,22px);color:var(--pine);margin:6px 0;line-height:1.2;">Learn what auto insurance covers</h3>
+          <p style="font-size:14.5px;color:var(--muted);margin:0 0 14px;">A short, plain explanation of liability, uninsured motorist, comprehensive, collision, deductibles, and common payment choices.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
+            <button id="audioToggleButton" class="audio-button" type="button" aria-label="Play audio guide">
+              <span class="audio-icon" data-audio-icon>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-left:2px;"><path d="M8 5v14l11-7z"></path></svg>
+              </span>
+              <span data-audio-label>Play the audio guide</span>
+            </button>
+            <span style="font-size:12.5px;font-weight:600;color:var(--quiet);">About a 2 minute listen</span>
+          </div>
+          <audio id="autoEliteAudio" controls preload="metadata">
+            <source src="{{AUDIO_SOURCE_URL}}" type="{{AUDIO_SOURCE_TYPE}}">
+            Your browser does not support audio playback.
+          </audio>
+          <details style="margin-top:10px;">
+            <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--pine);">What this audio explains</summary>
+            <p style="font-size:13.5px;color:var(--muted);margin:8px 0 0;">{{AUDIO_SCRIPT}}</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INDEPENDENT ADVANTAGE ================= -->
+    <section class="section section-block">
+      <div class="dark-band">
+        <div class="dark-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+        </div>
+        <div>
+          <h3>We shopped this for you <span>that's the independent advantage.</span></h3>
+          <p>As an independent agency, we do not work for one carrier. We work for you. We compared {{CARRIERS_COMPARED}}, and <strong style="color:#fff;">{{CARRIER_NAME}}</strong> came out best for your drivers, your vehicles, and your budget.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DRIVERS ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Who's covered behind the wheel</div>
+      <h2>Drivers on this policy</h2>
+      <p class="section-intro">Everyone listed here is a rated driver on this quote. If anyone in your household with a license is missing, tell us before we bind. It protects you at claim time.</p>
+      <div class="drivers-grid">
+        {{DRIVERS_HTML}}
+      </div>
+    </section>
+
+    <!-- ================= POLICY-WIDE PROTECTION ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Protection that follows every vehicle</div>
+      <h2>Your policy-wide coverages</h2>
+      <p class="section-intro">These coverages protect you and your family no matter which vehicle on the policy you are driving. Tap any line to see what it does in plain English.</p>
+      <div class="ledger">
+        <div class="ledger-head"><span>Coverage</span><span>Your limit</span></div>
+        {{POLICY_COVERAGE_ROWS_HTML}}
+      </div>
+    </section>
+
+    <!-- ================= VEHICLES ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Vehicle-by-vehicle breakdown</div>
+      <h2>Your vehicles &amp; their coverages</h2>
+      <p class="section-intro">Each vehicle carries its own physical-damage protection and deductibles. Tap any coverage to see exactly how it works for that vehicle.</p>
+      {{VEHICLES_HTML}}
+      <div class="deductible-callout">
+        <h3>How your deductibles work</h3>
+        <p>{{DEDUCTIBLE_EXPLANATION}}</p>
+      </div>
+    </section>
+
+    <!-- ================= PAYMENT PLAN ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Pick what works for you</div>
+      <h2>Choose your payment plan</h2>
+      <p class="section-intro">Same coverage, same protection, just a different way to pay your {{TERM_MONTHS}}-month premium. Tap a plan to select it, then tap Accept and we will set it up.</p>
+      <div class="payment-grid" role="radiogroup" aria-label="Payment plans">
+        {{PAYMENT_PLAN_CARDS_HTML}}
+      </div>
+      <p style="margin-top:18px;font-size:13.5px;color:var(--muted);">Selected plan: <b style="color:var(--pine);" data-selected-plan>{{SELECTED_PLAN_LABEL}}</b>. You can change this any time before we bind.</p>
+    </section>
+
+    <!-- ================= DISCOUNTS ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Already working for you</div>
+      <h2>Discounts applied to this quote</h2>
+      <div class="discount-summary">
+        <span>These savings are already included</span>
+        <span class="discount-total">{{DISCOUNT_SUMMARY}}</span>
+      </div>
+      <div class="discount-grid">
+        {{DISCOUNTS_HTML}}
+      </div>
+    </section>
+
+    <!-- ================= TRUST / ABOUT US ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Why families choose us</div>
+      <h2>A local agent in your corner</h2>
+      <div class="trust-grid" style="margin-top:24px;">
+        <div class="trust-card">
+          <img src="{{FAMILY_ROAD_URL}}" alt="Family protected on the road" loading="lazy">
+          <div>
+            <h3>Our goal: protect your family</h3>
+            <p>We do not just insure vehicles. We protect the people riding in them. This policy was built around your drivers and how you actually use your cars.</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <img src="{{OFFICE_PHOTO_URL}}" alt="Bill Layne Insurance office in Elkin, NC" loading="lazy">
+          <div>
+            <h3>Our Elkin office</h3>
+            <p>{{AGENCY_STREET}}, {{AGENCY_CITY}}, {{AGENCY_STATE}} {{AGENCY_ZIP}}<br>Stop by or call anytime. We are right down the street.</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div>
+            <h3>Google Rating <span class="review-stars">*****</span> {{GOOGLE_RATING}}</h3>
+            <p class="review-quote">"Bill Layne Insurance saved us money on our bundle and made the transition seamless. We love having a local agent we can actually call!"<b style="display:block;font-style:normal;color:var(--pine);margin-top:5px;font-size:12.5px;">- Sarah K., Elkin, NC</b></p>
+            <p class="review-quote">"After my accident, Bill walked me through the whole claim. I never talked to a robot once. Exceptional service."<b style="display:block;font-style:normal;color:var(--pine);margin-top:5px;font-size:12.5px;">- Mark T., Surry County, NC</b></p>
+            <p style="margin:12px 0 0;font-size:13.5px;"><a class="review-link" href="{{GOOGLE_REVIEWS_URL}}" target="_blank" rel="noopener">Read {{REVIEW_COUNT}} verified local reviews</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NEXT STEPS ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Ready when you are</div>
+      <h2>Three simple steps to get protected</h2>
+      <div class="steps-grid" style="margin-top:24px;">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Review your quote</h3>
+          <p>Check your drivers, vehicles, and coverages above. Questions? Call, text, or email. That is what we are here for.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Tap Accept Quote</h3>
+          <p>One tap starts your application review. We treat your acceptance as permission to start the bind process.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>We handle the rest</h3>
+          <p>We finalize details with {{CARRIER_NAME}}, confirm your effective date, and send your ID cards and documents.</p>
+        </div>
+      </div>
+
+      <div class="cta-panel">
+        <h3>Lock in your rate before {{EXPIRY_DATE_SHORT}}</h3>
+        <div class="cta-row">
+          <a href="{{ACCEPT_URL}}" target="_blank" rel="noopener" class="primary-cta" data-plan-accept>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Accept Quote &amp; Start Review
+          </a>
+          <a href="{{DIGITAL_CARD_URL}}" target="_blank" rel="noopener" class="card-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h4"></path><path d="M7 14h7"></path><circle cx="17" cy="11" r="1.4"></circle></svg>
+            View Digital Card
+          </a>
+          <a href="tel:{{AGENCY_PHONE_RAW}}" class="secondary-cta">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+            Call {{AGENCY_PHONE}}
+          </a>
+        </div>
+        <p style="color:rgba(255,255,255,.68);font-size:13px;margin:18px 0 0;">Or email <a href="mailto:{{AGENCY_EMAIL}}" style="color:var(--gold);font-weight:700;text-decoration:none;">{{AGENCY_EMAIL}}</a></p>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section section-block">
+      <div class="eyebrow">Good questions</div>
+      <h2>Before you say yes</h2>
+      <div class="faq" style="margin-top:24px;">
+        <details>
+          <summary><span>What happens to my current policy?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+          <div class="faq-answer"><p>We help time your cancellation to the new effective date so there is no gap, no overlap, and no lapse on your record. If you are owed a refund on unused premium, your old carrier sends it directly to you.</p></div>
+        </details>
+        <details>
+          <summary><span>When do I get my new ID cards?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+          <div class="faq-answer"><p>Digital ID cards usually arrive the same business day you accept. If you have a lienholder, we notify them and send proof of insurance automatically.</p></div>
+        </details>
+        <details>
+          <summary><span>What if I add a driver or swap a vehicle later?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+          <div class="faq-answer"><p>One call, text, or email to us and we can handle a new vehicle, new driver, address change, or coverage adjustment. That is the point of having a local agent.</p></div>
+        </details>
+        <details>
+          <summary><span>When does my coverage start?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+          <div class="faq-answer"><p>Your effective date is <strong>{{EFFECTIVE_DATE}}</strong>. Once you tap Accept, we confirm everything with {{CARRIER_NAME}}, issue your ID cards, and notify any lienholders.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <img src="{{AGENCY_LOGO_URL}}" alt="Bill Layne Insurance Agency logo" class="footer-logo" loading="lazy">
+      <p class="footer-title">&copy; {{CURRENT_YEAR}} Bill Layne Insurance Agency. All Rights Reserved.</p>
+      <p class="footer-line">{{AGENCY_STREET}}, {{AGENCY_CITY}} {{AGENCY_STATE}} {{AGENCY_ZIP}} &middot; <a href="tel:{{AGENCY_PHONE_RAW}}">{{AGENCY_PHONE}}</a> &middot; <a href="mailto:{{AGENCY_EMAIL}}">{{AGENCY_EMAIL}}</a></p>
+      <p class="footer-line"><a href="{{WEBSITE_URL}}" target="_blank" rel="noopener">{{WEBSITE_LABEL}}</a></p>
+      <div class="social-links" aria-label="Social media links">
+        {{SOCIAL_LINKS_HTML}}
+      </div>
+      <p class="footer-line">Licensed in North Carolina &middot; Protecting North Carolina families since {{AGENCY_FOUNDED}}</p>
+      <p class="disclaimer"><strong>Important Disclaimer:</strong> This quote illustration is for explanation purposes only and does not constitute a binder of insurance coverage or a contract. Premium rates and coverages are subject to final detail review, motor-vehicle and prior-insurance verification, vehicle verification, and final carrier underwriting approval.</p>
+    </footer>
+  </div>
+
+  <!-- ================= STICKY MOBILE CTA ================= -->
+  <div class="mobile-cta">
+    <div>
+      <a href="tel:{{AGENCY_PHONE_RAW}}" class="mobile-call">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+        Call
+      </a>
+      <a href="{{SMS_HREF}}" class="mobile-text">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        Text
+      </a>
+      <a href="{{DIGITAL_CARD_URL}}" target="_blank" rel="noopener" class="mobile-card">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h4"></path><path d="M7 14h7"></path><circle cx="17" cy="11" r="1.4"></circle></svg>
+        Card
+      </a>
+      <a href="{{ACCEPT_URL}}" target="_blank" rel="noopener" class="mobile-accept" data-plan-accept>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Accept
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var loader = document.getElementById('autoEliteLoading');
+      function hideLoader() {
+        if (loader) loader.classList.add('is-hidden');
+      }
+      window.addEventListener('load', function () { window.setTimeout(hideLoader, 160); });
+      window.setTimeout(hideLoader, 1600);
+
+      var mini = document.getElementById('miniPriceBar');
+      var heroCard = document.getElementById('heroPaymentCard');
+      function updateMiniBar() {
+        if (!mini || !heroCard) return;
+        var rect = heroCard.getBoundingClientRect();
+        mini.classList.toggle('show', rect.bottom < 0);
+      }
+      window.addEventListener('scroll', updateMiniBar, { passive: true });
+      window.addEventListener('resize', updateMiniBar);
+      updateMiniBar();
+
+      var audio = document.getElementById('autoEliteAudio');
+      var audioButton = document.getElementById('audioToggleButton');
+      var audioLabel = document.querySelector('[data-audio-label]');
+      var audioIcon = document.querySelector('[data-audio-icon]');
+      function paintAudio(playing) {
+        if (audioLabel) audioLabel.textContent = playing ? 'Pause the audio guide' : 'Play the audio guide';
+        if (audioIcon) {
+          audioIcon.innerHTML = playing
+            ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>'
+            : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-left:2px;"><path d="M8 5v14l11-7z"></path></svg>';
+        }
+      }
+      if (audio && audioButton) {
+        audioButton.addEventListener('click', function () {
+          if (audio.paused) {
+            audio.play().catch(function () {});
+          } else {
+            audio.pause();
+          }
+        });
+        audio.addEventListener('play', function () { paintAudio(true); });
+        audio.addEventListener('pause', function () { paintAudio(false); });
+        audio.addEventListener('ended', function () { paintAudio(false); });
+      }
+
+      var planCards = Array.prototype.slice.call(document.querySelectorAll('[data-plan-card]'));
+      var selectedPlan = document.querySelector('[data-selected-plan]');
+      var miniAmount = document.querySelector('[data-mini-amount]');
+      var miniUnit = document.querySelector('[data-mini-unit]');
+      var miniPlan = document.querySelector('[data-mini-plan]');
+      var heroAmount = document.querySelector('[data-hero-amount]');
+      var heroUnit = document.querySelector('[data-hero-unit]');
+      var heroNote = document.querySelector('[data-hero-note]');
+      var acceptLinks = Array.prototype.slice.call(document.querySelectorAll('[data-plan-accept]'));
+
+      function appendPlanToUrl(href, planName, premiumParam) {
+        try {
+          var url = new URL(href, window.location.href);
+          url.searchParams.set('paymentPlan', planName);
+          url.searchParams.set('payPlan', planName);
+          url.searchParams.set('premium', premiumParam || planName);
+          return url.toString();
+        } catch (error) {
+          return href;
+        }
+      }
+
+      function selectPlan(card) {
+        planCards.forEach(function (plan) {
+          plan.setAttribute('aria-checked', plan === card ? 'true' : 'false');
+        });
+        var name = card.getAttribute('data-plan-name') || '';
+        var amount = card.getAttribute('data-plan-amount') || '';
+        var unit = card.getAttribute('data-plan-unit') || '';
+        var note = card.getAttribute('data-plan-note') || '';
+        var miniText = card.getAttribute('data-plan-mini') || name;
+        var premiumParam = card.getAttribute('data-premium-param') || name;
+        if (selectedPlan) selectedPlan.textContent = name;
+        if (miniAmount) miniAmount.textContent = amount;
+        if (miniUnit) miniUnit.textContent = unit;
+        if (miniPlan) miniPlan.textContent = miniText;
+        if (heroAmount) heroAmount.textContent = amount;
+        if (heroUnit) heroUnit.textContent = unit;
+        if (heroNote) heroNote.textContent = note;
+        acceptLinks.forEach(function (link) {
+          link.href = appendPlanToUrl(link.href, name, premiumParam);
+        });
+      }
+
+      planCards.forEach(function (card) {
+        card.addEventListener('click', function () { selectPlan(card); });
+      });
+      var checked = planCards.find(function (card) { return card.getAttribute('aria-checked') === 'true'; });
+      if (checked) selectPlan(checked);
+    })();
+  </script>
+</body>
+</html>

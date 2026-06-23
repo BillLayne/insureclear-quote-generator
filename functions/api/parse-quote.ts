@@ -43,6 +43,22 @@ const discountSchema = {
   },
 };
 
+const foldCardSchema = {
+  type: Type.OBJECT,
+  nullable: true,
+  properties: {
+    companyName: { type: Type.STRING, nullable: true },
+    customerAddress: { type: Type.STRING, nullable: true },
+    priorCarrier: { type: Type.STRING, nullable: true },
+    setupCharge: { type: Type.NUMBER, nullable: true },
+    paymentSchedule: { type: Type.STRING, nullable: true },
+    coverageAlert: { type: Type.STRING, nullable: true },
+    qrLink: { type: Type.STRING, nullable: true },
+    productStrip: { type: Type.STRING, nullable: true },
+    agentImageUrl: { type: Type.STRING, nullable: true },
+  },
+};
+
 const autoSchema = {
   type: Type.OBJECT,
   properties: {
@@ -51,6 +67,7 @@ const autoSchema = {
     clientFullName: { type: Type.STRING },
     clientEmail: { type: Type.STRING },
     heroImageUrl: { type: Type.STRING, nullable: true },
+    foldCard: foldCardSchema,
     carrierId: { type: Type.STRING, enum: carrierIds },
     carriersShoppedNames: { type: Type.ARRAY, items: { type: Type.STRING } },
     quoteNumber: { type: Type.STRING },
@@ -151,6 +168,7 @@ const homeSchema = {
     clientFullName: { type: Type.STRING },
     clientEmail: { type: Type.STRING },
     heroImageUrl: { type: Type.STRING, nullable: true },
+    foldCard: foldCardSchema,
     carrierId: { type: Type.STRING, enum: carrierIds },
     carriersShoppedNames: { type: Type.ARRAY, items: { type: Type.STRING } },
     quoteNumber: { type: Type.STRING },
@@ -545,6 +563,7 @@ Defaults:
 - heroImageUrl should be blank unless the user notes include a usable image link — either a direct https image URL ending in .jpg, .jpeg, .png, .webp, or .gif, or a single-image Imgur share link such as https://imgur.com/AbCdEfG. Never use an Imgur album or gallery link (anything containing /a/ or /gallery/).
 - carriersShoppedNames should include the chosen carrier first. If other shopped carriers are not visible, include reasonable agency defaults for that line of business.
 - quoteNumber should use the visible quote number; if missing, build a short quote id from carrier and quote date.
+- foldCard is optional and is used only for print brochure output. Fill only values that are visible in the PDF or strongly implied by the selected payment plan. Use customerAddress for the visible insured mailing address or property address. Use priorCarrier only when prior insurance is shown. setupCharge is a visible policy/setup/down-payment fee if separate from premium. paymentSchedule is a short billing plan such as "$173.22 down, then 5 payments of $102.18". coverageAlert is a one-sentence staff review note about important deductibles, exclusions, inspection/binding requirements, liability-only vehicles, or missing items. qrLink should be blank unless user notes include a specific customer URL. productStrip and agentImageUrl should be blank unless user notes include them.
 
 AUTO instructions:
 - templateType must be "auto".

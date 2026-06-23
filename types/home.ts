@@ -7,6 +7,8 @@ export interface HomeQuoteData {
   clientFullName: string;
   clientEmail: string;
   heroImageUrl?: string;
+  digitalCardUrl?: string;
+  foldCard?: HomeFoldCardFields;
   carrierId: CarrierId;
   carriersShoppedNames: string[];
   quoteNumber: string;
@@ -58,4 +60,16 @@ export interface PremiumLine {
   label: string;
   amount: number;
   isFee: boolean;
+}
+
+export interface HomeFoldCardFields {
+  companyName?: string;
+  customerAddress?: string;
+  priorCarrier?: string;
+  setupCharge?: number;
+  paymentSchedule?: string;
+  coverageAlert?: string;
+  qrLink?: string;
+  productStrip?: string;
+  agentImageUrl?: string;
 }

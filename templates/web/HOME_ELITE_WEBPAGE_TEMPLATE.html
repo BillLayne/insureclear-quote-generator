@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="A clear, mobile-first homeowners insurance quote summary prepared by Bill Layne Insurance Agency, Elkin NC.">
+<title>{{CLIENT_NAME}} - Home Elite Quote | Bill Layne Insurance</title>
+<link rel="icon" href="{{AGENCY_LOGO_URL}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f3efe7;color:#22271f;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+img{max-width:100%;display:block}
+details>summary{list-style:none}
+details>summary::-webkit-details-marker{display:none}
+@keyframes rise{from{transform:translateY(22px)}to{transform:none}}
+#homeEliteLoading{position:fixed;inset:0;z-index:99999;background:#1f4a3a;display:flex;align-items:center;justify-content:center;transition:opacity .35s ease,visibility .35s ease}
+#homeEliteLoading svg{width:100%;height:100%;object-fit:contain}
+body.home-elite-loaded #homeEliteLoading{opacity:0;visibility:hidden;pointer-events:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+@media(max-width:520px){
+  .home-elite-kicker{font-size:9px!important;letter-spacing:.11em!important;gap:6px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .home-elite-title{font-size:23px!important;line-height:1.04!important;letter-spacing:0!important;white-space:nowrap!important}
+  .home-elite-title span{white-space:nowrap!important}
+}
+@media(max-width:380px){
+  .home-elite-kicker{font-size:8px!important;letter-spacing:.09em!important}
+  .home-elite-title{font-size:21px!important}
+}
+@media print{[data-mobile-cta],#miniPriceBar{display:none!important}body{background:#fff}.no-print{display:none!important}}
+</style>
+</head>
+<body
+  data-client="{{CLIENT_NAME}}"
+  data-email="{{CLIENT_EMAIL}}"
+  data-carrier="{{CARRIER_NAME}}"
+  data-quote="{{QUOTE_NUMBER}}"
+  data-quote-action-url="{{QUOTE_ACTION_URL}}"
+>
+
+<div id="homeEliteLoading" role="status" aria-label="Loading home quote">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="1200" height="800" fill="#1f4a3a"></rect>
+    <g fill="none" stroke="#e6c98a" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M360 420 L600 250 L840 420"></path>
+      <path d="M420 400 L420 580 L780 580 L780 400"></path>
+    </g>
+    <rect x="556" y="478" width="88" height="102" rx="6" fill="#e6c98a"></rect>
+  </svg>
+</div>
+
+<div style="padding-bottom:88px;overflow-x:hidden;">
+
+<!-- MINI PRICE BAR -->
+<div id="miniPriceBar" style="position:fixed;top:0;left:0;right:0;z-index:55;background:rgba(22,39,31,.97);backdrop-filter:blur(8px);color:#fff;transform:translateY(-110%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:0 6px 22px rgba(0,0,0,.22);">
+  <div style="max-width:1060px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;">
+    <div style="display:flex;flex-direction:column;line-height:1.15;min-width:0;">
+      <b style="font-family:'Newsreader',serif;font-weight:600;font-size:19px;color:#e6c98a;font-variant-numeric:tabular-nums;">{{MONTHLY_PREMIUM}}<span style="font-size:13px;color:rgba(255,255,255,.7);font-family:'Hanken Grotesk',sans-serif;font-weight:600;"> / mo</span></b>
+      <span id="miniPlanText" style="font-size:11px;color:rgba(255,255,255,.78);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{MINI_PLAN_TEXT}}</span>
+    </div>
+    <a href="tel:{{AGENCY_PHONE_RAW}}" style="display:inline-flex;align-items:center;gap:7px;background:#e6c98a;color:#163a2d;font-weight:800;font-size:14px;padding:9px 16px;border-radius:999px;text-decoration:none;white-space:nowrap;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+      Call Us
+    </a>
+  </div>
+</div>
+
+<!-- AGENCY HEADER -->
+<header style="background:#faf7f0;border-bottom:1px solid #e3dccd;">
+  <div style="max-width:1060px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+    <img src="{{AGENCY_LOGO_URL}}" alt="Bill Layne Insurance Agency logo" style="height:46px;width:auto;object-fit:contain;">
+    <div style="display:flex;align-items:center;gap:10px;text-align:right;">
+      <img src="{{CARRIER_LOGO_URL}}" alt="{{CARRIER_NAME}} logo" loading="lazy" style="height:36px;width:auto;">
+    </div>
+  </div>
+</header>
+
+<!-- HERO TITLE -->
+<div style="max-width:1060px;margin:0 auto;padding:clamp(22px,5vw,40px) 20px clamp(2px,1.5vw,8px);">
+  <div class="home-elite-kicker" style="display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#a9763a;margin-bottom:12px;">
+    <span style="width:7px;height:7px;border-radius:50%;background:#1f4a3a;display:inline-block;"></span>
+    Prepared for {{CLIENT_NAME}} &middot; {{PREPARED_DATE}}
+  </div>
+  <h1 class="home-elite-title" style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(30px,5.2vw,52px);line-height:1.06;letter-spacing:-.015em;color:#1f4a3a;margin:0;">
+    Your home quote, <span style="font-style:italic;color:#a9763a;font-weight:500;">in plain English.</span>
+  </h1>
+</div>
+
+<!-- HERO (home photo + overlaid payment) -->
+<div style="max-width:1060px;margin:0 auto;padding:clamp(10px,2.5vw,18px) 20px clamp(20px,3vw,28px);">
+  <div style="position:relative;border-radius:20px;overflow:hidden;box-shadow:0 22px 55px rgba(31,74,58,.16);max-height:min(460px,calc(100svh - 150px));background:#1f4a3a;line-height:0;">
+    <img src="{{HERO_IMAGE_URL}}" alt="{{PROPERTY_ALT}}" style="width:100%;height:auto;display:block;object-fit:cover;max-height:min(460px,calc(100svh - 150px));">
+    <div style="position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:7px;background:rgba(22,39,31,.6);backdrop-filter:blur(4px);color:#fff;padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600;line-height:1;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#e6c98a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      {{PROPERTY_PILL}}
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,40px);align-items:flex-start;">
+    <aside id="heroPaymentCard" style="flex:1 1 380px;max-width:480px;position:relative;z-index:2;margin-top:clamp(-130px,-9vw,-58px);background:#fdfbf6;border:1px solid #e3dccd;border-top:5px solid #1f4a3a;border-radius:20px;padding:clamp(20px,3vw,26px);box-shadow:0 26px 60px rgba(22,39,31,.32);animation:rise .7s ease .12s both;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6e7268;white-space:nowrap;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#1f4a3a;display:inline-block;"></span>Recommended payment
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#6e7268;white-space:nowrap;"><b style="font-family:'Newsreader',serif;font-weight:600;color:#1f4a3a;font-size:15px;">{{ANNUAL_PREMIUM}}</b> / yr</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:7px;margin:12px 0 0;">
+        <span style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(46px,7vw,58px);line-height:1;color:#1f4a3a;font-variant-numeric:tabular-nums;">{{MONTHLY_PREMIUM}}</span>
+        <span style="font-size:18px;font-weight:600;color:#6e7268;">/ mo</span>
+      </div>
+      <p style="font-size:14px;color:#6e7268;margin:10px 0 0;line-height:1.5;">Automatic monthly payments from your bank (EFT). Pay-in-full and semi-annual options are below.</p>
+      <div style="border-top:1px solid #e3dccd;margin-top:14px;padding-top:14px;">
+        <p style="margin:0;font-size:13.5px;line-height:1.55;color:#6e7268;">A clear review of your {{CARRIER_NAME}} homeowners coverage for <strong style="color:#1f4a3a;">{{PROPERTY_SHORT}}</strong> &mdash; your price first, then your property and every coverage explained, no jargon.</p>
+        <div style="margin-top:14px;"><span style="display:inline-flex;align-items:center;gap:6px;background:#e7efe8;color:#1f4a3a;font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid #d3e0d4;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          {{CREDITS_LINE}}
+        </span></div>
+      </div>
+    </aside>
+
+    <div style="flex:1 1 300px;min-width:0;padding-top:clamp(16px,2vw,22px);">
+      <div style="display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+        <span style="flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;background:#e7efe8;color:#1f4a3a;border:1px solid #d3e0d4;">{{POLICY_TYPE}} Homeowners</span>
+        <span style="flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;background:#fff;color:#6e7268;border:1px solid #e3dccd;">Policy # {{QUOTE_NUMBER}}</span>
+        <span style="flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;background:#fff;color:#6e7268;border:1px solid #e3dccd;">Effective {{EFFECTIVE_DATE}}</span>
+        <span style="flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;background:#fff;color:#6e7268;border:1px solid #e3dccd;">Expires {{EXPIRY_DATE}}</span>
+      </div>
+
+      <div style="margin-top:clamp(20px,3vw,26px);">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">The home we're protecting</div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(24px,3.2vw,32px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 8px;line-height:1.1;">Your property at a glance</h2>
+        <p style="color:#6e7268;font-size:15px;line-height:1.6;margin:0;">This quote is built around your home as it stands today. If anything below looks off &mdash; square footage, roof age, updates &mdash; tell us before we bind, since it affects both your price and your claim.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROPERTY -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(8px,2vw,16px) 20px 0;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:0;">
+    {{PROPERTY_CARDS_HTML}}
+  </div>
+</section>
+
+<!-- INDEPENDENT ADVANTAGE -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(40px,5vw,56px) 20px 0;">
+  <div style="background:#1f4a3a;color:#fff;border-radius:20px;padding:clamp(28px,4vw,40px);display:flex;gap:22px;align-items:flex-start;box-shadow:0 22px 55px rgba(31,74,58,.2);">
+    <div style="flex:0 0 auto;width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);color:#e6c98a;display:flex;align-items:center;justify-content:center;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+    </div>
+    <div>
+      <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(20px,2.6vw,26px);color:#fff;margin:0 0 8px;line-height:1.2;">We shopped this for you &mdash; <span style="color:#e6c98a;font-style:italic;">that's the independent advantage.</span></h3>
+      <p style="font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.88);max-width:680px;margin:0;">As an independent agency, we don't work for one carrier &mdash; we work for you. We compared {{CARRIERS_COMPARED}} and <strong style="color:#fff;">{{CARRIER_NAME}}</strong> came out best for your home, your protection level, and your budget.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGES -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">What your policy protects</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 8px;line-height:1.08;">Your home coverages</h2>
+  <p style="color:#6e7268;max-width:660px;font-size:16px;line-height:1.6;margin:0 0 24px;">These are the core coverages on your homeowners policy. Tap any line to see exactly what it does &mdash; in plain English.</p>
+
+  <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;box-shadow:0 12px 34px rgba(31,74,58,.07);overflow:hidden;">
+    <div style="display:flex;justify-content:space-between;align-items:center;background:#1f4a3a;color:#fff;padding:15px 22px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;"><span>Coverage</span><span style="color:#e6c98a;">Your limit</span></div>
+{{COVERAGE_ROWS_HTML}}
+  </div>
+
+  <!-- DEDUCTIBLES -->
+  <div style="margin-top:22px;background:#f6efe2;border:1px solid #ecdcc0;border-left:5px solid #a9763a;border-radius:18px;padding:22px 24px;">
+    <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:19px;color:#1f4a3a;margin:0 0 6px;">How your deductibles work</h3>
+    <p style="font-size:14.5px;color:#3a4038;margin:0;line-height:1.6;">A deductible is what you pay out of pocket on a covered claim before your policy pays the rest. Your home has two:</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px;">
+      <div style="background:#fff;border:1px solid #ecdcc0;border-radius:13px;padding:15px 17px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9aa093;">All other perils</div>
+        <div style="font-family:'Newsreader',serif;font-weight:600;font-size:22px;color:#1f4a3a;">{{ALL_PERIL_DEDUCTIBLE}}</div>
+        <div style="font-size:12.5px;color:#6e7268;">Fire, theft, water, liability claims, and most losses.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #ecdcc0;border-radius:13px;padding:15px 17px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9aa093;">Wind &amp; hail</div>
+        <div style="font-family:'Newsreader',serif;font-weight:600;font-size:22px;color:#1f4a3a;">{{WIND_HAIL_DEDUCTIBLE}}</div>
+        <div style="font-size:12.5px;color:#6e7268;">{{WIND_HAIL_NOTE}}</div>
+      </div>
+    </div>
+    <p style="margin:16px 0 0;font-size:14px;color:#3a4038;line-height:1.6;">Higher deductibles lower your premium; lower deductibles cost more but cushion a claim. Ask us if you'd like to see the price at a different level.</p>
+  </div>
+</section>
+
+<!-- ENDORSEMENTS -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">Beyond the basics</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 8px;line-height:1.08;">Added protection on this quote</h2>
+  <p style="color:#6e7268;max-width:660px;font-size:16px;line-height:1.6;margin:0 0 24px;">These endorsements fill the gaps a standard policy leaves open. Tap any to see what it covers.</p>
+
+  <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;box-shadow:0 12px 34px rgba(31,74,58,.07);overflow:hidden;">
+    <div style="display:flex;justify-content:space-between;align-items:center;background:#1f4a3a;color:#fff;padding:15px 22px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;"><span>Endorsement</span><span style="color:#e6c98a;">Limit</span></div>
+{{ENDORSEMENT_ROWS_HTML}}
+  </div>
+</section>
+
+<!-- PAY PLANS -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">Pick what works for you</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 8px;line-height:1.08;">Choose your payment plan</h2>
+  <p style="color:#6e7268;max-width:660px;font-size:16px;line-height:1.6;margin:0 0 28px;">Same coverage, same protection &mdash; just a different way to pay. Tap a plan to select it, then tap Accept and we'll set it up.</p>
+
+  <div role="radiogroup" aria-label="Payment plans" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+{{PAYMENT_PLAN_CARDS_HTML}}
+  </div>
+  <p style="margin-top:18px;font-size:13.5px;color:#6e7268;">Selected plan: <b id="selectedPlanLabel" style="color:#1f4a3a;">{{SELECTED_PLAN_LABEL}}</b>. You can change this any time before we bind.</p>
+</section>
+
+<!-- CREDITS -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">Already working for you</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 6px;line-height:1.08;">Credits applied to this quote</h2>
+  <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;">
+    <span style="color:#6e7268;font-size:16px;">You're already saving</span>
+    <span style="font-family:'Newsreader',serif;font-weight:700;font-size:30px;color:#2c5d44;">{{CREDITS_TOTAL}}</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px;">
+{{CREDITS_HTML}}
+  </div>
+</section>
+
+<!-- ADVISORY -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">A heads-up from your agent</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 18px;line-height:1.08;">Worth a quick conversation</h2>
+  <div style="display:flex;gap:18px;align-items:flex-start;background:#f6efe2;border:1px solid #ecdcc0;border-left:5px solid #a9763a;border-radius:18px;padding:24px;">
+    <div style="flex:0 0 auto;width:46px;height:46px;border-radius:12px;background:#fff;color:#a9763a;display:flex;align-items:center;justify-content:center;border:1px solid #ecdcc0;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+    </div>
+    <div>
+      <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:19px;color:#1f4a3a;margin:0 0 6px;">Your jewelry, firearms, and collectibles may be <span style="font-style:italic;color:#a9763a;">capped.</span></h3>
+      <p style="font-size:14.5px;color:#3a4038;line-height:1.6;margin:0;max-width:700px;">A standard home policy limits payouts on certain valuables &mdash; jewelry, watches, firearms, silverware, and fine art &mdash; often to a few thousand dollars total for theft. If you own pieces worth more, we can schedule them so they're covered for their full value, usually for just a few dollars a month. Worth a five-minute call before we bind.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">Why families choose us</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 24px;line-height:1.08;">A local agent in your corner</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;">
+    <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;overflow:hidden;box-shadow:0 12px 34px rgba(31,74,58,.07);">
+      <img src="{{AGENT_PHOTO_URL}}" alt="Bill Layne, your local independent agent in Elkin, NC" loading="lazy" style="width:100%;height:190px;object-fit:cover;">
+      <div style="padding:18px 20px;">
+        <h3 style="font-size:16px;color:#1f4a3a;margin:0 0 5px;font-weight:700;">Our goal: protect your home</h3>
+        <p style="font-size:14px;color:#6e7268;margin:0;line-height:1.55;">We don't just insure houses &mdash; we protect the people and the life inside them. This policy was built around your home and how you actually live.</p>
+      </div>
+    </div>
+    <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;overflow:hidden;box-shadow:0 12px 34px rgba(31,74,58,.07);">
+      <img src="{{OFFICE_PHOTO_URL}}" alt="Bill Layne Insurance office in Elkin, NC" loading="lazy" style="width:100%;height:190px;object-fit:cover;">
+      <div style="padding:18px 20px;">
+        <h3 style="font-size:16px;color:#1f4a3a;margin:0 0 5px;font-weight:700;">Our Elkin office</h3>
+        <p style="font-size:14px;color:#6e7268;margin:0;line-height:1.55;">1283 N Bridge St, Elkin, NC 28621<br>Stop by or call anytime &mdash; we're right down the street.</p>
+      </div>
+    </div>
+    <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;box-shadow:0 12px 34px rgba(31,74,58,.07);">
+      <div style="padding:18px 20px;">
+        <h3 style="font-size:16px;color:#1f4a3a;margin:0 0 4px;font-weight:700;">Google Rating &nbsp;<span style="color:#d8a64a;font-size:15px;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{GOOGLE_RATING}}</h3>
+        <p style="font-size:13.5px;color:#3a4038;font-style:italic;border-top:1px solid #e3dccd;padding-top:10px;margin:10px 0 0;line-height:1.55;">"Bill Layne Insurance saved us money on our bundle and made the transition seamless. We love having a local agent we can actually call!"<b style="display:block;font-style:normal;color:#1f4a3a;margin-top:5px;font-size:12.5px;">&mdash; Sarah K., Elkin, NC</b></p>
+        <p style="font-size:13.5px;color:#3a4038;font-style:italic;border-top:1px solid #e3dccd;padding-top:10px;margin:10px 0 0;line-height:1.55;">"After the storm damaged our roof, Bill walked us through the whole claim. Exceptional service."<b style="display:block;font-style:normal;color:#1f4a3a;margin-top:5px;font-size:12.5px;">&mdash; Mark T., Surry County, NC</b></p>
+        <p style="margin:12px 0 0;font-size:13.5px;"><a href="{{GOOGLE_REVIEWS_URL}}" target="_blank" rel="noopener" style="color:#1f4a3a;font-weight:700;">Read all {{REVIEW_COUNT}} verified local reviews &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#a9763a;">Good questions</div>
+  <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#1f4a3a;letter-spacing:-.01em;margin:8px 0 24px;line-height:1.08;">Before you say yes</h2>
+  <div style="background:#fdfbf6;border:1px solid #e3dccd;border-radius:18px;box-shadow:0 12px 34px rgba(31,74,58,.07);overflow:hidden;">
+    <details style="border-top:1px solid #e3dccd;">
+      <summary style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:18px 22px;min-height:44px;font-weight:700;font-size:15.5px;color:#1f4a3a;"><span style="flex:1 1 auto;">What's the difference between replacement cost and actual cash value?</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa093" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+      <div style="padding:0 22px 20px;font-size:14.5px;color:#3a4038;line-height:1.6;"><p style="margin:0;">Replacement cost rebuilds or replaces at today's prices with no deduction for age or wear. Actual cash value subtracts depreciation, so you'd get less. This quote is written on a {{DWELLING_SETTLEMENT}} basis for your dwelling and a {{PROPERTY_SETTLEMENT}} basis for your belongings.</p></div>
+    </details>
+    <details style="border-top:1px solid #e3dccd;">
+      <summary style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:18px 22px;min-height:44px;font-weight:700;font-size:15.5px;color:#1f4a3a;"><span style="flex:1 1 auto;">How does my wind and hail deductible work?</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa093" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+      <div style="padding:0 22px 20px;font-size:14.5px;color:#3a4038;line-height:1.6;"><p style="margin:0;">For storm damage from wind or hail, your deductible is {{WIND_HAIL_FAQ}}. Every other type of covered claim uses your {{ALL_PERIL_DEDUCTIBLE}} all-other-perils deductible. This is common for North Carolina homes.</p></div>
+    </details>
+    <details style="border-top:1px solid #e3dccd;">
+      <summary style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:18px 22px;min-height:44px;font-weight:700;font-size:15.5px;color:#1f4a3a;"><span style="flex:1 1 auto;">What about my mortgage company?</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa093" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+      <div style="padding:0 22px 20px;font-size:14.5px;color:#3a4038;line-height:1.6;"><p style="margin:0;">If your home has a mortgage, we list your lender on the policy and send them proof of insurance automatically. If they pay your insurance through escrow, we coordinate the billing with them so nothing slips through the cracks.</p></div>
+    </details>
+    <details style="border-top:1px solid #e3dccd;">
+      <summary style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:18px 22px;min-height:44px;font-weight:700;font-size:15.5px;color:#1f4a3a;"><span style="flex:1 1 auto;">When does my coverage start?</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa093" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+      <div style="padding:0 22px 20px;font-size:14.5px;color:#3a4038;line-height:1.6;"><p style="margin:0;">Your effective date is <strong>{{EFFECTIVE_DATE}}</strong>. Once you tap Accept, we confirm everything with {{CARRIER_NAME}} and send your documents &mdash; usually the same business day.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section style="max-width:1060px;margin:0 auto;padding:clamp(48px,7vw,80px) 20px 0;">
+  <div style="background:#1f4a3a;border-radius:20px;padding:clamp(30px,4vw,48px);text-align:center;box-shadow:0 22px 55px rgba(31,74,58,.2);">
+    <h2 style="font-family:'Newsreader',serif;font-weight:600;font-size:clamp(26px,3.6vw,38px);color:#fff;margin:0 0 10px;line-height:1.1;">Ready when you are</h2>
+    <p style="color:rgba(255,255,255,.82);font-size:16px;max-width:520px;margin:0 auto 26px;line-height:1.6;">Review your details above, then tap Accept to start your application. No paperwork marathon, no phone trees &mdash; just us, handling it.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      <a data-accept-link href="{{ACCEPT_URL}}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#e6c98a;color:#163a2d;font-weight:800;font-size:16px;padding:15px 28px;border-radius:999px;text-decoration:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Accept Quote &amp; Start Review
+      </a>
+      <a href="{{DIGITAL_CARD_URL}}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#fff;color:#1f4a3a;font-weight:800;font-size:16px;padding:15px 26px;border-radius:999px;text-decoration:none;border:1px solid rgba(255,255,255,.72);box-shadow:0 10px 24px rgba(0,0,0,.12);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h4"></path><path d="M7 14h7"></path><circle cx="17" cy="11" r="1.4"></circle></svg>
+        View Digital Card
+      </a>
+      <a href="tel:{{AGENCY_PHONE_RAW}}" style="display:inline-flex;align-items:center;gap:9px;background:transparent;color:#fff;font-weight:700;font-size:16px;padding:15px 26px;border-radius:999px;text-decoration:none;border:1px solid rgba(255,255,255,.4);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+        Call {{AGENCY_PHONE}}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="margin-top:clamp(48px,7vw,80px);border-top:1px solid #e3dccd;padding:36px 20px 44px;text-align:center;">
+  <img src="{{AGENCY_LOGO_URL}}" alt="Bill Layne Insurance Agency logo" loading="lazy" style="width:70px;margin:0 auto 12px;">
+  <p style="font-weight:800;color:#1f4a3a;font-size:15px;margin:0;">&copy; 2026 Bill Layne Insurance Agency. All Rights Reserved.</p>
+  <p style="font-size:13px;color:#6e7268;margin:5px 0 0;">1283 N Bridge St, Elkin, NC 28621 &middot; <a href="tel:{{AGENCY_PHONE_RAW}}" style="color:#1f4a3a;font-weight:700;">{{AGENCY_PHONE}}</a> &middot; <a href="mailto:{{AGENCY_EMAIL}}" style="color:#1f4a3a;font-weight:700;">{{AGENCY_EMAIL}}</a></p>
+  <p style="font-size:13px;color:#6e7268;margin:5px 0 0;">Licensed in North Carolina &middot; NC License #6571216 &middot; Your Neighbor. Your Agent.</p>
+  <p style="max-width:760px;margin:16px auto 0;font-size:12px;line-height:1.6;color:#9aa093;"><strong style="color:#6e7268;">Important Disclaimer:</strong> This quote illustration is for explanation purposes only and does not constitute a binder of insurance coverage or a contract. Premium, coverages, limits, and credits are subject to final detail review, property inspection, prior loss history, and final carrier approval.</p>
+</footer>
+
+</div>
+
+<!-- STICKY MOBILE CTA -->
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:60;background:#faf7f0;border-top:1px solid #e3dccd;box-shadow:0 -6px 18px rgba(31,74,58,.08);padding:10px 14px calc(10px + env(safe-area-inset-bottom));" data-mobile-cta="">
+  <div style="display:flex;gap:10px;max-width:1060px;margin:0 auto;">
+    <a href="tel:{{AGENCY_PHONE_RAW}}" style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:0 16px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;background:#1f4a3a;color:#fff;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.36 1.8.7 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.27a2 2 0 0 1 2.11-.45c.85.34 1.74.58 2.65.7A2 2 0 0 1 22 16.92z"></path></svg>
+      Call
+    </a>
+    <a href="{{SMS_HREF}}" style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:0 16px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;background:#fff;color:#1f4a3a;border:1px solid #e3dccd;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      Text
+    </a>
+    <a href="{{DIGITAL_CARD_URL}}" target="_blank" rel="noopener" style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:0 14px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;background:#fff;color:#1f4a3a;border:1px solid #e3dccd;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 10h4"></path><path d="M7 14h7"></path><circle cx="17" cy="11" r="1.4"></circle></svg>
+      Card
+    </a>
+    <a data-accept-link href="{{ACCEPT_URL}}" target="_blank" rel="noopener" style="flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;background:#e6c98a;color:#163a2d;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      Accept
+    </a>
+  </div>
+</div>
+
+<script>
+(function () {
+  function hideHomeEliteLoading() {
+    document.body.classList.add('home-elite-loaded');
+  }
+  if (document.readyState === 'complete') {
+    window.setTimeout(hideHomeEliteLoading, 150);
+  } else {
+    window.addEventListener('load', function () {
+      window.setTimeout(hideHomeEliteLoading, 150);
+    }, { once: true });
+  }
+  window.setTimeout(hideHomeEliteLoading, 3500);
+
+  var mini = document.getElementById('miniPriceBar');
+  var heroCard = document.getElementById('heroPaymentCard');
+  function updateMini() {
+    if (!mini || !heroCard) return;
+    mini.style.transform = heroCard.getBoundingClientRect().bottom < 0 ? 'translateY(0)' : 'translateY(-110%)';
+  }
+  window.addEventListener('scroll', updateMini, { passive: true });
+  updateMini();
+
+  var body = document.body.dataset;
+  var selectedLabel = document.getElementById('selectedPlanLabel');
+  var miniPlanText = document.getElementById('miniPlanText');
+  var acceptLinks = Array.prototype.slice.call(document.querySelectorAll('[data-accept-link]'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('[data-plan-card]'));
+
+  function acceptUrl(card) {
+    var params = new URLSearchParams({
+      action: 'application_review',
+      clientName: body.client || '',
+      clientEmail: body.email || '',
+      templateType: 'home',
+      carrier: body.carrier || '',
+      quoteNumber: body.quote || '',
+      premium: card.dataset.premiumParam || '',
+      payPlan: card.dataset.planLabel || '',
+      subject: (body.carrier || 'Home') + ' Home Quote Review'
+    });
+    return (body.quoteActionUrl || 'https://quote-template-studio.pages.dev/quote-action') + '?' + params.toString();
+  }
+
+  function selectPlan(card) {
+    cards.forEach(function (item) {
+      var active = item === card;
+      item.setAttribute('aria-checked', active ? 'true' : 'false');
+      item.style.borderColor = active ? '#1f4a3a' : '#e3dccd';
+      item.style.boxShadow = active ? '0 14px 34px rgba(31,74,58,.16)' : 'none';
+      var check = item.querySelector('[data-plan-check]');
+      var icon = item.querySelector('[data-plan-check-icon]');
+      if (check) {
+        check.style.borderColor = active ? '#1f4a3a' : '#d8d0c0';
+        check.style.background = active ? '#1f4a3a' : 'transparent';
+      }
+      if (icon) icon.style.opacity = active ? '1' : '0';
+    });
+    var label = (card.dataset.planLabel || '') + ' - ' + (card.dataset.planDisplay || '');
+    if (selectedLabel) selectedLabel.textContent = label;
+    if (miniPlanText) miniPlanText.textContent = 'Selected: ' + (card.dataset.planLabel || '');
+    acceptLinks.forEach(function (link) { link.href = acceptUrl(card); });
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () { selectPlan(card); });
+  });
+  var current = cards.find(function (card) { return card.getAttribute('aria-checked') === 'true'; }) || cards[0];
+  if (current) selectPlan(current);
+})();
+</script>
+</body>
+</html>

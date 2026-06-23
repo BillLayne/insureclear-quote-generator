@@ -1,22 +1,28 @@
-# Quote Template Studio - Full Project Handoff
+# Quote Template Studio - Complete Project Handoff
 
-Last updated: 2026-06-10
+Last updated: 2026-06-23
 
 ## Executive Summary
 
-Quote Template Studio is a React + Vite + Cloudflare Pages app for Bill Layne Insurance Agency. It turns carrier quote PDFs/images and manually edited structured data into polished customer-facing quote outputs.
+Quote Template Studio is a React + Vite + Cloudflare Pages app for Bill Layne Insurance Agency. It turns carrier quote PDFs/images and manually reviewed structured data into polished customer-facing quote outputs for Gmail and web pages.
 
-The app supports:
+The current app supports:
 
 - Gmail-ready quote emails for auto, home, motorcycle, renters, and rental dwelling quotes.
 - Elite Gmail welcome/quote templates for home and auto.
 - Commercial auto elite Gmail quote template.
-- Auto, home, and commercial auto webpage quote outputs.
-- Auto comparison quote sample templates kept separate from the main production quote modes.
+- Auto webpage quote outputs.
+- Home webpage quote outputs.
+- Commercial auto webpage quote outputs.
+- Modern Auto Page output, kept separate from the standard auto webpage template.
+- Nonstandard Auto Page output, kept separate from standard and modern templates.
+- Auto comparison sample templates kept separate from core production modes.
 - Gemini PDF/image parsing through a Cloudflare Pages Function.
-- Customer action pages that collect "bind / contact me / ask question" requests and email them to the agency.
-- Optional audio-review workflow for auto and home webpage quotes.
-- Copy HTML, copy text, Gmail sync, PDF email, PDF HTML, and downloadable HTML outputs.
+- Customer quote-action pages that collect "start policy / contact us / ask a question" requests and email them to the agency.
+- Default general auto MP3 guide embedded in auto webpage-style outputs.
+- Auto Quote Fold Card and Home Quote Fold Card outputs for letter-landscape duplex brochure printing.
+- Fold-card-specific field boxes for company name, customer address, prior carrier, setup charge, payment schedule, QR link, coverage alert, product strip, and agent image URL.
+- Copy HTML, copy text, Gmail sync, Gmail draft, downloadable HTML, downloadable web/fold-card HTML, and live iframe preview workflows.
 
 Live app:
 
@@ -30,40 +36,75 @@ Primary local project:
 C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program
 ```
 
-Current local preview:
-
-```text
-http://127.0.0.1:4173/
-```
-
 ## Latest Production Status
 
-Latest deploy completed on 2026-06-10 with:
+Latest build and deploy completed on 2026-06-23.
+
+Build command:
 
 ```bash
-npx wrangler@latest pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
+npm run build
 ```
 
-Latest preview URL returned by Cloudflare:
+Deploy command:
+
+```bash
+npx wrangler pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
+```
+
+Latest Cloudflare preview URL:
 
 ```text
-https://e4655e6c.quote-template-studio.pages.dev
+https://aef82735.quote-template-studio.pages.dev
 ```
 
-Production target:
+Production URL:
 
 ```text
 https://quote-template-studio.pages.dev/
 ```
 
-Latest verification completed:
+Latest verified production bundle:
+
+```text
+assets/index-B84KKPLn.js
+```
+
+Latest verification:
 
 - `npm run build` passed.
-- Home webpage hero image renderer accepts direct Imgur image URLs.
-- Home webpage hero image renderer accepts plain single-image Imgur share URLs such as `https://imgur.com/6jDPnCX`.
-- Validation now accepts both direct image URLs and single-image Imgur links.
-- Home webpage hero image replaces both the page hero background and `og:image`.
-- Blank Home Web Page hero image still falls back to the approved default image.
+- Cloudflare Pages deploy completed successfully.
+- `https://quote-template-studio.pages.dev/` returned `200`.
+- `https://aef82735.quote-template-studio.pages.dev/` returned `200`.
+- Production served `assets/index-B84KKPLn.js`.
+- Production bundle contains `Auto Fold Card`, `Home Fold Card`, and `Fold Card Fields`.
+- Fold-card assets returned `200`: `/fold-card/agency-logo.png`, `/fold-card/auto-quote-cover.png`, and `/fold-card/auto-quote-agent-review.png`.
+- Browser verification confirmed Auto Fold Card and Home Fold Card output buttons, iframe rendering, editable fold-card field boxes, and no console errors.
+
+Known build warning:
+
+- Vite warns that a JS chunk is larger than 500 kB. This is pre-existing and not a deployment failure.
+
+## Current Worktree Warning
+
+The working tree is intentionally dirty because multiple templates and new renderer files have been added during active development. Do not run destructive reset/checkout commands.
+
+Recent `git status --short` showed:
+
+```text
+ M App.tsx
+ M functions/quote-action.ts
+ M lib/autoWebPageHtml.ts
+ M templates/AutoEliteGmailTemplate.tsx
+ M templates/web/BLI_AUTO_QUOTE_MASTER_TEMPLATE.html
+?? lib/modernAutoWebPageHtml.ts
+?? lib/nonstandardAutoWebPageHtml.ts
+?? public/
+?? templates/web/MODERN_AUTO_QUOTE_TEMPLATE.html
+?? templates/web/NONSTANDARD_AUTO_QUOTE_TEMPLATE.html
+```
+
+Treat untracked files as real current app files, not disposable files.
 
 ## Tech Stack
 
@@ -73,9 +114,9 @@ Latest verification completed:
 - Cloudflare Pages
 - Cloudflare Pages Functions
 - Gemini through `@google/genai`
-- Optional OpenAI speech endpoint for friendly audio review generation
 - Resend email API for quote-action notices
 - Optional Twilio SMS notification
+- Optional OpenAI speech endpoint, though current preferred audio workflow uses staff-provided MP3 files
 - Lucide React icons
 
 Important scripts:
@@ -94,11 +135,11 @@ Recommended local preview after build:
 npm run preview -- --host 127.0.0.1
 ```
 
-Recommended deploy:
+Recommended live deploy:
 
 ```bash
 npm run build
-npx wrangler@latest pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
+npx wrangler pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
 ```
 
 ## Environment Variables And Secrets
@@ -115,7 +156,7 @@ Example file:
 .dev.vars.example
 ```
 
-Current expected variables:
+Expected variables:
 
 ```text
 GEMINI_API_KEY
@@ -153,7 +194,7 @@ TWILIO_FROM_NUMBER
 TWILIO_TO_NUMBER
 ```
 
-API key naming standard used for this project:
+Google Cloud / Gemini key record for this project:
 
 ```text
 Google Cloud project name: Bill Layne Insurance-Quote Tem
@@ -161,48 +202,7 @@ Suggested API key name: quote-template-studio-prod-gemini-2026-06
 Cloudflare Pages secret name: GEMINI_API_KEY
 ```
 
-Do not put API keys in browser HTML, React files, committed `.env`, or committed `.dev.vars`.
-
-## Repo State Warning
-
-This working tree is still broadly dirty/migrated relative to the old git baseline. Many current source files are untracked in git even though they are real current app files.
-
-Do not run destructive reset/checkout commands. Do not assume untracked files are disposable.
-
-Recent `git status --short` showed legacy deletions and a migrated file layout, including:
-
-```text
-M App.tsx
-M functions/api/parse-quote.ts
-M package.json
-D components/EditDataForm.tsx
-D components/PreviewTemplate.tsx
-D types.ts
-D utils/htmlGenerator.ts
-?? config/
-?? data/
-?? functions/
-?? lib/
-?? templates/
-?? types/
-?? PROJECT_HANDOFF.md
-```
-
-## High-Level App Flow
-
-1. Staff chooses quote type: Auto, Home, Motorcycle, Renters, or Rental Home.
-2. Staff uploads a carrier PDF/image and optional parsing notes.
-3. Frontend calls `/api/parse-quote`.
-4. Cloudflare Pages Function sends the file to Gemini and returns typed JSON.
-5. Staff reviews and edits the form fields or advanced JSON.
-6. Staff selects output:
-   - Gmail Email
-   - Auto/Home Web Page
-   - Commercial Auto Web Page
-7. App renders a live iframe preview.
-8. Staff copies text/HTML, syncs Gmail, generates PDF email/HTML, downloads HTML, or uses the webpage output.
-9. Customer CTA buttons open `/quote-action`, prefilled with quote details.
-10. Customer submits the quote-action form and the app emails the request to the agency.
+Never put API keys in browser HTML, React files, committed `.env`, or committed `.dev.vars`.
 
 ## Main Source Map
 
@@ -210,13 +210,13 @@ D utils/htmlGenerator.ts
 App.tsx
 ```
 
-Main UI and state manager. Handles quote type, output mode, email mode, parsing, preview, export actions, audio script/MP3 flow, and all edit forms.
+Main UI and state manager. Handles quote type, output mode, email mode, parsing, preview, form edits, advanced JSON, export buttons, Gmail integration, audio script/MP3 workflow, and all quote-specific forms.
 
 ```text
 index.css
 ```
 
-Staff app shell styling. This is not Gmail or customer webpage styling.
+Staff app shell styling. This is not the Gmail template styling or customer webpage styling.
 
 ```text
 index.tsx
@@ -263,9 +263,9 @@ autoLifestyleImageUrl = https://i.imgur.com/eiSOz9F.jpeg
 config/carriers.ts
 ```
 
-Carrier registry with IDs, display names, legal names, logos, claims/portal info, and carrier flags.
+Carrier registry with carrier IDs, display names, legal names, logos, claims/portal info, and carrier flags.
 
-Commercial auto is intentionally restricted in the commercial auto renderers to:
+Commercial auto remains intentionally limited to:
 
 ```text
 progressive
@@ -303,7 +303,7 @@ Sample data:
 data/samples.ts
 ```
 
-Used when switching quote type or starting a sample flow.
+Used when switching quote type or starting from sample data.
 
 ## Parsing Backend
 
@@ -327,7 +327,7 @@ Important parsing instruction:
 heroImageUrl should be blank unless the user notes include a direct https image URL ending in .jpg, .jpeg, .png, .webp, or .gif.
 ```
 
-Note: the frontend validation/rendering now also supports single-image Imgur links for manual entry.
+The frontend validation/rendering also supports manually pasted single-image Imgur links.
 
 ## Customer Action Page
 
@@ -335,19 +335,23 @@ Note: the frontend validation/rendering now also supports single-image Imgur lin
 functions/quote-action.ts
 ```
 
-This is the "container/page opens after clicking Contact Me / bind / ask question" behavior.
+This is the container/page that opens after the customer clicks a quote action button such as Start Policy, Contact Us, Bind, or Ask a Question.
 
 How it works:
 
-- Quote templates build a URL to `https://quote-template-studio.pages.dev/quote-action`.
-- Query parameters prefill action, client name, client email, template type, carrier, quote number, premium, and subject.
-- GET `/quote-action` returns a confirmation form.
-- Customer can add best email, best phone, and notes.
-- POST `/quote-action` sends an email notice through Resend to `QUOTE_NOTICE_TO`.
-- Default notice recipient is `docs@billlayneinsurance.com`.
-- Optional Twilio SMS sends a short alert if Twilio vars are configured.
-- The page includes a honeypot field named `website`.
-- Success page reminds the customer that coverage is not bound until carrier acceptance and payment.
+1. Quote templates build a URL to `https://quote-template-studio.pages.dev/quote-action`.
+2. Query parameters prefill action, client name, client email, template type, carrier, quote number, premium, and subject.
+3. GET `/quote-action` returns a confirmation form.
+4. Customer can add best email, best phone, and notes.
+5. POST `/quote-action` sends an email notice through Resend to `QUOTE_NOTICE_TO`.
+6. Default notice recipient is `docs@billlayneinsurance.com`.
+7. Optional Twilio SMS sends a short alert if Twilio vars are configured.
+8. The page includes a honeypot field named `website`.
+9. The success page reminds the customer that coverage is not bound until carrier acceptance and payment.
+
+Important latest copy change:
+
+- The customer-facing confirmation page no longer displays `template` as a quote detail row.
 
 Primary frontend URL source:
 
@@ -355,7 +359,7 @@ Primary frontend URL source:
 config/brand.ts -> BRAND.quoteActionUrl
 ```
 
-Email helper for Gmail templates:
+Email helper:
 
 ```text
 templates/shared/EmailParts.tsx -> quoteActionHref()
@@ -367,38 +371,33 @@ Webpage helpers:
 lib/autoWebPageHtml.ts -> quoteActionHref()
 lib/homeWebPageHtml.ts -> quoteActionHref()
 lib/commercialAutoWebPageHtml.ts -> quoteActionHref()
+lib/modernAutoWebPageHtml.ts -> quoteActionHref()
+lib/nonstandardAutoWebPageHtml.ts -> quoteActionHref()
 ```
 
 ## Output Modes
 
-Configured in:
+Configured primarily in:
 
 ```text
 App.tsx
-```
-
-Current output mode type:
-
-```ts
-type OutputMode = 'email' | 'webpage' | 'commercialWebpage';
-```
-
-Email modes:
-
-```text
-full
-short
-homeElite
-homeEliteQuote
-autoElite
-commercialAutoElite
-```
-
-Defined in:
-
-```text
 lib/htmlSerialize.tsx
 ```
+
+Core output choices currently include:
+
+- Gmail Email
+- Auto Web Page
+- Modern Auto Page
+- Nonstandard Auto Page
+- Commercial Auto Page
+- Auto Elite Quote
+- Home Elite Welcome
+- Home Elite Quote
+- Auto Elite Welcome
+- Commercial Auto Elite
+
+The Modern Auto Page and Nonstandard Auto Page are separate renderers so they do not alter the standard auto webpage template.
 
 ## Gmail Email Templates
 
@@ -408,7 +407,7 @@ Shared renderer:
 lib/htmlSerialize.tsx
 ```
 
-Standard quote templates:
+Standard React quote templates:
 
 ```text
 templates/AutoQuoteTemplate.tsx
@@ -432,17 +431,12 @@ Auto Gmail renderer:
 lib/autoEmailHtml.ts
 ```
 
-Important Auto Gmail fixes:
-
-- Uses `BRAND.logoUrl` so the required `lxu9nfT.png` logo is present.
-- Agent image uses rounded-square styling instead of `border-radius:50%`.
-- Export buttons are enabled only when integrity checks pass.
-
-Elite Gmail templates:
+Elite Gmail templates and renderers:
 
 ```text
 templates/email/HOME_ELITE_WELCOME.html
 templates/email/AUTO_ELITE_WELCOME.html
+templates/email/AUTO_ELITE_QUOTE_TEMPLATE.html
 templates/email/COMMERCIAL_AUTO_ELITE_QUOTE_SAMPLE.html
 templates/HomeEliteGmailTemplate.tsx
 templates/HomeEliteQuoteGmailTemplate.tsx
@@ -450,65 +444,73 @@ templates/AutoEliteGmailTemplate.tsx
 templates/CommercialAutoEliteGmailTemplate.tsx
 ```
 
-Elite Gmail 2026 mobile rules currently applied:
+Important Gmail 2026 rules to preserve:
 
 - Mobile-first inline sizing.
-- Do not depend on Gmail media queries for shrinking mobile content.
-- Header uses stacked/two-row logic where needed so carrier logos do not fight the title.
-- Avoid circular `border-radius:50%` in Gmail output because the integrity guard blocks it.
-- Include `application/ld+json`.
-- Include Bill Layne logo `lxu9nfT.png`.
-- Keep copy condensed for Gmail mobile.
-- Removed "View ID Cards / Documents" from elite welcome templates because Gmail cannot create attached document preview links by itself.
+- Do not rely on Gmail media queries to shrink mobile content.
+- Media queries may enhance desktop, but mobile must be correct without them.
+- Use table-based structure for emails.
+- Keep logos and title text from competing in the same narrow row.
+- Avoid oversized mobile headings.
+- Avoid nested cards inside cards.
+- Keep buttons clear and Gmail-safe.
+- Include required agency contact details and JSON-LD.
+- Avoid `border-radius:50%` because the app integrity guard blocks circles.
+
+Recent Gmail/elite updates:
+
+- Home Elite Quote mode added.
+- Home Elite Welcome and Quote headers standardized to the auto elite style.
+- Auto Elite Welcome header standardized.
+- Auto Elite Quote template replaced with the proven upgraded Claude elite Gmail structure from `C:\Users\bill\OneDrive\Documents\Playground\2026 Quotes All Sources\Auto Gmail quotes\claude auto elite template\auto-quote-elite-2026-PATCHED.html`; parser tokens, repeatable vehicle cards, repeatable additional-driver cards, quote-action links, and discount cleanup were restored after the replacement. The default hero image for this template is the exact upgraded template hero: `https://i.imgur.com/0ejD7K7.jpeg`.
+- Commercial Auto Elite header standardized.
+- Removed "View ID Cards / Documents" buttons from elite welcome templates because Gmail cannot create attached document preview links by itself.
+- Auto Elite Gmail fallback text changed so missing vehicle slots no longer say `No additional vehicle listed`.
 
 ## Webpage Templates
 
-Auto webpage:
+### Standard Auto Web Page
 
 ```text
 lib/autoWebPageHtml.ts
+templates/web/BLI_AUTO_QUOTE_MASTER_TEMPLATE.html
 templates/web/AUTO_QUOTE_V4_FINAL_MASTER_TEMPLATE.html
 ```
 
-Important Auto Web Page behavior:
+Important behavior:
 
-- Uses the provided final auto landing-page structure.
+- Uses the approved auto landing-page structure.
 - `heroImageUrl` can override the default hero background.
-- CTA uses `QUOTE_ACTION_URL`.
-- Includes payment toggle logic in the raw HTML master.
-- Local service section was changed away from physical folder/welcome-kit language to "Local Agent Review" language because a folder is not always sent.
-- Audio block is optional and only appears if an audio file has been added.
+- Quote-action buttons route to `/quote-action`.
+- Physical-folder service language was removed/replaced with local-agent review language.
+- Default general auto MP3 guide is available through `public/audio/bill-layne-auto-insurance-general.mp3`.
+- Standard auto webpage currently includes the general audio section.
 
-Home webpage:
+### Home Web Page
 
 ```text
 lib/homeWebPageHtml.ts
 templates/web/v4_homeowners_master_template.html
+templates/web/BLI_HOME_QUOTE_MASTER_TEMPLATE.html
 ```
 
-Important Home Web Page behavior:
+Important behavior:
 
-- Uses the homeowners web landing page structure.
-- Uses `HERO_IMAGE_URL` for the hero background and `og:image`.
-- If `heroImageUrl` is blank, default is:
+- Uses the approved homeowners landing-page structure.
+- Uses `HERO_IMAGE_URL` for hero background and social image.
+- Blank `heroImageUrl` falls back to:
 
 ```text
 https://i.imgur.com/waSydQr.jpeg
 ```
 
-- If staff pastes a direct image URL, the page uses it.
-- If staff pastes a single-image Imgur share URL like `https://imgur.com/6jDPnCX`, the renderer normalizes it to:
+- Direct image URLs render.
+- Single-image Imgur share URLs normalize for rendering.
+- Protection class is editable in the home form.
+- Discount section still renders even when no total savings amount is parsed; zero savings total is omitted.
+- Home webpage audio remains an optional staff-added workflow.
 
-```text
-https://i.imgur.com/6jDPnCX.jpeg
-```
-
-- Validation now accepts direct image URLs and single-image Imgur links.
-- Protection class is editable in the Home form and renders as a plain class number when available.
-- Discount section still renders even if there is no total savings amount; the annual savings total is omitted when savings are zero.
-- Audio block is optional and only appears if an audio file has been added.
-
-Commercial auto webpage:
+### Commercial Auto Web Page
 
 ```text
 lib/commercialAutoWebPageHtml.ts
@@ -516,23 +518,123 @@ templates/web/COMMERCIAL_AUTO_QUOTE_MASTER_TEMPLATE.html
 templates/web/COMMERCIAL_AUTO_WEB_IMAGE_PROMPTS.md
 ```
 
-Important Commercial Auto Web Page behavior:
+Important behavior:
 
 - Uses auto data shape but commercial-specific copy.
-- Focuses on business vehicles, rated drivers, liability, physical damage, and business-use review.
-- Commercial carrier restriction:
-
-```text
-Progressive
-Nationwide
-National General
-```
+- Focuses on business vehicles, rated drivers, liability, physical damage, business use, and billing.
+- Commercial carrier set is Progressive, Nationwide, and National General.
 
 Current images:
 
 ```text
 Hero background: https://i.imgur.com/9jkiZyF.jpeg
 Agent helping image: https://i.imgur.com/b9Yh74p.png
+```
+
+### Modern Auto Page
+
+```text
+lib/modernAutoWebPageHtml.ts
+templates/web/MODERN_AUTO_QUOTE_TEMPLATE.html
+```
+
+Important behavior:
+
+- Separate auto webpage option labeled Modern.
+- Does not alter standard auto, home, commercial auto, or nonstandard templates.
+- Built from the provided modern auto webpage source.
+- Includes the general auto MP3 guide.
+- Top header shows the insurance company instead of phone number.
+- Hero carrier display uses the actual carrier logo.
+- Hero steps are confined in the hero container.
+- "Contact Bill" wording changed to "Contact Us" / "Contact Us to Start".
+- Bottom sticky button wording uses "Call Us".
+- Text action uses the Twilio text number:
+
+```text
+336-827-9065
+```
+
+- Driver section includes "Drivers Included" / "Drivers on Policy".
+- Vehicle details include towing reimbursement and loss of use/rental, with absent values shown as not on the vehicle.
+- Step sections are visually separated: Step 1, Step 2, and Step 3.
+
+### Nonstandard Auto Page
+
+```text
+lib/nonstandardAutoWebPageHtml.ts
+templates/web/NONSTANDARD_AUTO_QUOTE_TEMPLATE.html
+```
+
+Important behavior:
+
+- Separate auto webpage option labeled Nonstandard Auto Page.
+- Does not alter standard auto or modern auto templates.
+- Designed for fast-start/nonstandard shoppers on mobile.
+- Current hero is approved; do not redesign it unless specifically requested.
+- Hero no longer displays redundant down/monthly containers from the earlier version.
+- Hero emphasizes start cost and simple action flow.
+- Bottom sticky buttons are Text, Start Policy, and Call, with improved contrast.
+- Quote-action Start Policy link opens `/quote-action`.
+- Text action uses the Twilio text number:
+
+```text
+336-827-9065
+```
+
+- Top/market section now says:
+
+```text
+We shopped the market for your best available rate.
+```
+
+- Vehicle cards now show:
+
+```text
+Comprehensive
+Collision
+Towing reimbursement
+Loss of use / rental
+Liability / premium
+```
+
+- If a specific coverage is not selected or not found, the vehicle card displays:
+
+```text
+Not selected
+```
+
+- Only actual parsed vehicles render. Empty vehicle slots are removed entirely.
+- The old customer-facing phrase `No additional vehicle listed` has been removed from source and built output.
+- "Coverage status" section was removed as redundant.
+- "Why people choose Bill Layne" section was removed, but Google/customer reviews remain.
+- Shopped-market carrier list replaced Foremost with Travelers where requested.
+- Footer includes agency website and social icons.
+- Start Review copy uses "we / our team" language instead of implying every call must go to Bill personally.
+
+## Public Assets
+
+Static public assets:
+
+```text
+public/audio/bill-layne-auto-insurance-general.mp3
+public/carrier-logos/progressive.png
+public/carrier-logos/nationwide.png
+public/carrier-logos/national-general.png
+public/carrier-logos/travelers.png
+public/carrier-logos/alamance.png
+public/carrier-logos/dairyland.png
+public/carrier-logos/foremost.jpg
+public/carrier-logos/hagerty.png
+public/carrier-logos/ncgrange.png
+public/carrier-logos/ncjua.png
+public/carrier-logos/steadily.png
+```
+
+The default general auto audio guide URL used by auto-style webpage renderers:
+
+```text
+https://quote-template-studio.pages.dev/audio/bill-layne-auto-insurance-general.mp3
 ```
 
 ## Audio Review Workflow
@@ -543,35 +645,23 @@ Files:
 lib/webAudioReview.ts
 lib/autoWebPageHtml.ts
 lib/homeWebPageHtml.ts
+lib/modernAutoWebPageHtml.ts
+lib/nonstandardAutoWebPageHtml.ts
 functions/api/generate-audio-review.ts
+public/audio/bill-layne-auto-insurance-general.mp3
 ```
 
-Current user-facing workflow:
+Current practical workflow:
 
-1. Choose Auto Web Page or Home Web Page.
-2. The app shows a friendly coverage/payment script in a copyable container.
-3. Staff copies that script to an external audio creator if desired.
-4. Staff clicks Add MP3 / Audio and selects the finished audio file.
-5. The webpage output embeds an audio section.
-6. If no audio file is added, no audio section appears in the webpage quote.
-
-Current backend audio endpoint:
-
-```text
-functions/api/generate-audio-review.ts
-```
-
-It can generate MP3 through OpenAI if `OPENAI_API_KEY` is configured, using:
-
-```text
-model = gpt-4o-mini-tts
-voice = cedar by default, marin optional
-format = mp3
-```
+- Auto-style webpage quotes can include the default general auto MP3 guide.
+- Home webpage audio remains optional and staff-provided.
+- Staff can copy a friendly script and create audio outside the app.
+- If staff adds an MP3/audio file, the page includes an audio section.
+- If no audio is added for optional flows, no audio section appears.
 
 Important note:
 
-The app was intentionally moved toward script-copy plus MP3 upload because the generated voice quality needed more control. Do not auto-include audio unless staff explicitly adds an audio file.
+The general auto MP3 explains auto insurance coverages broadly. It is not a custom reading of the customer-specific limits. The written quote remains the source for exact customer details.
 
 ## Integrity Checks
 
@@ -602,9 +692,7 @@ Warnings:
 - Byte count above 95,000.
 - Inter font reference missing.
 
-Known implication:
-
-If a Gmail template has a circular avatar or misses the agency logo, the app will switch to review mode and disable Copy HTML / Sync Gmail / Download.
+If Gmail export buttons are grayed out, inspect this file first.
 
 ## Validation
 
@@ -612,7 +700,7 @@ If a Gmail template has a circular avatar or misses the agency logo, the app wil
 lib/validation.ts
 ```
 
-Current shared validation includes:
+Shared validation includes:
 
 - Required client first/full name.
 - Valid client email format when provided.
@@ -621,87 +709,25 @@ Current shared validation includes:
 - Effective/expiry dates must parse.
 - Line-of-business-specific required fields.
 
-Latest change:
+Hero image helpers:
 
-Plain Imgur links are accepted for manual hero image entry so staff can paste links like:
+```text
+lib/heroImage.ts
+```
+
+Plain Imgur links are accepted for manual hero image entry. Example:
 
 ```text
 https://imgur.com/6jDPnCX
 ```
 
-The Home Web Page renderer then normalizes that link for CSS background usage.
-
-## Recent Important Updates Since The Old Handoff
-
-Auto Gmail quote:
-
-- Fixed disabled export buttons by restoring required Bill Layne logo asset and removing circular `border-radius:50%`.
-
-Home Elite Gmail quote:
-
-- Added Home Elite Quote email mode.
-- Fixed export buttons.
-- Added Gmail-safe mobile-first inline sizing.
-- Header restructured so mobile title stays condensed.
-- Carrier logo and agent review image mobile behavior patched.
-
-Home Elite Welcome:
-
-- Removed ID card/document CTA.
-- Patched mobile header/phone/logo issues.
-
-Auto Elite Welcome:
-
-- Added Auto Elite template option.
-- Removed ID card/document CTA.
-
-Commercial Auto Elite Gmail:
-
-- Added sample/template option.
-- Uses Progressive, Nationwide, and National General.
-- Hero image:
-
-```text
-https://i.imgur.com/BeciIu9.jpeg
-```
-
-- Agent image:
-
-```text
-https://i.imgur.com/5BLPVwW.png
-```
-
-Auto Web Page:
-
-- Added webpage output option.
-- Updated to match provided final auto webpage structure.
-- Replaced physical-folder service language with local-agent review concept.
-
-Home Web Page:
-
-- Added webpage output option.
-- Added script/MP3 audio workflow.
-- Patched family image height/cropping earlier in the template.
-- Patched hero image override with `HERO_IMAGE_URL`.
-- Patched Imgur share-link normalization and validation.
-
-Commercial Auto Web Page:
-
-- Added commercial auto webpage template.
-- Generated and tested Air Controls sample quote from PDF.
-- Pushed live.
-
-Auto comparison:
-
-- Added separate comparison templates/samples.
-- Kept separate from main auto/home/commercial production templates.
-- Includes side-by-side desktop comparison and mobile-friendly stacked comparison.
+The renderer normalizes it to a direct image URL for display.
 
 ## Auto Comparison Templates
 
-These are standalone/sample templates and are not wired as a main output mode in the same way as Auto/Home/Commercial Web Page.
+These are standalone/sample templates and are not the same as the core production output modes.
 
-Files:
+Known files from this work:
 
 ```text
 templates/AutoComparisonQuoteTemplate.tsx
@@ -715,75 +741,29 @@ Purpose:
 
 - Compare two auto quotes such as National General renewal versus Progressive new quote.
 - Show recommendation first.
-- Use side-by-side tables on desktop.
-- Use stacked cards on mobile to avoid horizontal scrolling.
-- Highlight company-specific backgrounds so coverage rows are easier to read.
+- Use side-by-side comparison on desktop.
+- Use stacked cards on mobile to avoid left/right scrolling.
+- Use carrier-specific color backgrounds so coverage differences are easy to read.
 
-## Commercial Auto Images
+## Recent Timeline Highlights
 
-Commercial auto Gmail:
+Recent major changes completed before this handoff:
 
-```text
-templates/email/COMMERCIAL_AUTO_ELITE_IMAGE_PROMPTS.md
-```
-
-Commercial auto webpage:
-
-```text
-templates/web/COMMERCIAL_AUTO_WEB_IMAGE_PROMPTS.md
-```
-
-Current used images:
-
-```text
-Commercial auto Gmail hero: https://i.imgur.com/BeciIu9.jpeg
-Commercial auto Gmail agent: https://i.imgur.com/5BLPVwW.png
-Commercial auto webpage hero: https://i.imgur.com/9jkiZyF.jpeg
-Commercial auto webpage agent: https://i.imgur.com/b9Yh74p.png
-```
-
-## Home Web Page Hero Image Fix Details
-
-Problem:
-
-Staff could paste a customer home Imgur URL into `Hero Image URL`, but the Home Web Page preview still showed the default hero image.
-
-Cause:
-
-- `templates/web/v4_homeowners_master_template.html` hardcoded `https://i.imgur.com/waSydQr.jpeg`.
-- `lib/homeWebPageHtml.ts` did not provide a `HERO_IMAGE_URL` token.
-- `lib/validation.ts` only allowed direct image URLs, which conflicted with the new Imgur share-link support.
-
-Fix:
-
-- Replaced hardcoded hero image and `og:image` with `{{HERO_IMAGE_URL}}`.
-- Added `heroImageUrl()` helper in `lib/homeWebPageHtml.ts`.
-- Added Imgur share-link normalization.
-- Updated validation to accept direct images or single-image Imgur links.
-
-Verified cases:
-
-```text
-https://i.imgur.com/6jDPnCX.jpeg -> preserved and rendered
-https://imgur.com/6jDPnCX -> normalized to https://i.imgur.com/6jDPnCX.jpeg
-blank -> defaults to https://i.imgur.com/waSydQr.jpeg
-```
-
-## Gmail 2026 Optimization Rules To Preserve
-
-Based on the updated Gmail rules/project guidance:
-
-- Use mobile-first inline sizing.
-- Do not rely on `<style>` media queries to shrink mobile layouts.
-- Media queries may enhance desktop, but mobile must be correct without them.
-- Keep Gmail content condensed by default.
-- Use table-based structure for emails.
-- Keep logos and title text from competing in the same narrow row.
-- Avoid oversized mobile headings.
-- Avoid nested cards inside cards.
-- Keep buttons clear, centered when appropriate, and Gmail-safe.
-- Include required agency contact details and JSON-LD.
-- Avoid `border-radius:50%` because the app integrity guard blocks circles.
+- Added Auto Web Page output.
+- Added Home Web Page output.
+- Added Commercial Auto Web Page output.
+- Added Modern Auto Page output as a separate template.
+- Added Nonstandard Auto Page output as a separate template.
+- Added default general auto MP3 to auto-style webpage quotes.
+- Patched quote-action so the customer confirmation page does not show `template`.
+- Patched quote-action copy and buttons to use "Contact Us" / team language where needed.
+- Updated text action number to the Twilio number `336-827-9065` where requested.
+- Added vehicle-level E&O-friendly rows for comprehensive, collision, towing, and loss of use/rental.
+- Patched Nonstandard Auto Page so only listed vehicles render.
+- Removed `No additional vehicle listed` from current source/build.
+- Updated Nonstandard Auto Page market wording to "We shopped the market for your best available rate."
+- Kept the approved Nonstandard Auto Page hero unchanged after final user approval.
+- Replaced Auto Elite Gmail Quote with the upgraded elite/mobile-optimized structure and verified rendered output has no unresolved tokens, no sample-data leaks, and passes the Gmail integrity gate.
 
 ## Deployment Checklist
 
@@ -793,34 +773,21 @@ Before deploying:
 npm run build
 ```
 
-Recommended renderer checks when Home Web Page hero image logic changes:
-
-```bash
-node --input-type=module
-```
-
-Use Vite SSR module loading to call `renderHomeWebPageHtml()` with sample data and verify:
-
-- custom direct image URL is present
-- Imgur share URL normalizes
-- blank uses default
-- no `{{HERO_IMAGE_URL}}` remains
-
 Deploy:
 
 ```bash
-npx wrangler@latest pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
+npx wrangler pages deploy dist --project-name quote-template-studio --branch main --commit-dirty=true
 ```
 
-Live check:
+Verify:
 
-```text
-https://quote-template-studio.pages.dev/
+```powershell
+$response = Invoke-WebRequest -Uri 'https://quote-template-studio.pages.dev/' -UseBasicParsing
+$response.StatusCode
+($response.Content | Select-String -Pattern 'assets/index-[^"'']+\.js' -AllMatches).Matches.Value | Select-Object -First 3
 ```
 
-## Secret Scan Before Commit Or Push
-
-Run from the repo or Playground:
+Secret scan before commit or push:
 
 ```bash
 rg -n --hidden --glob '!**/.git/**' --glob '!**/node_modules/**' --glob '!**/dist/**' --glob '!**/build/**' --glob '!**/.wrangler/**' "AIza[0-9A-Za-z_-]{20,}|GEMINI_API_KEY=.*AIza|OPENAI_API_KEY=.*sk-|RESEND_API_KEY=.*re_" .
@@ -834,69 +801,85 @@ Rules:
 
 ## Known Limitations / Watch Items
 
-- The repo is still not cleanly tracked in git; many current files are untracked due to the migration.
+- The repo is still not cleanly tracked in git; many current files are modified or untracked due to active template work.
 - Webpage templates use raw HTML and token replacement; token names must match renderer keys exactly.
-- Home webpage uses Tailwind CDN inside the generated customer page, which triggers a browser console warning. It is known and not currently blocking.
-- Audio generation endpoint exists, but current preferred workflow is manual script copy plus MP3 upload.
-- Auto comparison templates are samples/separate TSX, not a core production output mode.
+- Home webpage uses Tailwind CDN inside the generated customer page, which can trigger a browser console warning. It is known and not currently blocking.
+- Audio generation endpoint exists, but the preferred high-quality workflow is script copy plus staff-created MP3 upload/default MP3.
+- Auto comparison templates are samples/separate TSX, not a main production output mode.
 - Commercial auto data currently reuses `AutoQuoteData`; future improvement could add a dedicated commercial auto data type.
 - The Home Web Page Imgur normalizer assumes single-image Imgur IDs and appends `.jpeg`.
-- If an Imgur link points to an album/gallery, it is not supported as a hero image.
+- Imgur album/gallery links are not supported as hero images.
+- Wrangler installed locally reported version `3.114.17`; current Pages deploy command works with this project.
 
-## Fast Orientation For The Next Program
+## Fast Orientation For The Next Conversation
 
 Start here:
 
 ```text
-App.tsx
-lib/htmlSerialize.tsx
-lib/autoWebPageHtml.ts
-lib/homeWebPageHtml.ts
-lib/commercialAutoWebPageHtml.ts
-functions/api/parse-quote.ts
-functions/quote-action.ts
-config/brand.ts
-config/carriers.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\App.tsx
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\htmlSerialize.tsx
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\autoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\modernAutoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\nonstandardAutoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\homeWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\commercialAutoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\functions\api\parse-quote.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\functions\quote-action.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\config\brand.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\config\carriers.ts
 ```
 
 If Gmail exports are grayed out:
 
 ```text
-lib/integrityCheck.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\integrityCheck.ts
 ```
 
 If Home Web Page customer images fail:
 
 ```text
-lib/homeWebPageHtml.ts
-templates/web/v4_homeowners_master_template.html
-lib/validation.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\homeWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\templates\web\v4_homeowners_master_template.html
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\validation.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\heroImage.ts
 ```
 
 If quote-action emails fail:
 
 ```text
-functions/quote-action.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\functions\quote-action.ts
 Cloudflare Pages env vars: RESEND_API_KEY, QUOTE_NOTICE_TO, QUOTE_NOTICE_FROM
 ```
 
 If parsing fails:
 
 ```text
-functions/api/parse-quote.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\functions\api\parse-quote.ts
 Cloudflare Pages env var: GEMINI_API_KEY
 ```
 
-If audio is requested:
+If Modern Auto Page needs work:
 
 ```text
-lib/webAudioReview.ts
-lib/autoWebPageHtml.ts
-lib/homeWebPageHtml.ts
-functions/api/generate-audio-review.ts
-Cloudflare Pages env var: OPENAI_API_KEY
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\modernAutoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\templates\web\MODERN_AUTO_QUOTE_TEMPLATE.html
 ```
 
-## Current Bottom Line
+If Nonstandard Auto Page needs work:
 
-The app is live and working as a multi-output quote studio. The latest important fix is the Home Web Page customer home image flow: staff can paste a direct Imgur image URL or a single-image Imgur share URL, and the generated Home Web Page now uses that image in the hero area and social preview.
+```text
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\nonstandardAutoWebPageHtml.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\templates\web\NONSTANDARD_AUTO_QUOTE_TEMPLATE.html
+```
+
+If audio needs work:
+
+```text
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\lib\webAudioReview.ts
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\public\audio\bill-layne-auto-insurance-general.mp3
+C:\Users\bill\OneDrive\Documents\Playground\2026-best-pdf-auto-and-home-quote-program\functions\api\generate-audio-review.ts
+```
+
+## Bottom Line
+
+The app is live at `https://quote-template-studio.pages.dev/` and the latest deployed bundle is `assets/index-Cnr2rJEV.js`. The newest production work is centered on the upgraded Auto Elite Gmail Quote template, including the corrected default hero image, Modern Auto Page and Nonstandard Auto Page additions, the default auto MP3 guide, quote-action cleanup, and the Nonstandard Auto Page vehicle-card fix so only actual listed vehicles appear.
