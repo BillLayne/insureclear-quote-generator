@@ -843,6 +843,61 @@ const originalAutoStyles = `
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
+    .home-back-agent {
+      display: grid;
+      grid-template-columns: 1.2in 1fr;
+      gap: 0.12in;
+      align-items: stretch;
+      margin-top: 0.14in;
+    }
+    .home-back-agent img {
+      width: 1.2in;
+      height: 1.42in;
+      display: block;
+      object-fit: cover;
+      object-position: center 48%;
+      border-radius: 0.12in;
+      border: 0.035in solid #fff;
+      box-shadow: 0 0.08in 0.22in rgba(7, 20, 44, 0.18);
+    }
+    .home-back-agent-card {
+      padding: 0.1in 0.12in;
+      border-radius: 0.13in;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 0.08in 0.2in rgba(7, 20, 44, 0.08);
+    }
+    .home-back-agent-card h3 {
+      margin: 0 0 0.05in;
+      color: var(--deep);
+      font-size: 10pt;
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .home-back-agent-card p {
+      margin: 0;
+      color: #475569;
+      font-size: 7pt;
+      line-height: 1.28;
+      font-weight: 750;
+    }
+    .home-back-agent-card .product-strip {
+      margin-top: 0.07in;
+      padding-top: 0.055in;
+      border-top: 1px solid #e4eaf2;
+      color: var(--green);
+      font-size: 5.8pt;
+      line-height: 1.18;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.035em;
+    }
+    .home-front-cover {
+      background:
+        linear-gradient(180deg, rgba(6, 31, 63, 0.22) 0%, rgba(6, 31, 63, 0.03) 34%, rgba(11, 68, 50, 0.28) 58%, rgba(255, 255, 255, 0) 77%),
+        var(--front-cover-image) center top / cover no-repeat;
+    }
     .alert {
       margin-top: 0.12in;
       padding: 0.1in;
@@ -1367,82 +1422,229 @@ export function renderAutoFoldCardHtml(data: AutoQuoteData): RenderedFoldCard {
 
 export function renderHomeFoldCardHtml(data: HomeQuoteData): RenderedFoldCard {
   const carrier = carrierName(data.carrierId);
+  const theme = autoCarrierTheme(data.carrierId);
   const fold = data.foldCard || {};
   const productStrip = fold.productStrip || DEFAULT_PRODUCT_STRIP;
+  const logo = localCarrierLogo(data.carrierId);
+  const company = fold.companyName || theme.companyDefault;
+  const customerAddress = fold.customerAddress || data.propertyAddress || 'Review address';
   const coverageD = typeof data.coverages.coverageD === 'number' ? money(data.coverages.coverageD) : data.coverages.coverageD;
   const coverageAlert = fold.coverageAlert || 'Review replacement cost, deductibles, roof details, endorsements, and any inspection or binding requirements before starting the policy.';
   const paymentSchedule = fold.paymentSchedule || `Annual premium ${money(data.annualPremium)}${data.fees?.length ? ` including ${data.fees.length} fee line(s)` : ''}`;
+  const quoteDate = dateText(data.quoteDate);
+  const effectiveDate = dateText(data.effectiveDate);
+  const expiryDate = dateText(data.expiryDate);
+  const annualPremium = money(data.annualPremium);
+  const monthlyEstimate = money(data.annualPremium / 12);
+  const allPerilDeductible = money(data.allPerilDeductible);
+  const windHailDeductible = data.windHailDeductible ? money(data.windHailDeductible) : 'Review';
+  const roof = [data.roofMaterial, data.roofYear].filter(Boolean).join(' - ') || 'Review';
+  const carrierHelpRows = theme.help.map(([label, value]) => `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join('');
+  const homeItems = [
+    `Policy form: ${data.policyType || 'Review'}`,
+    `All peril deductible: ${allPerilDeductible}`,
+    `Wind / hail deductible: ${windHailDeductible}`,
+    data.hasBindingContingency ? 'Binding contingency shown' : 'Confirm binding requirements',
+    data.hasSurplusLines ? 'Surplus lines review needed' : 'Admitted-market status to confirm',
+    ...data.discounts.map((discount) => discount.label),
+  ].filter(Boolean);
+  const homeItemGrid = homeItems.slice(0, 8).map((item) => `<span>${escapeHtml(item)}</span>`).join('');
+  const endorsementItems = [
+    ...data.endorsements.map((item) => `${item.name}: ${item.amount || item.subLabel}`),
+    ...data.discounts.map((discount) => discount.label),
+  ];
   const title = `${data.clientFullName} - Home Quote Fold Card`;
   const body = `
-    <article class="sheet outside-sheet">
-      ${backPanel('home', data.carrierId, fold.companyName)}
-      ${coverPanel({
-        variant: 'home',
-        data,
-        title: `${carrier} home quote for ${data.clientFirstName || data.clientFullName}`,
-        subtitle: 'A print-ready quote card with premium, deductibles, property details, and coverage limits.',
-        totalLabel: 'Annual premium',
-        totalAmount: data.annualPremium,
-        coverImage: data.heroImageUrl || DEFAULT_HOME_COVER,
-        qrTarget: fold.qrLink,
-      })}
-    </article>
-    <article class="sheet inside-sheet">
-      <section class="panel inside-left">
-        <h2 class="section-title">Home quote details</h2>
-        <p class="section-copy">Review these fields against the carrier PDF before printing or presenting the fold card.</p>
-        <div class="mini-grid">
-          <div class="info-box"><span>Customer</span><strong>${escapeHtml(data.clientFullName)}</strong></div>
-          <div class="info-box"><span>Property</span><strong>${escapeHtml(fold.customerAddress || data.propertyAddress || 'Review address')}</strong></div>
-          <div class="info-box"><span>Carrier</span><strong>${escapeHtml(carrier)}</strong></div>
-          <div class="info-box"><span>Policy form</span><strong>${escapeHtml(data.policyType || 'Review')}</strong></div>
-          <div class="info-box"><span>Effective</span><strong>${escapeHtml(dateText(data.effectiveDate))}</strong></div>
-          <div class="info-box"><span>Expires</span><strong>${escapeHtml(dateText(data.expiryDate))}</strong></div>
-          <div class="info-box"><span>All peril ded.</span><strong>${escapeHtml(money(data.allPerilDeductible))}</strong></div>
-          <div class="info-box"><span>Wind/Hail ded.</span><strong>${escapeHtml(data.windHailDeductible ? money(data.windHailDeductible) : 'Review')}</strong></div>
+    <section class="sheet" aria-label="Outside of folded home quote card">
+      <article class="panel back-cover">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Ready To Review?</h2>
+            <p>Use this home quote card as a simple guide while we confirm details and bind coverage.</p>
+          </div>
+          <div class="small-logo"><img src="${DEFAULT_AGENCY_LOGO}" alt="Bill Layne Insurance Agency"></div>
         </div>
-        <div class="alert-box">${escapeHtml(coverageAlert)}</div>
-        <h2 class="section-title">Property snapshot</h2>
-        <div class="mini-grid">
-          <div class="info-box"><span>Year built</span><strong>${escapeHtml(data.yearBuilt || 'Review')}</strong></div>
-          <div class="info-box"><span>Square feet</span><strong>${escapeHtml(data.squareFeet ? data.squareFeet.toLocaleString() : 'Review')}</strong></div>
-          <div class="info-box"><span>Construction</span><strong>${escapeHtml(data.constructionType || 'Review')}</strong></div>
-          <div class="info-box"><span>Roof</span><strong>${escapeHtml([data.roofMaterial, data.roofYear].filter(Boolean).join(' - ') || 'Review')}</strong></div>
-          <div class="info-box"><span>Protection class</span><strong>${escapeHtml(data.protectionClass || 'Review')}</strong></div>
-          <div class="info-box"><span>Fire distance</span><strong>${escapeHtml(data.fireDistance || 'Review')}</strong></div>
-        </div>
-      </section>
-      <section class="panel inside-right">
-        <h2 class="section-title">Coverage ledger</h2>
-        <p class="section-copy">Coverage values are generated from the parsed PDF and can be corrected in the field boxes.</p>
-        <table class="ledger">
-          <thead><tr><th>Coverage</th><th>Limit</th><th>Notes</th></tr></thead>
-          <tbody>
-            <tr><td><strong>A - Dwelling</strong></td><td>${escapeHtml(money(data.coverages.coverageA))}</td><td>${escapeHtml(data.dwellingLossSettlement)}</td></tr>
-            <tr><td><strong>B - Other Structures</strong></td><td>${escapeHtml(money(data.coverages.coverageB))}</td><td>Review percentage and detached structures</td></tr>
-            <tr><td><strong>C - Personal Property</strong></td><td>${escapeHtml(money(data.coverages.coverageC))}</td><td>${escapeHtml(data.personalPropertyLossSettlement)}</td></tr>
-            <tr><td><strong>D - Loss of Use</strong></td><td>${escapeHtml(coverageD)}</td><td>Confirm carrier wording</td></tr>
-            <tr><td><strong>E - Liability</strong></td><td>${escapeHtml(money(data.coverages.coverageE))}</td><td>Personal liability</td></tr>
-            <tr><td><strong>F - Med Pay</strong></td><td>${escapeHtml(money(data.coverages.coverageF))}</td><td>Medical payments to others</td></tr>
-          </tbody>
-        </table>
-        <h2 class="section-title" style="margin-top:.16in;">Endorsements and discounts</h2>
-        <ul class="discount-list">
-          ${listItems([...data.endorsements.map((item) => `${item.name}: ${item.amount || item.subLabel}`), ...data.discounts.map((discount) => discount.label)]).trim() || '<li>Confirm endorsements and discounts shown on PDF</li>'}
-        </ul>
-        <div class="agent-block">
-          <img src="${escapeHtml(fold.agentImageUrl || DEFAULT_AGENT_IMAGE)}" alt="Agent reviewing quote with customer">
-          <div class="agent-note">
-            <h3>Ready for a quick review?</h3>
-            <p>We can compare the deductible choices, roof details, settlement terms, endorsements, and carrier requirements before you start the policy.</p>
+
+        <section class="agency-box" aria-label="Bill Layne Insurance contact information">
+          <div>
+            <div class="agency-head">
+              <div class="agency-logo"><img src="${DEFAULT_AGENCY_LOGO}" alt="Bill Layne Insurance Agency"></div>
+              <h2>Bill Layne Insurance</h2>
+            </div>
+            <div class="agency-lines">
+              <div class="agency-line"><strong>Call</strong><span>336-835-1993</span></div>
+              <div class="agency-line"><strong>Text</strong><span>336-827-9065</span></div>
+              <div class="agency-line"><strong>Email</strong><span>Save@BillLayneInsurance.com</span></div>
+              <div class="agency-line"><strong>Office</strong><span>Elkin, NC</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="qr-box"><img src="${qrUrl(AGENCY_QR_FALLBACK)}" alt="Bill Layne Insurance digital contact QR"></div>
+            <p class="qr-caption">Agency contact card</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Before Coverage Can Be Bound</h3>
+          <ol class="step-list">
+            <li><em>1</em><span><b>Confirm the property.</b> Address, year built, square footage, construction, roof, protection class, and distance to fire response must be correct.</span></li>
+            <li><em>2</em><span><b>Confirm coverage choices.</b> Review Coverage A, contents, loss of use, liability, med pay, settlement terms, and deductibles.</span></li>
+            <li><em>3</em><span><b>Confirm lender and payment.</b> Mortgagee, escrow, paid-in-full, and billing setup may change the final start process.</span></li>
+            <li><em>4</em><span><b>Save the final documents.</b> After binding, keep the declarations page, inspection requests, and carrier notices with your records.</span></li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <h3>${escapeHtml(carrier)} Help</h3>
+          <table class="plain-table"><tbody>${carrierHelpRows}</tbody></table>
+        </section>
+
+        <div class="home-back-agent">
+          <img src="${escapeAttr(fold.agentImageUrl || DEFAULT_AGENT_IMAGE)}" alt="Local insurance agent reviewing a home quote with customers">
+          <div class="home-back-agent-card">
+            <h3>Questions before you start?</h3>
+            <p>We can review roof details, deductibles, settlement terms, mortgagee wording, discounts, and binding requirements before you start the policy.</p>
             <div class="product-strip">Also ask us about: ${escapeHtml(productStrip)}</div>
           </div>
         </div>
-      </section>
-    </article>`;
+
+        <div class="back-bottom">
+          <p class="fine-print">This printed piece is a quote summary only. It is not an insurance policy, binder, declarations page, or proof of insurance. Premiums and payment plans may change if property details, underwriting, inspections, reports, payment timing, discounts, or coverage selections change.</p>
+        </div>
+      </article>
+
+      <article class="panel front-cover home-front-cover" style="--front-cover-image:${escapeAttr(cssUrl(data.heroImageUrl || DEFAULT_HOME_COVER))};">
+        <div class="front-safe">
+          <div class="cover-logo-row">
+            <div class="logo-box"><img src="${escapeAttr(logo)}" alt="${escapeAttr(carrier)}"></div>
+            <div class="quote-pill">Home Quote</div>
+          </div>
+          <div class="cover-bottom">
+            <div>
+              <h1 class="front-title">${escapeHtml(data.clientFullName || 'Customer Name')}, your personalized home quote</h1>
+              <p class="front-subtitle">Prepared by Bill Layne Insurance Agency with ${escapeHtml(carrier)}. Review the premium, property details, coverage ledger, deductibles, and next steps before binding.</p>
+              <div class="cover-meta">
+                <div class="meta-tile"><span class="label">Quote Number</span><span class="value">${escapeHtml(data.quoteNumber || 'Pending')}</span></div>
+                <div class="meta-tile"><span class="label">Effective Date</span><span class="value">${escapeHtml(effectiveDate)}</span></div>
+                <div class="meta-tile"><span class="label">Annual Premium</span><span class="value">${escapeHtml(annualPremium)}</span></div>
+                <div class="meta-tile"><span class="label">Monthly Estimate</span><span class="value">${escapeHtml(monthlyEstimate)}</span></div>
+              </div>
+              <div class="prepared">
+                <strong>Bill Layne Insurance Agency</strong>
+                <span>Call 336-835-1993 or text 336-827-9065 with questions, changes, or to bind when ready.</span>
+              </div>
+            </div>
+            <div>
+              <div class="qr-box"><img src="${qrUrl(fold.qrLink || data.digitalCardUrl)}" alt="Quote QR"></div>
+              <p class="qr-caption">Scan for local help</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sheet" aria-label="Inside of folded home quote card">
+      <article class="panel inside-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Home Quote Details</h2>
+            <p>The main property, deductible, and payment details listed on the carrier quote.</p>
+          </div>
+          <div class="small-logo"><img src="${escapeAttr(logo)}" alt="${escapeAttr(carrier)}"></div>
+        </div>
+
+        <section class="summary-card">
+          <div class="premium-row">
+            <div>
+              <span class="label" style="color: rgba(255,255,255,.76);">Annual Home Quote</span>
+              <div class="amount">${escapeHtml(annualPremium)}</div>
+              <div class="term">${escapeHtml(paymentSchedule)}</div>
+            </div>
+            <div class="status-pill">Quote Only</div>
+          </div>
+          <div class="auto-mini-grid">
+            <div class="mini"><span>Monthly est.</span><strong>${escapeHtml(monthlyEstimate)}</strong></div>
+            <div class="mini"><span>AOP ded.</span><strong>${escapeHtml(allPerilDeductible)}</strong></div>
+            <div class="mini"><span>Wind / hail</span><strong>${escapeHtml(windHailDeductible)}</strong></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Applicant And Property Details</h3>
+          <table class="plain-table">
+            <tbody>
+              <tr><th>Named Insureds</th><td>${escapeHtml(data.clientFullName)}</td></tr>
+              <tr><th>Company</th><td>${escapeHtml(company)}</td></tr>
+              <tr><th>Quote Date</th><td>${escapeHtml(quoteDate)}</td></tr>
+              <tr><th>Effective</th><td>${escapeHtml(effectiveDate)} to ${escapeHtml(expiryDate)}</td></tr>
+              <tr><th>Property</th><td>${escapeHtml(customerAddress)}</td></tr>
+              <tr><th>Policy Form</th><td>${escapeHtml(data.policyType || 'Review')}</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h3>Property Snapshot</h3>
+          <table class="plain-table">
+            <tbody>
+              <tr><th>Year Built</th><td>${escapeHtml(data.yearBuilt || 'Review')}</td><th>Square Feet</th><td>${escapeHtml(data.squareFeet ? data.squareFeet.toLocaleString() : 'Review')}</td></tr>
+              <tr><th>Construction</th><td>${escapeHtml(data.constructionType || 'Review')}</td><th>Roof</th><td>${escapeHtml(roof)}</td></tr>
+              <tr><th>Protection Class</th><td>${escapeHtml(data.protectionClass || 'Review')}</td><th>Fire Distance</th><td>${escapeHtml(data.fireDistance || 'Review')}</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h3>Policy Items To Confirm</h3>
+          <div class="discount-grid">${homeItemGrid || '<span>Confirm endorsements and discounts shown on PDF</span>'}</div>
+        </section>
+      </article>
+
+      <article class="panel inside-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2>Coverage Snapshot</h2>
+            <p>Coverage values are generated from the parsed PDF and can be corrected in the field boxes.</p>
+          </div>
+        </div>
+
+        <section class="section limits-condensed" style="margin-top: 0;">
+          <h3>Home Coverage Ledger</h3>
+          <div class="limit-strip">
+            <div class="limit-item"><span>A Dwelling</span><strong>${escapeHtml(money(data.coverages.coverageA))}</strong></div>
+            <div class="limit-item"><span>B Other Structures</span><strong>${escapeHtml(money(data.coverages.coverageB))}</strong></div>
+            <div class="limit-item"><span>C Personal Property</span><strong>${escapeHtml(money(data.coverages.coverageC))}</strong></div>
+            <div class="limit-item"><span>D Loss of Use</span><strong>${escapeHtml(coverageD)}</strong></div>
+            <div class="limit-item"><span>E Liability</span><strong>${escapeHtml(money(data.coverages.coverageE))}</strong></div>
+            <div class="limit-item"><span>F Med Pay</span><strong>${escapeHtml(money(data.coverages.coverageF))}</strong></div>
+          </div>
+          <div class="alert">${escapeHtml(coverageAlert)}</div>
+        </section>
+
+        <section class="section">
+          <h3>Settlement And Deductible Notes</h3>
+          <table class="plain-table">
+            <tbody>
+              <tr><th>Dwelling settlement</th><td>${escapeHtml(data.dwellingLossSettlement)}</td></tr>
+              <tr><th>Personal property</th><td>${escapeHtml(data.personalPropertyLossSettlement)}</td></tr>
+              <tr><th>All other perils</th><td>${escapeHtml(allPerilDeductible)}</td></tr>
+              <tr><th>Wind / hail</th><td>${escapeHtml(windHailDeductible)}</td></tr>
+              <tr><th>Prior carrier</th><td>${escapeHtml(fold.priorCarrier || 'Review')}</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h3>Endorsements And Discounts</h3>
+          <ul class="discount-list">
+            ${listItems(endorsementItems).trim() || '<li>Confirm endorsements and discounts shown on PDF</li>'}
+          </ul>
+        </section>
+      </article>
+    </section>`;
 
   return {
-    html: shell(title, body),
+    html: autoShell(title, body, theme),
     title,
     preheader: `${carrier} home fold-card brochure for ${data.clientFullName}`,
   };

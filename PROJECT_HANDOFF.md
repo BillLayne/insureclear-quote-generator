@@ -55,7 +55,7 @@ npx wrangler pages deploy dist --project-name quote-template-studio --branch mai
 Latest Cloudflare preview URL:
 
 ```text
-https://8fd62ceb.quote-template-studio.pages.dev
+https://b8af3540.quote-template-studio.pages.dev
 ```
 
 Production URL:
@@ -67,7 +67,7 @@ https://quote-template-studio.pages.dev/
 Latest verified production bundle:
 
 ```text
-assets/index-D4XNg5pV.js
+assets/index-Dw3PjFD4.js
 ```
 
 Latest verification:
@@ -75,15 +75,17 @@ Latest verification:
 - `npm run build` passed.
 - Cloudflare Pages deploy completed successfully.
 - `https://quote-template-studio.pages.dev/` returned `200`.
-- `https://8fd62ceb.quote-template-studio.pages.dev/` returned `200`.
-- Production served `assets/index-D4XNg5pV.js`.
+- `https://b8af3540.quote-template-studio.pages.dev/` returned `200`.
+- Production served `assets/index-Dw3PjFD4.js`.
 - Production bundle contains the original Auto Fold template sections: `Ready To Review?`, `Quote At A Glance`, and `Coverage Snapshot`.
 - Production bundle no longer contains the generic placeholder phrase `Your auto quote, folded into plain English.`
 - Auto Fold hero-image serialization was fixed so the inline `--front-cover-image` CSS variable uses a quote-safe `url('...')` value for iframe preview, print, and downloaded HTML.
+- Home Fold Card now uses the updated Auto Fold print shell style, a matching outside/front cover, and a Home-specific outside/back panel with the editable agent image shown on the back.
 - Prior local Browser visual QA confirmed the Auto Fold Card matches the original standalone builder structure instead of the generic fold-card renderer.
 - Fold-card assets returned `200`: `/fold-card/agency-logo.png`, `/fold-card/auto-quote-cover.png`, and `/fold-card/auto-quote-agent-review.png`.
 - Production `/fold-card/auto-quote-cover.png` returned `200 image/png`.
-- Current source/build verification confirmed the compiled Auto Fold renderer includes the quote-safe cover-image URL and production serves the updated bundle.
+- Production `/fold-card/auto-quote-agent-review.png` returned `200 image/png`.
+- Current source/build verification confirmed the compiled Home Fold renderer includes `home-back-agent`, `home-front-cover`, and the editable agent image fallback.
 
 Known build warning:
 
@@ -93,7 +95,7 @@ Known build warning:
 
 The working tree is intentionally dirty because multiple templates and new renderer files have been added during active development. Do not run destructive reset/checkout commands.
 
-Current known dirty worktree after the hero-image fix:
+Current known dirty worktree after the Home Fold agent-back update:
 
 ```text
 ?? tmp-live-check/
