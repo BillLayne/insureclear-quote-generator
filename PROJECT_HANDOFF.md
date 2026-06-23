@@ -55,7 +55,7 @@ npx wrangler pages deploy dist --project-name quote-template-studio --branch mai
 Latest Cloudflare preview URL:
 
 ```text
-https://26525fd5.quote-template-studio.pages.dev
+https://8fd62ceb.quote-template-studio.pages.dev
 ```
 
 Production URL:
@@ -67,7 +67,7 @@ https://quote-template-studio.pages.dev/
 Latest verified production bundle:
 
 ```text
-assets/index-KB-zhYUW.js
+assets/index-D4XNg5pV.js
 ```
 
 Latest verification:
@@ -75,13 +75,15 @@ Latest verification:
 - `npm run build` passed.
 - Cloudflare Pages deploy completed successfully.
 - `https://quote-template-studio.pages.dev/` returned `200`.
-- `https://26525fd5.quote-template-studio.pages.dev/` returned `200`.
-- Production served `assets/index-KB-zhYUW.js`.
+- `https://8fd62ceb.quote-template-studio.pages.dev/` returned `200`.
+- Production served `assets/index-D4XNg5pV.js`.
 - Production bundle contains the original Auto Fold template sections: `Ready To Review?`, `Quote At A Glance`, and `Coverage Snapshot`.
 - Production bundle no longer contains the generic placeholder phrase `Your auto quote, folded into plain English.`
-- Local Browser visual QA confirmed the Auto Fold Card matches the original standalone builder structure instead of the generic fold-card renderer.
+- Auto Fold hero-image serialization was fixed so the inline `--front-cover-image` CSS variable uses a quote-safe `url('...')` value for iframe preview, print, and downloaded HTML.
+- Prior local Browser visual QA confirmed the Auto Fold Card matches the original standalone builder structure instead of the generic fold-card renderer.
 - Fold-card assets returned `200`: `/fold-card/agency-logo.png`, `/fold-card/auto-quote-cover.png`, and `/fold-card/auto-quote-agent-review.png`.
-- Browser verification confirmed Auto Fold Card and Home Fold Card output buttons, iframe rendering, editable fold-card field boxes, and no console errors.
+- Production `/fold-card/auto-quote-cover.png` returned `200 image/png`.
+- Current source/build verification confirmed the compiled Auto Fold renderer includes the quote-safe cover-image URL and production serves the updated bundle.
 
 Known build warning:
 
@@ -91,22 +93,16 @@ Known build warning:
 
 The working tree is intentionally dirty because multiple templates and new renderer files have been added during active development. Do not run destructive reset/checkout commands.
 
-Recent `git status --short` showed:
+Current known dirty worktree after the hero-image fix:
 
 ```text
- M App.tsx
- M functions/quote-action.ts
- M lib/autoWebPageHtml.ts
- M templates/AutoEliteGmailTemplate.tsx
- M templates/web/BLI_AUTO_QUOTE_MASTER_TEMPLATE.html
-?? lib/modernAutoWebPageHtml.ts
-?? lib/nonstandardAutoWebPageHtml.ts
-?? public/
-?? templates/web/MODERN_AUTO_QUOTE_TEMPLATE.html
-?? templates/web/NONSTANDARD_AUTO_QUOTE_TEMPLATE.html
+?? tmp-live-check/
+?? tmp/quote-template-studio-live-headers.txt
+?? tmp/quote-template-studio-live.html
+?? tmp/quote-template-studio-live.js
 ```
 
-Treat untracked files as real current app files, not disposable files.
+Treat these untracked folders/files as scratch verification artifacts unless Bill asks to clean them up.
 
 ## Tech Stack
 

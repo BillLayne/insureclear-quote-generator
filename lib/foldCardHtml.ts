@@ -56,7 +56,7 @@ const listItems = (items: string[]) =>
 
 const escapeAttr = (value: unknown) => escapeHtml(value);
 
-const cssUrl = (value: string) => `url("${String(value).replace(/"/g, '%22')}")`;
+const cssUrl = (value: string) => `url('${String(value).replace(/'/g, '%27')}')`;
 
 const localCarrierLogo = (carrierId: keyof typeof CARRIERS) => {
   const logos: Partial<Record<keyof typeof CARRIERS, string>> = {
@@ -1226,7 +1226,7 @@ export function renderAutoFoldCardHtml(data: AutoQuoteData): RenderedFoldCard {
         </div>
       </article>
 
-      <article class="panel front-cover" style="--front-cover-image:${cssUrl(data.heroImageUrl || DEFAULT_AUTO_COVER)};">
+      <article class="panel front-cover" style="--front-cover-image:${escapeAttr(cssUrl(data.heroImageUrl || DEFAULT_AUTO_COVER))};">
         <div class="front-safe">
           <div class="cover-logo-row">
             <div class="logo-box"><img src="${escapeAttr(logo)}" alt="${escapeAttr(carrier)}"></div>
