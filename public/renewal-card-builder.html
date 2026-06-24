@@ -579,6 +579,7 @@
       premiumDifference: 143.40,
       premiumDifferencePercent: 12.11,
       monthlyEstimate: 221.23,
+      termMonths: 6,
       paymentDueDate: "2026-07-01",
       billingPlan: "6-month renewal. Confirm payment plan before due date.",
       renewalStatus: "review_recommended",
@@ -628,6 +629,7 @@
       premiumDifference: 228.00,
       premiumDifferencePercent: 15.32,
       monthlyEstimate: 143.00,
+      termMonths: 12,
       paymentDueDate: "2026-08-15",
       billingPlan: "Annual renewal. Mortgagee escrow should be confirmed.",
       renewalStatus: "reshop_recommended",
@@ -686,6 +688,17 @@
       if (Number.isNaN(date.getTime())) return value;
       return date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
     }
+    function dateMonthsBetween(startValue, endValue) {
+      if (!startValue || !endValue) return null;
+      const start = new Date(`${startValue}T12:00:00`);
+      const end = new Date(`${endValue}T12:00:00`);
+      if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) return null;
+      const days = (end.getTime() - start.getTime()) / 86400000;
+      const months = Math.round(days / 30.4375);
+      if (months >= 5 && months <= 7) return 6;
+      if (months >= 11 && months <= 13) return 12;
+      return months > 0 ? months : null;
+    }
     function esc(value) {
       return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -731,21 +744,42 @@
       if (state.renewalStatus === "review_recommended") return "Review";
       return "Renew";
     }
-    function deltaLabel() {
+    function effectiveTermMonths() {
+      if (state.productType === "home") return 12;
+      const explicit = Number(state.termMonths || 0);
+      if (explicit === 6 || explicit === 12) return explicit;
+      const inferred = dateMonthsBetween(state.renewalEffectiveDate, state.renewalExpirationDate);
+      return inferred || 6;
+    }
+    function termLabel() {
+      const months = effectiveTermMonths();
+      return months ? `${months} months` : "Review";
+    }
+    function termDifferenceLabel() {
       const diff = Number(state.premiumDifference || 0);
       if (!state.expiringPremium) return "Compare";
       if (diff > 0) return `Up ${dollars(diff)}`;
       if (diff < 0) return `Down ${dollars(Math.abs(diff))}`;
       return "Flat";
     }
+    function monthlyChangeLabel() {
+      const diff = Number(state.premiumDifference || 0);
+      if (!state.expiringPremium) return "Compare";
+      if (!diff) return "Flat";
+      const monthly = Math.abs(diff) / effectiveTermMonths();
+      const prefix = diff > 0 ? "+" : "-";
+      return `${prefix}${dollars(monthly)} /mo`;
+    }
     function recalcPremiumChange() {
       const oldPremium = Number(state.expiringPremium || 0);
       const newPremium = Number(state.renewalPremium || 0);
+      const termMonths = effectiveTermMonths();
+      state.termMonths = termMonths;
       if (oldPremium && newPremium) {
         state.premiumDifference = Number((newPremium - oldPremium).toFixed(2));
         state.premiumDifferencePercent = Number((((newPremium - oldPremium) / oldPremium) * 100).toFixed(2));
       }
-      state.monthlyEstimate = Number((newPremium / (state.productType === "auto" ? 6 : 12)).toFixed(2));
+      state.monthlyEstimate = Number((newPremium / termMonths).toFixed(2));
     }
     function field(id, label, value, type = "text", wide = false) {
       return `<div class="field ${wide ? "wide" : ""}"><label for="${id}">${label}</label><input id="${id}" data-field="${id}" type="${type}" value="${esc(value ?? "")}"></div>`;
@@ -767,6 +801,7 @@
           ${field("expiringPremium", "Expiring Premium", state.expiringPremium ?? "", "number")}
           ${field("renewalPremium", "Renewal Premium", state.renewalPremium ?? "", "number")}
           ${field("monthlyEstimate", "Monthly Estimate", state.monthlyEstimate ?? "", "number")}
+          ${field("termMonths", "Term Months", effectiveTermMonths(), "number")}
           <div class="field"><label for="renewalStatus">Recommendation Status</label><select id="renewalStatus" data-field="renewalStatus">
             <option value="good_to_renew">Good to renew</option>
             <option value="review_recommended">Review recommended</option>
@@ -816,9 +851,13 @@
     function handleFieldInput(event) {
       const key = event.currentTarget.dataset.field;
       const value = event.currentTarget.value;
-      if (["expiringPremium", "renewalPremium", "monthlyEstimate"].includes(key)) {
+      if (["expiringPremium", "renewalPremium", "monthlyEstimate", "termMonths"].includes(key)) {
         state[key] = numberOrNull(value);
         if (key !== "monthlyEstimate") recalcPremiumChange();
+      } else if (key === "renewalEffectiveDate" || key === "renewalExpirationDate") {
+        state[key] = value;
+        if (state.productType === "auto") state.termMonths = dateMonthsBetween(state.renewalEffectiveDate, state.renewalExpirationDate) || state.termMonths;
+        recalcPremiumChange();
       } else if (["coverageA", "coverageB", "coverageC", "coverageE", "coverageF"].includes(key)) {
         state.homeCoverages = state.homeCoverages || {};
         state.homeCoverages[key] = numberOrNull(value);
@@ -871,6 +910,16 @@
       merged.endorsements = data.endorsements || [];
       merged.underwritingNotes = data.underwritingNotes || [];
       if (!merged.carrierName && carriers[merged.carrierId]) merged.carrierName = carriers[merged.carrierId].name;
+      merged.termMonths = merged.productType === "home" ? 12 : (Number(merged.termMonths || 0) || dateMonthsBetween(merged.renewalEffectiveDate, merged.renewalExpirationDate) || 6);
+      const oldPremium = Number(merged.expiringPremium || 0);
+      const newPremium = Number(merged.renewalPremium || 0);
+      if (oldPremium && newPremium) {
+        merged.premiumDifference = Number((newPremium - oldPremium).toFixed(2));
+        merged.premiumDifferencePercent = Number((((newPremium - oldPremium) / oldPremium) * 100).toFixed(2));
+      }
+      if (newPremium && merged.termMonths) {
+        merged.monthlyEstimate = Number((newPremium / merged.termMonths).toFixed(2));
+      }
       return merged;
     }
     async function fileToBase64(file) {
@@ -1039,12 +1088,12 @@
           </div>
           <div class="hero-grid">
             <div class="hero-chip"><span class="chip-label">Renewal Premium</span><strong class="chip-value">${premiumText}</strong></div>
-            <div class="hero-chip"><span class="chip-label">Difference</span><strong class="chip-value">${esc(deltaLabel())}</strong></div>
+            <div class="hero-chip"><span class="chip-label">Monthly Change</span><strong class="chip-value">${esc(monthlyChangeLabel())}</strong></div>
             <div class="hero-chip"><span class="chip-label">Company</span><strong class="chip-value">${esc(c.name || state.carrierName)}</strong></div>
             <div class="hero-chip"><span class="chip-label">Policy</span><strong class="chip-value">${esc(state.policyNumber || "Review")}</strong></div>
           </div>
         </section>
-        <section class="card-section"><div class="section-pad"><span class="section-kicker">Renewal Snapshot</span><h3>Premium and term</h3><div class="premium-panel"><div class="premium-row"><div><span class="stat-label">Renewal premium</span><strong class="premium-main">${premiumText}</strong></div><div class="delta-badge">${esc(pct(state.premiumDifferencePercent))}</div></div><div class="stat-grid"><div class="stat-card"><span class="stat-label">Expiring to renewal</span><strong>${esc(compareText)}</strong></div><div class="stat-card"><span class="stat-label">Monthly estimate</span><strong>${state.monthlyEstimate ? dollars(state.monthlyEstimate) : "Review"}</strong></div><div class="stat-card"><span class="stat-label">Effective</span><strong>${formatDate(state.renewalEffectiveDate)}</strong></div><div class="stat-card"><span class="stat-label">Expires</span><strong>${formatDate(state.renewalExpirationDate)}</strong></div></div></div></div></section>
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Renewal Snapshot</span><h3>Premium and term</h3><div class="premium-panel"><div class="premium-row"><div><span class="stat-label">Renewal premium</span><strong class="premium-main">${premiumText}</strong></div><div class="delta-badge">${esc(pct(state.premiumDifferencePercent))}</div></div><div class="stat-grid"><div class="stat-card"><span class="stat-label">Expiring to renewal</span><strong>${esc(compareText)}</strong></div><div class="stat-card"><span class="stat-label">Term increase</span><strong>${esc(termDifferenceLabel())}</strong></div><div class="stat-card"><span class="stat-label">Monthly estimate</span><strong>${state.monthlyEstimate ? dollars(state.monthlyEstimate) : "Review"}</strong></div><div class="stat-card"><span class="stat-label">Term length</span><strong>${esc(termLabel())}</strong></div><div class="stat-card"><span class="stat-label">Effective</span><strong>${formatDate(state.renewalEffectiveDate)}</strong></div><div class="stat-card"><span class="stat-label">Expires</span><strong>${formatDate(state.renewalExpirationDate)}</strong></div></div></div></div></section>
         <section class="card-section"><div class="section-pad"><span class="section-kicker">Bill's Recommendation</span><h3>${esc(state.recommendationHeadline || "Renewal review recommended")}</h3><div class="info-row recommend ${statusClass()}"><div class="icon-box"><i data-lucide="badge-check"></i></div><div><strong>${esc(statusLabel())}</strong><span>${esc(state.recommendationText || "Review the renewal before the effective date.")}</span></div></div></div></section>
         <section class="card-section"><div class="section-pad"><span class="section-kicker">Premium Difference</span><h3>Why it may have changed</h3><div class="explain-list">${explainRows()}</div></div></section>
         <section class="card-section"><div class="section-pad"><span class="section-kicker">Changes</span><h3>Coverage changes to review</h3><div class="row-list">${coverageChangeRows()}</div></div></section>

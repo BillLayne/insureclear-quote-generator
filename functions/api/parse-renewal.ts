@@ -104,6 +104,7 @@ const renewalSchema = {
     premiumDifference: moneyField,
     premiumDifferencePercent: moneyField,
     monthlyEstimate: moneyField,
+    termMonths: moneyField,
     paymentDueDate: { type: Type.STRING, nullable: true },
     billingPlan: { type: Type.STRING, nullable: true },
     renewalStatus: { type: Type.STRING, enum: ['good_to_renew', 'review_recommended', 'reshop_recommended'] },
@@ -177,7 +178,8 @@ Money and date rules:
 - If expiring/current premium is not shown, set expiringPremium to null. Do not invent.
 - If premiumDifference can be calculated from expiringPremium and renewalPremium, calculate it.
 - premiumDifferencePercent is (renewal - expiring) / expiring * 100 when expiringPremium is visible, otherwise null.
-- monthlyEstimate should be renewalPremium / 12 for home and renewalPremium / term months for auto when term is visible; otherwise use renewalPremium / 12.
+- termMonths should be 12 for home. For auto, use the visible renewal term when shown; usually 6 or 12 months.
+- monthlyEstimate should be renewalPremium / 12 for home and renewalPremium / termMonths for auto when termMonths is visible; otherwise use renewalPremium / 6 for auto and renewalPremium / 12 for home.
 
 Recommendation rules:
 - renewalStatus = good_to_renew when premium is flat/small increase and no major coverage concern is visible.
