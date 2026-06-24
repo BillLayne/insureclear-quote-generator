@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Renewal Review Card Builder - Bill Layne Insurance</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./global-carrier-links.js"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap");
+    :root {
+      --navy: #10284a;
+      --blue: #0b4ea2;
+      --gold: #f2b84b;
+      --green: #047857;
+      --red: #b42318;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe5ef;
+      --soft: #f4f8fc;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #eaf1f8 0%, #f8fbfe 44%, #e9f0f7 100%);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .app-shell {
+      width: min(100% - 28px, 1220px);
+      margin: 0 auto;
+      padding: 22px 0 42px;
+    }
+    .topbar {
+      border: 1px solid rgba(255,255,255,.68);
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(135deg, #10284a, #173f73);
+      color: #fff;
+      box-shadow: 0 20px 46px rgba(15,23,42,.18);
+    }
+    .brand-row { display: flex; align-items: center; gap: 13px; }
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      background: var(--gold);
+      box-shadow: 0 12px 24px rgba(0,0,0,.20);
+    }
+    h1 { margin: 0; font-size: 24px; line-height: 1.05; letter-spacing: 0; }
+    .topbar p { margin: 4px 0 0; color: rgba(255,255,255,.78); font-size: 12px; line-height: 1.4; font-weight: 800; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: flex-end; }
+    .action-btn {
+      min-height: 42px;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 13px;
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .action-btn.primary { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 470px) minmax(360px, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+    .panel {
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 20px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 18px 38px rgba(15,23,42,.08);
+      overflow: hidden;
+    }
+    .panel-head { padding: 16px 16px 10px; border-bottom: 1px solid var(--line); }
+    .panel-title { margin: 0; color: var(--navy); font-size: 18px; line-height: 1.1; font-weight: 950; }
+    .panel-copy { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; font-weight: 800; }
+    .panel-body { padding: 14px; display: grid; gap: 12px; }
+    .type-tabs, .mini-actions { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; }
+    .type-tabs button, .mini-actions button {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 950;
+    }
+    .type-tabs button.active, .mini-actions button.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .parse-box {
+      border: 1px dashed #b7c7da;
+      border-radius: 17px;
+      padding: 13px;
+      display: grid;
+      gap: 10px;
+      background: #f8fbff;
+    }
+    .file-line { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+    .file-stack { display: grid; gap: 10px; }
+    .upload-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid #d8e4ef;
+      border-radius: 13px;
+      background: #fff;
+    }
+    .upload-row strong {
+      display: block;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .upload-row small {
+      display: block;
+      margin-top: 3px;
+      color: #64748b;
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+    .upload-row input { width: 100%; }
+    .parse-actions { grid-template-columns: 1fr; }
+    input[type="file"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 10px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .field { display: grid; gap: 5px; }
+    .field.wide { grid-column: 1 / -1; }
+    label { color: #53647a; font-size: 10px; line-height: 1; font-weight: 950; letter-spacing: .10em; text-transform: uppercase; }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      outline: none;
+    }
+    textarea { min-height: 86px; resize: vertical; line-height: 1.45; }
+    input:focus, textarea:focus, select:focus { border-color: #8bb7e8; box-shadow: 0 0 0 3px rgba(11,78,162,.12); }
+    .subhead {
+      margin: 2px 0 -4px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 950;
+    }
+    .message {
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #edf7ff;
+      color: #16416f;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 850;
+    }
+    .message.error { background: #fff1f0; color: #9f1e17; }
+    .preview-wrap {
+      position: sticky;
+      top: 14px;
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+    }
+    .preview-label {
+      justify-self: stretch;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .preview-phone {
+      width: min(100%, 460px);
+      border-radius: 28px;
+      padding: 10px;
+      background: #111827;
+      box-shadow: 0 28px 70px rgba(15,23,42,.30);
+    }
+    .preview-phone-inner {
+      max-height: calc(100vh - 150px);
+      overflow: auto;
+      border-radius: 22px;
+      background: #eef4f9;
+    }
+
+    .renewal-card {
+      --carrier-primary: #10284a;
+      --carrier-secondary: #0b4ea2;
+      --carrier-soft: #eff6ff;
+      min-height: 100%;
+      padding: 10px 10px 84px;
+      color: var(--ink);
+      background: linear-gradient(180deg, #eef4f9 0%, #f8fafc 48%, #eef2f7 100%);
+    }
+    .card-hero {
+      min-height: 376px;
+      border-radius: 0 0 24px 24px;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(5,23,48,.76) 0%, rgba(9,35,68,.46) 34%, rgba(10,25,42,.10) 58%, rgba(255,255,255,.94) 86%, rgba(255,255,255,1) 100%),
+        var(--hero-image) center / cover no-repeat,
+        linear-gradient(135deg, var(--carrier-primary), var(--carrier-secondary));
+      box-shadow: 0 22px 48px rgba(15,23,42,.20);
+    }
+    .card-top { display: grid; grid-template-columns: 118px 1fr; align-items: center; gap: 12px; }
+    .carrier-logo {
+      min-height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.95);
+      color: var(--carrier-primary);
+      font-size: 11px;
+      font-weight: 950;
+      text-align: center;
+      text-transform: uppercase;
+      box-shadow: 0 12px 28px rgba(15,23,42,.18);
+    }
+    .carrier-logo img { max-width: 100%; max-height: 34px; object-fit: contain; }
+    .status-pill {
+      justify-self: end;
+      min-height: 35px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(4,20,40,.45);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .card-hero h2 {
+      max-width: 360px;
+      margin: 42px 0 9px;
+      color: #fff;
+      font-size: 33px;
+      line-height: .96;
+      letter-spacing: 0;
+      text-shadow: 0 3px 18px rgba(0,0,0,.44);
+    }
+    .hero-copy {
+      max-width: 380px;
+      margin: 0;
+      color: rgba(255,255,255,.94);
+      font-size: 12px;
+      line-height: 1.42;
+      font-weight: 900;
+      text-shadow: 0 2px 12px rgba(0,0,0,.36);
+    }
+    .hero-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 18px; }
+    .hero-chip {
+      min-height: 72px;
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 14px;
+      padding: 11px 12px;
+      background: rgba(255,255,255,.95);
+      color: var(--ink);
+      box-shadow: 0 10px 22px rgba(15,23,42,.10);
+    }
+    .chip-label, .section-kicker, .stat-label {
+      display: block;
+      color: #75849a;
+      font-size: 9px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .chip-value { display: block; margin-top: 5px; color: var(--navy); font-size: 16px; line-height: 1.1; font-weight: 950; }
+    .card-section {
+      margin-top: 12px;
+      border: 1px solid rgba(23,32,51,.08);
+      border-radius: 18px;
+      background: rgba(255,255,255,.97);
+      box-shadow: 0 16px 35px rgba(15,23,42,.08);
+      overflow: hidden;
+    }
+    .section-pad { padding: 16px; }
+    .card-section h3 { margin: 4px 0 6px; color: var(--navy); font-size: 21px; line-height: 1.05; font-weight: 950; }
+    .section-text { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; font-weight: 800; }
+    .premium-panel {
+      border-radius: 16px;
+      padding: 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--carrier-primary), var(--carrier-secondary));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+    }
+    .premium-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+    .premium-main { display: block; margin-top: 5px; font-size: 38px; line-height: .95; font-weight: 950; }
+    .delta-badge {
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.22);
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .stat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin-top: 14px; }
+    .stat-card { border-radius: 13px; padding: 11px; background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.14); }
+    .stat-label { color: rgba(255,255,255,.68); }
+    .stat-card strong { display: block; margin-top: 5px; color: #fff; font-size: 14px; line-height: 1.15; }
+    .explain-list, .row-list { display: grid; gap: 9px; }
+    .explain-item, .info-row, .action-row {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 11px 12px;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 11px;
+      align-items: center;
+      background: #fff;
+    }
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--carrier-soft);
+      color: var(--carrier-primary);
+    }
+    .info-row strong, .explain-item strong, .action-row strong { display: block; color: var(--ink); font-size: 13px; line-height: 1.2; }
+    .info-row span, .explain-item span, .action-row span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.35; font-weight: 800; }
+    details.info-card {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+      overflow: hidden;
+    }
+    details.info-card summary {
+      min-height: 70px;
+      padding: 12px;
+      cursor: pointer;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 40px minmax(0,1fr) auto;
+      gap: 11px;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .summary-value { color: var(--green); font-size: 12px; font-weight: 950; white-space: nowrap; }
+    .detail-body { padding: 0 12px 12px; display: grid; gap: 8px; }
+    .small-row {
+      border-radius: 12px;
+      padding: 9px 10px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 10px;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .recommend {
+      border-left: 5px solid var(--green);
+      background: #f0fdf4;
+    }
+    .recommend.review { border-left-color: var(--gold); background: #fffbeb; }
+    .recommend.reshop { border-left-color: var(--red); background: #fff5f5; }
+    .agent-trust-card {
+      border: 1px solid #e5eaf0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .agent-trust-photo img {
+      display: block;
+      width: 100%;
+      height: 218px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .agent-trust-copy {
+      padding: 14px;
+    }
+    .agent-trust-copy strong {
+      display: block;
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 950;
+    }
+    .agent-trust-copy span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 850;
+    }
+    .quick-actions { display: grid; gap: 9px; }
+    .action-row { color: inherit; }
+    .action-row.primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--carrier-primary), var(--carrier-secondary));
+      border-color: transparent;
+    }
+    .action-row.primary strong, .action-row.primary span { color: #fff; }
+    .action-row.primary .icon-box { background: rgba(255,255,255,.16); color: #fff; }
+    .foot-note {
+      margin: 14px 0 0;
+      color: #6d7d95;
+      font-size: 10px;
+      line-height: 1.45;
+      font-weight: 900;
+      text-align: center;
+    }
+    .sticky-card-actions {
+      position: sticky;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(255,255,255,.93);
+      border-top: 1px solid rgba(23,32,51,.10);
+      backdrop-filter: blur(14px);
+    }
+    .sticky-card-actions a {
+      min-height: 50px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #fff;
+      background: var(--carrier-primary);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .sticky-card-actions a.secondary { background: #13253d; }
+    @media (max-width: 960px) {
+      .workspace { grid-template-columns: 1fr; }
+      .preview-wrap { position: static; }
+      .preview-phone-inner { max-height: none; }
+    }
+    @media (max-width: 560px) {
+      .app-shell { width: min(100% - 16px, 1220px); padding-top: 10px; }
+      .topbar { align-items: stretch; flex-direction: column; border-radius: 18px; }
+      .top-actions { justify-content: stretch; }
+      .top-actions .action-btn { flex: 1 1 140px; justify-content: center; }
+      .field-grid { grid-template-columns: 1fr; }
+      .preview-phone { padding: 0; border-radius: 0; width: 100%; background: transparent; box-shadow: none; }
+      .preview-phone-inner { border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand-mark"><i data-lucide="refresh-cw"></i></div>
+        <div>
+          <h1>Renewal Review Card Builder</h1>
+          <p>Separate test template for auto and home renewal cards before we add it to the main program.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="action-btn" id="sample-auto"><i data-lucide="car-front"></i> Auto Sample</button>
+        <button class="action-btn" id="sample-home"><i data-lucide="home"></i> Home Sample</button>
+        <button class="action-btn primary" id="download-card"><i data-lucide="download"></i> Download Card HTML</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Build the renewal card</h2>
+          <p class="panel-copy">Upload a renewal declaration, parse it, then edit the fields and premium explanation before sending the card.</p>
+        </div>
+        <div class="panel-body">
+          <div class="type-tabs">
+            <button id="tab-auto" class="active">Auto Renewal</button>
+            <button id="tab-home">Home Renewal</button>
+          </div>
+
+          <div class="parse-box">
+            <div class="file-stack">
+              <label class="upload-row" for="prior-file">
+                <span>
+                  <strong>Prior term declarations</strong>
+                  <small>Optional. Upload the expiring/current policy term if you want the card to compare what changed.</small>
+                </span>
+                <input id="prior-file" type="file" accept=".pdf,image/*,application/pdf">
+              </label>
+              <label class="upload-row" for="renewal-file">
+                <span>
+                  <strong>Renewal declarations</strong>
+                  <small>Upload the renewal offer or renewal declarations page. Use this by itself, or with the prior term file above.</small>
+                </span>
+                <input id="renewal-file" type="file" accept=".pdf,image/*,application/pdf">
+              </label>
+            </div>
+            <div class="file-line parse-actions">
+              <button class="action-btn primary" id="parse-file" type="button"><i data-lucide="wand-sparkles"></i> Parse Selected Declarations</button>
+            </div>
+            <textarea id="parse-notes" placeholder="Optional notes for the parser, such as: compare to expiring premium if shown, explain a large increase, or treat this as renewal offer only."></textarea>
+            <div class="message" id="message">Ready. Use sample data, upload only the renewal declaration, or upload both prior and renewal declarations for comparison.</div>
+          </div>
+
+          <div id="form-fields"></div>
+        </div>
+      </section>
+
+      <aside class="preview-wrap">
+        <div class="preview-label"><span>Live card preview</span><span id="preview-mode">Auto</span></div>
+        <div class="preview-phone">
+          <div class="preview-phone-inner" id="preview"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const globalLinks = window.BLI_CARRIER_LINKS || { agency: {}, carriers: {} };
+    const agency = globalLinks.agency || {};
+    const carriers = globalLinks.carriers || {};
+
+    const sampleAuto = {
+      productType: "auto",
+      clientFirstName: "John",
+      clientFullName: "John and Sally Doe",
+      carrierId: "nationwide",
+      carrierName: "Nationwide",
+      policyNumber: "AUTO-123456",
+      policyType: "Personal Auto",
+      renewalEffectiveDate: "2026-07-01",
+      renewalExpirationDate: "2027-01-01",
+      expiringPremium: 1184.00,
+      renewalPremium: 1327.40,
+      premiumDifference: 143.40,
+      premiumDifferencePercent: 12.11,
+      monthlyEstimate: 221.23,
+      paymentDueDate: "2026-07-01",
+      billingPlan: "6-month renewal. Confirm payment plan before due date.",
+      renewalStatus: "review_recommended",
+      recommendationHeadline: "Worth a quick renewal review",
+      recommendationText: "The renewal is still reasonable, but the increase is enough that we should confirm drivers, vehicles, discounts, and deductibles before the renewal date.",
+      premiumExplanation: [
+        "Carrier rate changes and inflation can increase renewal premiums even without a new claim.",
+        "Vehicle age, repair costs, parts, and claim trends can affect the renewal.",
+        "We should confirm discounts, drivers, garaging, and payment plan before the renewal date."
+      ],
+      actionItems: [
+        "Confirm all listed drivers and household members.",
+        "Review vehicle deductibles, rental, and roadside selections.",
+        "Ask the agency to re-shop if the renewal increase feels high."
+      ],
+      coverageChanges: [
+        { label: "Premium", previous: "$1,184.00", renewal: "$1,327.40", note: "Renewal is up $143.40 for the 6-month term." },
+        { label: "Coverage", previous: "Current declarations", renewal: "Renewal declarations", note: "No obvious coverage reduction found in the sample." }
+      ],
+      drivers: [
+        { name: "John Doe", note: "Named insured / listed driver" },
+        { name: "Sally Doe", note: "Listed driver" }
+      ],
+      vehicles: [
+        { year: 2022, make: "Chevrolet", model: "Silverado", vinLast8: "AB123456", premium: 724.20, compDeductible: "$250", collisionDeductible: "$500", rental: "$50/day", roadside: "Included", note: "Full coverage renewal shown." },
+        { year: 2020, make: "Honda", model: "Accord", vinLast8: "CD987654", premium: 603.20, compDeductible: "$500", collisionDeductible: "$500", rental: "Not shown", roadside: "Review", note: "Confirm rental and roadside before renewal." }
+      ],
+      propertyAddress: "",
+      homeCoverages: {},
+      endorsements: [],
+      mortgagee: "",
+      underwritingNotes: []
+    };
+
+    const sampleHome = {
+      productType: "home",
+      clientFirstName: "Mary",
+      clientFullName: "Mary Johnson",
+      carrierId: "ncgrange",
+      carrierName: "NC Grange Mutual",
+      policyNumber: "HOME-765432",
+      policyType: "HO-3",
+      renewalEffectiveDate: "2026-08-15",
+      renewalExpirationDate: "2027-08-15",
+      expiringPremium: 1488.00,
+      renewalPremium: 1716.00,
+      premiumDifference: 228.00,
+      premiumDifferencePercent: 15.32,
+      monthlyEstimate: 143.00,
+      paymentDueDate: "2026-08-15",
+      billingPlan: "Annual renewal. Mortgagee escrow should be confirmed.",
+      renewalStatus: "reshop_recommended",
+      recommendationHeadline: "Re-shop recommended before renewal",
+      recommendationText: "This renewal increased more than 15%. We should verify the dwelling limit, roof details, deductibles, and discounts, then decide whether to keep it or compare options.",
+      premiumExplanation: [
+        "Home renewals often increase when replacement cost estimates and material/labor costs rise.",
+        "Roof age, protection class, claim trends, and inflation guard can affect the renewal.",
+        "The increase is high enough that a review or re-shop is recommended before the effective date."
+      ],
+      actionItems: [
+        "Confirm the dwelling replacement cost limit still looks right.",
+        "Review all peril and wind/hail deductibles.",
+        "Confirm mortgagee information and escrow payment handling."
+      ],
+      coverageChanges: [
+        { label: "Dwelling", previous: "$335,000", renewal: "$365,000", note: "Renewal reflects a higher replacement cost estimate." },
+        { label: "Premium", previous: "$1,488.00", renewal: "$1,716.00", note: "Annual premium increased $228.00." }
+      ],
+      drivers: [],
+      vehicles: [],
+      propertyAddress: "1234 Mountain View Rd, Elkin, NC 28621",
+      homeCoverages: {
+        coverageA: 365000,
+        coverageB: 36500,
+        coverageC: 182500,
+        coverageD: "Included",
+        coverageE: 300000,
+        coverageF: 5000,
+        allPerilDeductible: "$2,500",
+        windHailDeductible: "$5,000"
+      },
+      endorsements: [
+        { name: "Water Backup", amount: "$10,000", note: "Confirm limit and premium." },
+        { name: "Equipment Breakdown", amount: "Included", note: "Review form details." }
+      ],
+      mortgagee: "First National Bank",
+      underwritingNotes: ["Confirm roof year and any inspection or photo requirement."]
+    };
+
+    let state = clone(sampleAuto);
+
+    function clone(value) { return JSON.parse(JSON.stringify(value)); }
+    function dollars(value, digits = 2) {
+      const number = Number(value || 0);
+      return number.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: digits, maximumFractionDigits: digits });
+    }
+    function pct(value) {
+      if (value === null || value === undefined || value === "") return "Review";
+      const number = Number(value || 0);
+      return `${number > 0 ? "+" : ""}${number.toFixed(1)}%`;
+    }
+    function formatDate(value) {
+      if (!value) return "Review";
+      const date = new Date(`${value}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
+    }
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+    function numberOrNull(value) {
+      const cleaned = String(value ?? "").replace(/[$,]/g, "").trim();
+      if (!cleaned) return null;
+      const parsed = Number(cleaned);
+      return Number.isFinite(parsed) ? parsed : null;
+    }
+    function linesToArray(value) {
+      return String(value || "").split(/\n+/).map((line) => line.trim()).filter(Boolean);
+    }
+    function carrier() {
+      return carriers[state.carrierId] || carriers.nationwide || { name: state.carrierName || "Carrier", claimsPhone: "" };
+    }
+    function carrierOptions() {
+      return Object.values(carriers).map((item) => `<option value="${esc(item.id)}">${esc(item.name)}</option>`).join("");
+    }
+    function heroImage() {
+      return state.productType === "home" ? "https://i.imgur.com/i2NcMCf.jpeg" : "https://i.imgur.com/qGDSglj.jpeg";
+    }
+    function palette() {
+      if (state.carrierId === "progressive") return { p: "#0b4ea2", s: "#0f7bdc", soft: "#eef6ff" };
+      if (state.carrierId === "nationwide") return { p: "#124b8f", s: "#1d6fc4", soft: "#eff6ff" };
+      if (state.carrierId === "travelers") return { p: "#b21f2d", s: "#d33a45", soft: "#fff1f2" };
+      if (state.carrierId === "national_general") return { p: "#174a7c", s: "#f28c1b", soft: "#f5f9ff" };
+      if (state.carrierId === "ncgrange") return { p: "#5c4334", s: "#b9853d", soft: "#fbf3e8" };
+      if (state.carrierId === "alamance") return { p: "#386641", s: "#6a994e", soft: "#f1f7ed" };
+      return { p: "#10284a", s: "#0b4ea2", soft: "#eff6ff" };
+    }
+    function statusClass() {
+      if (state.renewalStatus === "reshop_recommended") return "reshop";
+      if (state.renewalStatus === "review_recommended") return "review";
+      return "";
+    }
+    function statusLabel() {
+      if (state.renewalStatus === "reshop_recommended") return "Re-shop";
+      if (state.renewalStatus === "review_recommended") return "Review";
+      return "Renew";
+    }
+    function deltaLabel() {
+      const diff = Number(state.premiumDifference || 0);
+      if (!state.expiringPremium) return "Compare";
+      if (diff > 0) return `Up ${dollars(diff)}`;
+      if (diff < 0) return `Down ${dollars(Math.abs(diff))}`;
+      return "Flat";
+    }
+    function recalcPremiumChange() {
+      const oldPremium = Number(state.expiringPremium || 0);
+      const newPremium = Number(state.renewalPremium || 0);
+      if (oldPremium && newPremium) {
+        state.premiumDifference = Number((newPremium - oldPremium).toFixed(2));
+        state.premiumDifferencePercent = Number((((newPremium - oldPremium) / oldPremium) * 100).toFixed(2));
+      }
+      state.monthlyEstimate = Number((newPremium / (state.productType === "auto" ? 6 : 12)).toFixed(2));
+    }
+    function field(id, label, value, type = "text", wide = false) {
+      return `<div class="field ${wide ? "wide" : ""}"><label for="${id}">${label}</label><input id="${id}" data-field="${id}" type="${type}" value="${esc(value ?? "")}"></div>`;
+    }
+    function textareaField(id, label, value, wide = true) {
+      return `<div class="field ${wide ? "wide" : ""}"><label for="${id}">${label}</label><textarea id="${id}" data-field="${id}">${esc(value ?? "")}</textarea></div>`;
+    }
+    function renderFields() {
+      const common = `
+        <div class="field-grid">
+          ${field("clientFullName", "Customer Name", state.clientFullName)}
+          ${field("clientFirstName", "First Name", state.clientFirstName)}
+          <div class="field"><label for="carrierId">Carrier</label><select id="carrierId" data-field="carrierId">${carrierOptions()}</select></div>
+          ${field("policyNumber", "Policy Number", state.policyNumber)}
+          ${field("policyType", "Policy Type", state.policyType)}
+          ${field("renewalEffectiveDate", "Renewal Effective", state.renewalEffectiveDate, "date")}
+          ${field("renewalExpirationDate", "Renewal Expiration", state.renewalExpirationDate, "date")}
+          ${field("paymentDueDate", "Payment Due", state.paymentDueDate || "", "date")}
+          ${field("expiringPremium", "Expiring Premium", state.expiringPremium ?? "", "number")}
+          ${field("renewalPremium", "Renewal Premium", state.renewalPremium ?? "", "number")}
+          ${field("monthlyEstimate", "Monthly Estimate", state.monthlyEstimate ?? "", "number")}
+          <div class="field"><label for="renewalStatus">Recommendation Status</label><select id="renewalStatus" data-field="renewalStatus">
+            <option value="good_to_renew">Good to renew</option>
+            <option value="review_recommended">Review recommended</option>
+            <option value="reshop_recommended">Re-shop recommended</option>
+          </select></div>
+          ${field("recommendationHeadline", "Recommendation Headline", state.recommendationHeadline, "text", true)}
+          ${textareaField("recommendationText", "Recommendation Text", state.recommendationText)}
+          ${textareaField("premiumExplanation", "Premium Explanation Bullets", (state.premiumExplanation || []).join("\n"))}
+          ${textareaField("coverageChanges", "Coverage Changes - label | previous | renewal | note", (state.coverageChanges || []).map((item) => [item.label, item.previous, item.renewal, item.note].join(" | ")).join("\n"))}
+          ${textareaField("actionItems", "Customer Action Items", (state.actionItems || []).join("\n"))}
+          ${textareaField("billingPlan", "Billing / Payment Note", state.billingPlan || "")}
+        </div>`;
+
+      const autoFields = `
+        <p class="subhead">Auto renewal details</p>
+        <div class="field-grid">
+          ${textareaField("drivers", "Drivers - name | note", (state.drivers || []).map((item) => [item.name, item.note].join(" | ")).join("\n"))}
+          ${textareaField("vehicles", "Vehicles - year | make | model | vinLast8 | premium | comp | collision | rental | roadside | note", (state.vehicles || []).map((item) => [item.year, item.make, item.model, item.vinLast8, item.premium, item.compDeductible, item.collisionDeductible, item.rental, item.roadside, item.note].join(" | ")).join("\n"))}
+        </div>`;
+
+      const h = state.homeCoverages || {};
+      const homeFields = `
+        <p class="subhead">Home renewal details</p>
+        <div class="field-grid">
+          ${field("propertyAddress", "Property Address", state.propertyAddress || "", "text", true)}
+          ${field("coverageA", "Coverage A", h.coverageA ?? "", "number")}
+          ${field("coverageB", "Coverage B", h.coverageB ?? "", "number")}
+          ${field("coverageC", "Coverage C", h.coverageC ?? "", "number")}
+          ${field("coverageD", "Coverage D", h.coverageD ?? "")}
+          ${field("coverageE", "Coverage E", h.coverageE ?? "", "number")}
+          ${field("coverageF", "Coverage F", h.coverageF ?? "", "number")}
+          ${field("allPerilDeductible", "All Peril Deductible", h.allPerilDeductible ?? "")}
+          ${field("windHailDeductible", "Wind/Hail Deductible", h.windHailDeductible ?? "")}
+          ${field("mortgagee", "Mortgagee", state.mortgagee || "", "text", true)}
+          ${textareaField("endorsements", "Endorsements - name | amount | note", (state.endorsements || []).map((item) => [item.name, item.amount, item.note].join(" | ")).join("\n"))}
+          ${textareaField("underwritingNotes", "Underwriting Notes", (state.underwritingNotes || []).join("\n"))}
+        </div>`;
+
+      document.getElementById("form-fields").innerHTML = common + (state.productType === "auto" ? autoFields : homeFields);
+      document.getElementById("carrierId").value = state.carrierId;
+      document.getElementById("renewalStatus").value = state.renewalStatus;
+      document.querySelectorAll("[data-field]").forEach((input) => {
+        input.addEventListener("input", handleFieldInput);
+        input.addEventListener("change", handleFieldInput);
+      });
+    }
+    function handleFieldInput(event) {
+      const key = event.currentTarget.dataset.field;
+      const value = event.currentTarget.value;
+      if (["expiringPremium", "renewalPremium", "monthlyEstimate"].includes(key)) {
+        state[key] = numberOrNull(value);
+        if (key !== "monthlyEstimate") recalcPremiumChange();
+      } else if (["coverageA", "coverageB", "coverageC", "coverageE", "coverageF"].includes(key)) {
+        state.homeCoverages = state.homeCoverages || {};
+        state.homeCoverages[key] = numberOrNull(value);
+      } else if (["coverageD", "allPerilDeductible", "windHailDeductible"].includes(key)) {
+        state.homeCoverages = state.homeCoverages || {};
+        state.homeCoverages[key] = value;
+      } else if (key === "premiumExplanation" || key === "actionItems" || key === "underwritingNotes") {
+        state[key] = linesToArray(value);
+      } else if (key === "coverageChanges") {
+        state.coverageChanges = linesToArray(value).map((line) => {
+          const [label = "", previous = "", renewal = "", note = ""] = line.split("|").map((part) => part.trim());
+          return { label, previous, renewal, note };
+        });
+      } else if (key === "drivers") {
+        state.drivers = linesToArray(value).map((line) => {
+          const [name = "", note = "Listed driver"] = line.split("|").map((part) => part.trim());
+          return { name, note };
+        });
+      } else if (key === "vehicles") {
+        state.vehicles = linesToArray(value).map((line) => {
+          const [year = "", make = "", model = "", vinLast8 = "", premium = "", compDeductible = "", collisionDeductible = "", rental = "", roadside = "", note = ""] = line.split("|").map((part) => part.trim());
+          return { year: numberOrNull(year), make, model, vinLast8, premium: numberOrNull(premium), compDeductible, collisionDeductible, rental, roadside, note };
+        });
+      } else if (key === "endorsements") {
+        state.endorsements = linesToArray(value).map((line) => {
+          const [name = "", amount = "", note = ""] = line.split("|").map((part) => part.trim());
+          return { name, amount, note };
+        });
+      } else {
+        state[key] = value;
+        if (key === "carrierId") {
+          state.carrierName = carrier().name || value;
+        }
+      }
+      renderPreview();
+    }
+    function setProduct(type) {
+      state = clone(type === "home" ? sampleHome : sampleAuto);
+      renderAll();
+    }
+    function normalizeParsed(data) {
+      const base = data.productType === "home" ? clone(sampleHome) : clone(sampleAuto);
+      const merged = { ...base, ...data };
+      merged.homeCoverages = { ...(base.homeCoverages || {}), ...(data.homeCoverages || {}) };
+      merged.premiumExplanation = data.premiumExplanation?.length ? data.premiumExplanation : base.premiumExplanation;
+      merged.actionItems = data.actionItems?.length ? data.actionItems : base.actionItems;
+      merged.coverageChanges = data.coverageChanges?.length ? data.coverageChanges : base.coverageChanges;
+      merged.vehicles = data.vehicles || [];
+      merged.drivers = data.drivers || [];
+      merged.endorsements = data.endorsements || [];
+      merged.underwritingNotes = data.underwritingNotes || [];
+      if (!merged.carrierName && carriers[merged.carrierId]) merged.carrierName = carriers[merged.carrierId].name;
+      return merged;
+    }
+    async function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    async function buildDocumentPayload(file, role, label) {
+      return {
+        role,
+        label,
+        fileName: file.name,
+        mimeType: file.type || "application/pdf",
+        base64Data: await fileToBase64(file),
+      };
+    }
+    async function parseRenewal() {
+      const priorFile = document.getElementById("prior-file").files[0];
+      const renewalFile = document.getElementById("renewal-file").files[0];
+      const message = document.getElementById("message");
+      if (!priorFile && !renewalFile) {
+        message.className = "message error";
+        message.textContent = "Choose a renewal declaration, or choose both prior and renewal declarations.";
+        return;
+      }
+      message.className = "message";
+      message.textContent = priorFile && renewalFile ? "Parsing prior and renewal declarations..." : "Parsing selected declaration...";
+      try {
+        const documents = [];
+        if (priorFile) {
+          documents.push(await buildDocumentPayload(priorFile, "prior", "Prior / expiring term declarations"));
+        }
+        if (renewalFile) {
+          documents.push(await buildDocumentPayload(renewalFile, "renewal", "Renewal declarations"));
+        }
+        const response = await fetch("/api/parse-renewal", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            documents,
+            instructions: document.getElementById("parse-notes").value,
+            productType: state.productType,
+          }),
+        });
+        if (!response.ok) {
+          let error = `Parse failed with status ${response.status}.`;
+          try {
+            const body = await response.json();
+            if (body.error) error = body.error;
+          } catch {}
+          throw new Error(error);
+        }
+        state = normalizeParsed(await response.json());
+        renderAll();
+        message.className = "message";
+        message.textContent = documents.length > 1 ? "Prior and renewal declarations parsed. Review the comparison fields before using the card." : "Declaration parsed. Review the fields before using the card.";
+      } catch (error) {
+        message.className = "message error";
+        message.textContent = error instanceof Error ? error.message : "Could not parse renewal declaration.";
+      }
+    }
+    function carrierLogoHtml(c) {
+      return c.logoUrl ? `<img src="${esc(c.logoUrl)}" alt="${esc(c.name)} logo">` : esc(c.name || state.carrierName || "Carrier");
+    }
+    function rows(items) {
+      return items.map((item) => `<div class="info-row"><div class="icon-box"><i data-lucide="${item.icon}"></i></div><div><strong>${esc(item.title)}</strong><span>${esc(item.body)}</span></div></div>`).join("");
+    }
+    function explainRows() {
+      const items = (state.premiumExplanation || []).length ? state.premiumExplanation : ["Review the declarations page before renewal."];
+      return items.map((text) => `<div class="explain-item"><div class="icon-box"><i data-lucide="sparkles"></i></div><div><strong>Premium note</strong><span>${esc(text)}</span></div></div>`).join("");
+    }
+    function coverageChangeRows() {
+      const items = (state.coverageChanges || []).length ? state.coverageChanges : [{ label: "Coverage review", previous: "", renewal: "", note: "No obvious coverage change found." }];
+      return items.map((item, index) => `<details class="info-card" ${index === 0 ? "open" : ""}>
+        <summary><div class="icon-box"><i data-lucide="refresh-cw"></i></div><div><strong>${esc(item.label || "Coverage change")}</strong><span>${esc(item.note || "Review before renewal.")}</span></div><div class="summary-value">Review</div></summary>
+        <div class="detail-body">
+          <div class="small-row"><span>Previous</span><strong>${esc(item.previous || "Not shown")}</strong></div>
+          <div class="small-row"><span>Renewal</span><strong>${esc(item.renewal || "Not shown")}</strong></div>
+        </div>
+      </details>`).join("");
+    }
+    function autoRows() {
+      const vehicles = (state.vehicles || []).length ? state.vehicles : [{ make: "Vehicles", model: "under review", note: "Add vehicles before sending.", premium: null }];
+      const vehicleCards = vehicles.map((v, index) => {
+        const title = [v.year, v.make, v.model].filter(Boolean).join(" ") || `Vehicle ${index + 1}`;
+        return `<details class="info-card" ${index === 0 ? "open" : ""}>
+          <summary><div class="icon-box"><i data-lucide="car-front"></i></div><div><strong>${esc(title)}</strong><span>${esc(v.vinLast8 || "VIN pending")} - ${esc(v.note || "Review vehicle details")}</span></div><div class="summary-value">${v.premium ? dollars(v.premium) : "Review"}</div></summary>
+          <div class="detail-body">
+            <div class="small-row"><span>Comp</span><strong>${esc(v.compDeductible || "Review")}</strong></div>
+            <div class="small-row"><span>Collision</span><strong>${esc(v.collisionDeductible || "Review")}</strong></div>
+            <div class="small-row"><span>Rental</span><strong>${esc(v.rental || "Review")}</strong></div>
+            <div class="small-row"><span>Roadside</span><strong>${esc(v.roadside || "Review")}</strong></div>
+          </div>
+        </details>`;
+      }).join("");
+      const driverRows = rows((state.drivers || []).map((d) => ({ icon: "user-round", title: d.name || "Driver", body: d.note || "Listed driver" })));
+      return `<section class="card-section"><div class="section-pad"><span class="section-kicker">Drivers</span><h3>Listed drivers</h3><div class="row-list">${driverRows || rows([{ icon: "user-round", title: "Drivers under review", body: "Confirm all household drivers before renewal." }])}</div></div></section>
+      <section class="card-section"><div class="section-pad"><span class="section-kicker">Vehicles</span><h3>Vehicle renewal ledger</h3><p class="section-text">Tap each vehicle to review deductibles, rental, roadside, and premium details.</p><div class="row-list" style="margin-top:10px;">${vehicleCards}</div></div></section>`;
+    }
+    function homeRows() {
+      const h = state.homeCoverages || {};
+      const detailItems = [
+        { icon: "map-pin", title: "Insured location", body: state.propertyAddress || "Property address under review" },
+        { icon: "home", title: "Policy form", body: state.policyType || "Review" },
+        { icon: "landmark", title: "Mortgagee", body: state.mortgagee || "Confirm lender / escrow" },
+        { icon: "alert-circle", title: "Underwriting notes", body: (state.underwritingNotes || []).join(" ") || "No special notes shown" },
+      ];
+      const coverageItems = [
+        { label: "Coverage A - Dwelling", value: h.coverageA ? dollars(h.coverageA, 0) : "Review", note: "Home structure limit" },
+        { label: "Coverage B - Other Structures", value: h.coverageB ? dollars(h.coverageB, 0) : "Review", note: "Detached structures" },
+        { label: "Coverage C - Personal Property", value: h.coverageC ? dollars(h.coverageC, 0) : "Review", note: "Contents and belongings" },
+        { label: "Coverage D - Loss of Use", value: h.coverageD || "Review", note: "Extra living expense" },
+        { label: "Coverage E - Liability", value: h.coverageE ? dollars(h.coverageE, 0) : "Review", note: "Personal liability" },
+        { label: "Coverage F - Medical", value: h.coverageF ? dollars(h.coverageF, 0) : "Review", note: "Guest medical payments" },
+        { label: "All Peril Deductible", value: h.allPerilDeductible || "Review", note: "Standard deductible" },
+        { label: "Wind/Hail Deductible", value: h.windHailDeductible || "Review", note: "Wind and hail deductible" },
+      ].map((item, index) => `<details class="info-card" ${index === 0 ? "open" : ""}>
+        <summary><div class="icon-box"><i data-lucide="shield-check"></i></div><div><strong>${esc(item.label)}</strong><span>${esc(item.note)}</span></div><div class="summary-value">${esc(item.value)}</div></summary>
+        <div class="detail-body"><div class="small-row"><span>Renewal amount</span><strong>${esc(item.value)}</strong></div></div>
+      </details>`).join("");
+      const endorsementRows = rows((state.endorsements || []).map((e) => ({ icon: "badge-plus", title: e.name || "Endorsement", body: [e.amount, e.note].filter(Boolean).join(" - ") || "Review form" })));
+      return `<section class="card-section"><div class="section-pad"><span class="section-kicker">Property</span><h3>Home renewal basics</h3><div class="row-list">${rows(detailItems)}</div></div></section>
+      <section class="card-section"><div class="section-pad"><span class="section-kicker">Coverage</span><h3>Coverage snapshot</h3><p class="section-text">Tap each coverage to review the renewal limit or deductible.</p><div class="row-list" style="margin-top:10px;">${coverageItems}</div></div></section>
+      <section class="card-section"><div class="section-pad"><span class="section-kicker">Forms</span><h3>Endorsements and extras</h3><div class="row-list">${endorsementRows || rows([{ icon: "file-check-2", title: "No endorsements listed", body: "Add endorsements if shown on the renewal." }])}</div></div></section>`;
+    }
+    function quickActionUrl(action) {
+      const c = carrier();
+      if (action === "billing") return c.billing || c.website || "#";
+      if (action === "card") return c.contactCard || c.resources || c.website || "#";
+      if (action === "docs") return agency.sendDocs || "https://www.sendbilldocs.com/";
+      if (action === "call") return agency.phoneHref || "tel:3368351993";
+      const params = new URLSearchParams({
+        action: "renewal_review",
+        clientName: state.clientFullName || "Customer",
+        templateType: `${state.productType}-renewal-card`,
+        carrier: c.name || state.carrierName || "Carrier",
+        quoteNumber: state.policyNumber || "Renewal",
+        premium: dollars(state.renewalPremium || 0),
+        subject: `${c.name || "Carrier"} Renewal Review`,
+      });
+      return `${agency.quoteAction || "https://quote-template-studio.pages.dev/quote-action"}?${params.toString()}`;
+    }
+    function assetUrl(path) {
+      const fallbackOrigin = "https://quote-template-studio.pages.dev";
+      const origin = window.location.protocol === "file:" ? fallbackOrigin : window.location.origin;
+      return new URL(path, origin).href;
+    }
+    function agentTrustSection() {
+      return `<section class="card-section"><div class="section-pad"><span class="section-kicker">Local Help</span><h3>Reviewed with a local agent</h3><div class="agent-trust-card"><div class="agent-trust-photo"><img src="${esc(assetUrl("/fold-card/auto-quote-agent-review.png"))}" alt="Bill Layne Insurance helping customers review insurance renewal options"></div><div class="agent-trust-copy"><strong>You do not have to figure out the renewal alone.</strong><span>Bill Layne Insurance can help compare the prior term to the renewal, explain the premium difference, check discounts, and review whether the policy should renew or be re-shopped.</span></div></div></div></section>`;
+    }
+    function renderCardMarkup() {
+      const c = carrier();
+      const pal = palette();
+      const premiumText = state.renewalPremium ? dollars(state.renewalPremium) : "Review";
+      const compareText = state.expiringPremium ? `${dollars(state.expiringPremium)} to ${premiumText}` : premiumText;
+      const heroTitle = `${state.clientFirstName || "Customer"}, your ${state.productType} renewal review is ready`;
+      return `<div class="renewal-card" style="--carrier-primary:${pal.p};--carrier-secondary:${pal.s};--carrier-soft:${pal.soft};--hero-image:url('${heroImage()}');">
+        <section class="card-hero">
+          <div>
+            <div class="card-top"><div class="carrier-logo">${carrierLogoHtml(c)}</div><div class="status-pill"><i data-lucide="refresh-cw"></i> Renewal</div></div>
+            <h2>${esc(heroTitle)}</h2>
+            <p class="hero-copy">Review the renewal premium, policy dates, coverage changes, and next steps before the renewal effective date.</p>
+          </div>
+          <div class="hero-grid">
+            <div class="hero-chip"><span class="chip-label">Renewal Premium</span><strong class="chip-value">${premiumText}</strong></div>
+            <div class="hero-chip"><span class="chip-label">Difference</span><strong class="chip-value">${esc(deltaLabel())}</strong></div>
+            <div class="hero-chip"><span class="chip-label">Company</span><strong class="chip-value">${esc(c.name || state.carrierName)}</strong></div>
+            <div class="hero-chip"><span class="chip-label">Policy</span><strong class="chip-value">${esc(state.policyNumber || "Review")}</strong></div>
+          </div>
+        </section>
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Renewal Snapshot</span><h3>Premium and term</h3><div class="premium-panel"><div class="premium-row"><div><span class="stat-label">Renewal premium</span><strong class="premium-main">${premiumText}</strong></div><div class="delta-badge">${esc(pct(state.premiumDifferencePercent))}</div></div><div class="stat-grid"><div class="stat-card"><span class="stat-label">Expiring to renewal</span><strong>${esc(compareText)}</strong></div><div class="stat-card"><span class="stat-label">Monthly estimate</span><strong>${state.monthlyEstimate ? dollars(state.monthlyEstimate) : "Review"}</strong></div><div class="stat-card"><span class="stat-label">Effective</span><strong>${formatDate(state.renewalEffectiveDate)}</strong></div><div class="stat-card"><span class="stat-label">Expires</span><strong>${formatDate(state.renewalExpirationDate)}</strong></div></div></div></div></section>
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Bill's Recommendation</span><h3>${esc(state.recommendationHeadline || "Renewal review recommended")}</h3><div class="info-row recommend ${statusClass()}"><div class="icon-box"><i data-lucide="badge-check"></i></div><div><strong>${esc(statusLabel())}</strong><span>${esc(state.recommendationText || "Review the renewal before the effective date.")}</span></div></div></div></section>
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Premium Difference</span><h3>Why it may have changed</h3><div class="explain-list">${explainRows()}</div></div></section>
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Changes</span><h3>Coverage changes to review</h3><div class="row-list">${coverageChangeRows()}</div></div></section>
+        ${state.productType === "home" ? homeRows() : autoRows()}
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Next Steps</span><h3>What to do before renewal</h3><div class="row-list">${rows((state.actionItems || []).map((text) => ({ icon: "check-circle-2", title: "Review item", body: text })))}</div></div></section>
+        ${agentTrustSection()}
+        <section class="card-section"><div class="section-pad"><span class="section-kicker">Quick Actions</span><h3>Renewal help links</h3><div class="quick-actions">
+          <a class="action-row primary" href="${esc(quickActionUrl("review"))}" target="_blank" rel="noopener"><div class="icon-box"><i data-lucide="send"></i></div><div><strong>Ask agency to review renewal</strong><span>Sends a notice to Bill Layne Insurance for help explaining or re-shopping.</span></div></a>
+          <a class="action-row" href="${esc(quickActionUrl("billing"))}" target="_blank" rel="noopener"><div class="icon-box"><i data-lucide="credit-card"></i></div><div><strong>Carrier billing / payment</strong><span>Open the current master billing link for ${esc(c.name || "carrier")}.</span></div></a>
+          <a class="action-row" href="${esc(quickActionUrl("card"))}" target="_blank" rel="noopener"><div class="icon-box"><i data-lucide="id-card"></i></div><div><strong>Company contact card</strong><span>Claims, billing, website, and service numbers from the global carrier link table.</span></div></a>
+          <a class="action-row" href="${esc(quickActionUrl("docs"))}" target="_blank" rel="noopener"><div class="icon-box"><i data-lucide="upload-cloud"></i></div><div><strong>Send documents or photos</strong><span>Send declarations pages, renewal packets, home photos, or proof documents.</span></div></a>
+        </div><p class="foot-note">Renewal review card only. Your issued policy and declarations control coverage.</p></div></section>
+        <nav class="sticky-card-actions"><a href="${esc(quickActionUrl("call"))}"><i data-lucide="phone-call"></i> Call Agency</a><a class="secondary" href="${esc(quickActionUrl("review"))}" target="_blank" rel="noopener"><i data-lucide="send"></i> Review</a></nav>
+      </div>`;
+    }
+    function renderPreview() {
+      const preview = document.getElementById("preview");
+      preview.innerHTML = renderCardMarkup();
+      document.getElementById("preview-mode").textContent = state.productType === "home" ? "Home" : "Auto";
+      document.getElementById("tab-auto").classList.toggle("active", state.productType === "auto");
+      document.getElementById("tab-home").classList.toggle("active", state.productType === "home");
+      if (window.lucide) window.lucide.createIcons();
+    }
+    function renderAll() {
+      renderFields();
+      renderPreview();
+      if (window.lucide) window.lucide.createIcons();
+    }
+    function standaloneHtml() {
+      const styleText = Array.from(document.querySelectorAll("style")).map((style) => style.textContent).join("\n");
+      return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(state.clientFullName)} Renewal Review Card</title><script src="https://unpkg.com/lucide@latest"><\\/script><style>${styleText}</style></head><body><div class="preview-phone-inner" style="max-height:none;border-radius:0;">${renderCardMarkup()}</div><script>if(window.lucide) window.lucide.createIcons();<\\/script></body></html>`;
+    }
+    function downloadCard() {
+      const blob = new Blob([standaloneHtml()], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${(state.clientFullName || "customer").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${state.productType}-renewal-card.html`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    document.getElementById("tab-auto").addEventListener("click", () => setProduct("auto"));
+    document.getElementById("tab-home").addEventListener("click", () => setProduct("home"));
+    document.getElementById("sample-auto").addEventListener("click", () => setProduct("auto"));
+    document.getElementById("sample-home").addEventListener("click", () => setProduct("home"));
+    document.getElementById("parse-file").addEventListener("click", parseRenewal);
+    document.getElementById("download-card").addEventListener("click", downloadCard);
+    renderAll();
+  </script>
+</body>
+</html>
